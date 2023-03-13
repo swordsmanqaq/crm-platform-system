@@ -1,5 +1,6 @@
 package com.heng.sys.controller;
 
+import com.heng.auth.annotation.MyPermission;
 import com.heng.sys.service.IConfigService;
 import com.heng.sys.domain.Config;
 import com.heng.sys.query.ConfigQuery;
@@ -48,6 +49,23 @@ public class ConfigController {
         } catch (Exception e) {
         e.printStackTrace();
             return AjaxResult.me().setMessage("删除对象失败！"+e.getMessage());
+        }
+    }
+
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     */
+    @PatchMapping
+    @MyPermission(name = "菜单批量删除管理", desc = "菜单批量删除")
+    public AjaxResult patchRemove(@RequestBody List<Integer> ids) {
+        try {
+            configService.patchRemove(ids);
+            return AjaxResult.me();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("很抱歉，批量删除失败");
         }
     }
 	

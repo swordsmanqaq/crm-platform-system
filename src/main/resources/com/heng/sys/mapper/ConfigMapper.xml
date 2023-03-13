@@ -55,7 +55,7 @@
     <sql id="whereSql">
         <where>
             <if test="keyword!=null and keyword!=''">
-                and (name like concat('%',#{keyword},'%'))
+                and (`key` like concat('%',#{keyword},'%') or `value` like concat('%',#{keyword},'%'))
             </if>
         </where>
     </sql>

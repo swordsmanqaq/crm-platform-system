@@ -1,5 +1,6 @@
 package com.heng.sys.controller;
 
+import com.heng.auth.annotation.MyPermission;
 import com.heng.sys.service.IDictionaryitemService;
 import com.heng.sys.domain.Dictionaryitem;
 import com.heng.sys.query.DictionaryitemQuery;
@@ -48,6 +49,23 @@ public class DictionaryitemController {
         } catch (Exception e) {
         e.printStackTrace();
             return AjaxResult.me().setMessage("删除对象失败！"+e.getMessage());
+        }
+    }
+
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     */
+    @PatchMapping
+    @MyPermission(name = "菜单批量删除管理", desc = "菜单批量删除")
+    public AjaxResult patchRemove(@RequestBody List<Integer> ids) {
+        try {
+            dictionaryitemService.patchRemove(ids);
+            return AjaxResult.me();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("很抱歉，批量删除失败");
         }
     }
 	
