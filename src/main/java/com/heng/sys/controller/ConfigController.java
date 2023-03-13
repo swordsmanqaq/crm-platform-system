@@ -1,8 +1,8 @@
-package ${package.Controller};
+package com.heng.sys.controller;
 
-import ${package.Service}.${table.serviceName};
-import ${package.Entity}.${entity};
-import ${cfg.parent}.query.${entity}Query;
+import com.heng.sys.service.IConfigService;
+import com.heng.sys.domain.Config;
+import com.heng.sys.query.ConfigQuery;
 import com.heng.base.utils.PageList;
 import com.heng.base.utils.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,24 +11,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/${table.entityPath}")
-public class ${entity}Controller {
+@RequestMapping("/config")
+public class ConfigController {
     @Autowired
-    public ${table.serviceName} ${table.entityPath}Service;
+    public IConfigService configService;
 
 
     /**
      * 保存和修改公用的
-     * @param ${table.entityPath}  传递的实体
+     * @param config  传递的实体
      * @return Ajaxresult转换结果
      */
     @PutMapping
-    public AjaxResult addOrUpdate(@RequestBody ${entity} ${table.entityPath}){
+    public AjaxResult addOrUpdate(@RequestBody Config config){
         try {
-            if( ${table.entityPath}.getId()!=null)
-                ${table.entityPath}Service.update(${table.entityPath});
+            if( config.getId()!=null)
+                configService.update(config);
             else
-                ${table.entityPath}Service.insert(${table.entityPath});
+                configService.insert(config);
             return AjaxResult.me();
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,7 +43,7 @@ public class ${entity}Controller {
     @DeleteMapping(value="/{id}")
     public AjaxResult remove(@PathVariable("id") Long id){
         try {
-            ${table.entityPath}Service.remove(id);
+            configService.remove(id);
             return AjaxResult.me();
         } catch (Exception e) {
         e.printStackTrace();
@@ -56,8 +56,8 @@ public class ${entity}Controller {
     public AjaxResult loadById(@PathVariable("id")Long id)
     {
         try {
-            ${entity} ${table.entityPath} = ${table.entityPath}Service.loadById(id);
-            return AjaxResult.me().setResultObj(${table.entityPath});
+            Config config = configService.loadById(id);
+            return AjaxResult.me().setResultObj(config);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.me().setSuccess(false).setMessage("获取一个失败！"+e.getMessage());
@@ -73,7 +73,7 @@ public class ${entity}Controller {
     public AjaxResult loadAll(){
 
         try {
-            List< ${entity}> list = ${table.entityPath}Service.loadAll();
+            List< Config> list = configService.loadAll();
             return AjaxResult.me().setResultObj(list);
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,10 +89,10 @@ public class ${entity}Controller {
     * @return PageList 分页对象
     */
     @PostMapping
-    public AjaxResult pageList(@RequestBody ${entity}Query query)
+    public AjaxResult pageList(@RequestBody ConfigQuery query)
     {
         try {
-            PageList<${entity}> pageList = ${table.entityPath}Service.pageList(query);
+            PageList<Config> pageList = configService.pageList(query);
             return AjaxResult.me().setResultObj(pageList);
         } catch (Exception e) {
             e.printStackTrace();

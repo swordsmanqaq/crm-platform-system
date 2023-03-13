@@ -17,7 +17,7 @@ public class GenteratorCode {
 
     public static void main(String[] args) throws InterruptedException {
         //用来获取Mybatis-Plus.properties文件的配置信息
-        ResourceBundle rb = ResourceBundle.getBundle("mybatitsPlus-config"); //不要加后缀
+        ResourceBundle rb = ResourceBundle.getBundle("mybatitsPlus-config-sys"); //不要加后缀
         AutoGenerator mpg = new AutoGenerator();
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
@@ -40,9 +40,9 @@ public class GenteratorCode {
         mpg.setDataSource(dsc);
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
-        strategy.setTablePrefix(new String[] { "t_order_" });// 此处可以修改为您的表前缀
+        strategy.setTablePrefix(new String[] { "t_sys_" });// 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-        strategy.setInclude(new String[]{"t_order_order_activity","t_order_order_product"}); // 需要生成的表
+        strategy.setInclude(new String[]{"t_sys_config","t_sys_dictionary","t_sys_dictionaryitem"}); // 需要生成的表
         strategy.setSuperEntityClass("com.heng.base.domain.BaseDomain");
         strategy.setSuperServiceClass("com.heng.base.service.IBaseService");
         strategy.setSuperServiceImplClass("com.heng.base.service.impl.BaseServiceImpl");

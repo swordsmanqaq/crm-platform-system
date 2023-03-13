@@ -1,8 +1,8 @@
-package ${package.Controller};
+package com.heng.sys.controller;
 
-import ${package.Service}.${table.serviceName};
-import ${package.Entity}.${entity};
-import ${cfg.parent}.query.${entity}Query;
+import com.heng.sys.service.IDictionaryitemService;
+import com.heng.sys.domain.Dictionaryitem;
+import com.heng.sys.query.DictionaryitemQuery;
 import com.heng.base.utils.PageList;
 import com.heng.base.utils.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,24 +11,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/${table.entityPath}")
-public class ${entity}Controller {
+@RequestMapping("/dictionaryitem")
+public class DictionaryitemController {
     @Autowired
-    public ${table.serviceName} ${table.entityPath}Service;
+    public IDictionaryitemService dictionaryitemService;
 
 
     /**
      * 保存和修改公用的
-     * @param ${table.entityPath}  传递的实体
+     * @param dictionaryitem  传递的实体
      * @return Ajaxresult转换结果
      */
     @PutMapping
-    public AjaxResult addOrUpdate(@RequestBody ${entity} ${table.entityPath}){
+    public AjaxResult addOrUpdate(@RequestBody Dictionaryitem dictionaryitem){
         try {
-            if( ${table.entityPath}.getId()!=null)
-                ${table.entityPath}Service.update(${table.entityPath});
+            if( dictionaryitem.getId()!=null)
+                dictionaryitemService.update(dictionaryitem);
             else
-                ${table.entityPath}Service.insert(${table.entityPath});
+                dictionaryitemService.insert(dictionaryitem);
             return AjaxResult.me();
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,7 +43,7 @@ public class ${entity}Controller {
     @DeleteMapping(value="/{id}")
     public AjaxResult remove(@PathVariable("id") Long id){
         try {
-            ${table.entityPath}Service.remove(id);
+            dictionaryitemService.remove(id);
             return AjaxResult.me();
         } catch (Exception e) {
         e.printStackTrace();
@@ -56,8 +56,8 @@ public class ${entity}Controller {
     public AjaxResult loadById(@PathVariable("id")Long id)
     {
         try {
-            ${entity} ${table.entityPath} = ${table.entityPath}Service.loadById(id);
-            return AjaxResult.me().setResultObj(${table.entityPath});
+            Dictionaryitem dictionaryitem = dictionaryitemService.loadById(id);
+            return AjaxResult.me().setResultObj(dictionaryitem);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.me().setSuccess(false).setMessage("获取一个失败！"+e.getMessage());
@@ -73,7 +73,7 @@ public class ${entity}Controller {
     public AjaxResult loadAll(){
 
         try {
-            List< ${entity}> list = ${table.entityPath}Service.loadAll();
+            List< Dictionaryitem> list = dictionaryitemService.loadAll();
             return AjaxResult.me().setResultObj(list);
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,10 +89,10 @@ public class ${entity}Controller {
     * @return PageList 分页对象
     */
     @PostMapping
-    public AjaxResult pageList(@RequestBody ${entity}Query query)
+    public AjaxResult pageList(@RequestBody DictionaryitemQuery query)
     {
         try {
-            PageList<${entity}> pageList = ${table.entityPath}Service.pageList(query);
+            PageList<Dictionaryitem> pageList = dictionaryitemService.pageList(query);
             return AjaxResult.me().setResultObj(pageList);
         } catch (Exception e) {
             e.printStackTrace();

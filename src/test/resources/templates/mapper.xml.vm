@@ -26,7 +26,7 @@
         )
     </insert>
     <!--删除对象-->
-    <delete id="remove" parameterType="integer">
+    <delete id="remove" parameterType="long">
         delete from ${table.name} where id = #{id}
     </delete>
 
@@ -47,7 +47,7 @@
         where id = #{id}
     </update>
     <!--加载对象-->
-    <select id="loadById" resultMap="BaseResultMap" parameterType="integer">
+    <select id="loadById" resultMap="BaseResultMap" parameterType="long">
         select * from ${table.name} where id = #{id}
     </select>
     <!--加载所有对象-->

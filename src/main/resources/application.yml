@@ -13,7 +13,8 @@ spring:
 
 #配置mybatis
 mybatis:
-  type-aliases-package: com.heng.org.domain,com.heng.auth.domain,com.heng.test.domain,com.heng.test.query
+  type-aliases-package: com.heng.org.domain,com.heng.auth.domain,
+                        com.heng.sys.domain,com.heng.sys.query
 
 #别名包的配置
   #扫描mapper.xml文件,当mapper.xml和Mapper.java接口在同一个包下时，可以不配置
