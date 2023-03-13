@@ -36,12 +36,12 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu> implements IMenuServi
     }
 
     @Override
-    public List<Integer> getMenuIds() {
+    public List<Long> getMenuIds() {
         return menuMapper.getMenuIds();
     }
 
     @Override
-    public List<Menu> getMenuTree(Integer loginUserId) {
+    public List<Menu> getMenuTree(Long loginUserId) {
         return menuMapper.getMenuTree(loginUserId);
     }
 

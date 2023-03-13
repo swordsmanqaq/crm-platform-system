@@ -76,7 +76,7 @@
         limit #{start},#{pageSize}
     </select>
 
-    <select id="loadTotal" resultType="java.lang.Integer">
+    <select id="loadTotal" resultType="java.lang.Long">
         select COUNT(*)
         from t_org_department d
         left join t_org_employee e on d.manager_id = e.id

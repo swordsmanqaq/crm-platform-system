@@ -15,8 +15,8 @@ public interface MenuMapper extends BaseMapper<Menu> {
 
     List<Menu> getTree();
 
-    List<Integer> getMenuIds();
+    List<Long> getMenuIds();
 
-    List<Menu> getMenuTree(Integer loginUserId);
+    List<Menu> getMenuTree(Long loginUserId);
 
 }

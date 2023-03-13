@@ -65,7 +65,7 @@ public class DepartmentController {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "根据id删除方法")
     @MyPermission(name = "部门删除管理",desc = "部门删除权限管理")
-    public AjaxResult deleteById(@PathVariable("id") Integer id) {
+    public AjaxResult deleteById(@PathVariable("id") Long id) {
         try {
             departmentService.remove(id);
 
@@ -85,7 +85,7 @@ public class DepartmentController {
      */
     @GetMapping("/{id}")
     @ApiOperation(value = "根据id查询方法")
-    public AjaxResult getById(@PathVariable("id") Integer id) {
+    public AjaxResult getById(@PathVariable("id") Long id) {
         try {
             Department department = departmentService.loadById(id);
             return AjaxResult.me().setResultObj(department);
@@ -134,7 +134,7 @@ public class DepartmentController {
      */
     @PatchMapping
     @MyPermission(name = "部门批量删除管理",desc = "部门批量删除权限管理")
-    public AjaxResult patchRemove(@RequestBody List<Integer> ids) {
+    public AjaxResult patchRemove(@RequestBody List<Long> ids) {
         try {
             departmentService.patchRemove(ids);
             return AjaxResult.me();

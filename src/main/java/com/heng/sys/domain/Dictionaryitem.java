@@ -21,7 +21,7 @@ public class Dictionaryitem extends BaseDomain{
     private Long id;
     private String title;
     private String value;
-    private Integer sequence;
+    private Long sequence;
     private String intro;
     /**
      * 数据字典类型id

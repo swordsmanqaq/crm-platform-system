@@ -60,7 +60,7 @@ public class MenuController {
      */
     @DeleteMapping("/{id}")
     @MyPermission(name = "菜单删除管理", desc = "菜单删除")
-    public AjaxResult deleteById(@PathVariable("id") Integer id) {
+    public AjaxResult deleteById(@PathVariable("id") Long id) {
         try {
             iMenuService.remove(id);
 
@@ -74,7 +74,7 @@ public class MenuController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "根据id查询方法")
-    public AjaxResult getById(@PathVariable("id") Integer id) {
+    public AjaxResult getById(@PathVariable("id") Long id) {
         try {
             Menu menu = iMenuService.loadById(id);
             return AjaxResult.me().setResultObj(menu);
@@ -118,7 +118,7 @@ public class MenuController {
      */
     @PatchMapping
     @MyPermission(name = "菜单批量删除管理", desc = "菜单批量删除")
-    public AjaxResult patchRemove(@RequestBody List<Integer> ids) {
+    public AjaxResult patchRemove(@RequestBody List<Long> ids) {
         try {
             iMenuService.patchRemove(ids);
             return AjaxResult.me();
@@ -151,7 +151,7 @@ public class MenuController {
     @GetMapping("/ids")
     public AjaxResult getSns(){
         try {
-            List<Integer> menuIds = iMenuService.getMenuIds();
+            List<Long> menuIds = iMenuService.getMenuIds();
             return AjaxResult.me().setResultObj(menuIds);
         } catch (Exception e) {
             e.printStackTrace();
@@ -165,7 +165,7 @@ public class MenuController {
      * @return
      */
     @GetMapping("/tree/{loginUserId}")
-    public AjaxResult getTree(@PathVariable("loginUserId") Integer loginUserId){
+    public AjaxResult getTree(@PathVariable("loginUserId") Long loginUserId){
         try {
             List<Menu> menuTree = iMenuService.getMenuTree(loginUserId);
             return AjaxResult.me().setResultObj(menuTree);

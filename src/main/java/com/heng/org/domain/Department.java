@@ -21,7 +21,7 @@ import java.util.List;
 @Data
 public class Department {
     @ApiParam(name = "主键")
-    private Integer id;
+    private Long id;
     @ApiParam(name = "部门名称")
     private String name;
     @ApiParam(name = "部门介绍")
@@ -36,6 +36,6 @@ public class Department {
     @ApiParam(name = "路径")
     private String path;
     @ApiParam(name = "状态")
-    private Integer state;
+    private Long state;
 
 }

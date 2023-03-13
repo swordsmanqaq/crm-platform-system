@@ -59,7 +59,7 @@ public class ConfigController {
      */
     @PatchMapping
     @MyPermission(name = "菜单批量删除管理", desc = "菜单批量删除")
-    public AjaxResult patchRemove(@RequestBody List<Integer> ids) {
+    public AjaxResult patchRemove(@RequestBody List<Long> ids) {
         try {
             configService.patchRemove(ids);
             return AjaxResult.me();
@@ -117,4 +117,5 @@ public class ConfigController {
             return AjaxResult.me().setSuccess(false).setMessage("获取分页数据失败！"+e.getMessage());
         }
     }
+
 }

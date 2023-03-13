@@ -40,7 +40,7 @@ public class BaseServiceImpl <T> implements IBaseService<T>{
 
     @Override
     @Transactional
-    public void patchRemove(List<Integer> ids) {
+    public void patchRemove(List<Long> ids) {
         baseMapper.patchRemove(ids);
     }
 
@@ -63,7 +63,7 @@ public class BaseServiceImpl <T> implements IBaseService<T>{
     @Override
     public PageList<T> pageList(BaseQuery query) {
         //查询总条数
-        int total = baseMapper.loadTotal(query);
+        long total = baseMapper.loadTotal(query);
         if (total > 0){
             List<T> rows = baseMapper.pageList(query);
             return new PageList<T>(total, rows);

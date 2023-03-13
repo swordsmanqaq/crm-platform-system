@@ -59,7 +59,7 @@ public class DictionaryitemController {
      */
     @PatchMapping
     @MyPermission(name = "菜单批量删除管理", desc = "菜单批量删除")
-    public AjaxResult patchRemove(@RequestBody List<Integer> ids) {
+    public AjaxResult patchRemove(@RequestBody List<Long> ids) {
         try {
             dictionaryitemService.patchRemove(ids);
             return AjaxResult.me();

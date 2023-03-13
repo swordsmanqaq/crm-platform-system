@@ -17,15 +17,15 @@ public interface IRoleService extends IBaseService<Role> {
     void savePermission(RolePermissionDTO dto);
 
     //根据roleId获取sn
-    List<String> getPermissionByRoleId(Integer roleId);
+    List<String> getPermissionByRoleId(Long roleId);
 
     //根据roleId获取menu_id
-    List<Integer> getMenuByRoleId(Integer roleId);
+    List<Long> getMenuByRoleId(Long roleId);
 
     //菜单保存
     void saveMenu(RoleMenuDTO dto);
 
     //获得角色id
-    List<Integer> getRoleIds();
+    List<Long> getRoleIds();
 
 }

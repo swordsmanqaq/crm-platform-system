@@ -22,9 +22,9 @@ public interface EmployeeMapper extends BaseMapper<Employee> {
     Employee loadByUsername(String username);
 
     //根据employeeId查询RoleId
-    List<Integer> getRoleByEmployeeId(Integer employeeId);
+    List<Long> getRoleByEmployeeId(Long employeeId);
 
-    void removeRole(Integer employeeId);
+    void removeRole(Long employeeId);
 
-    void saveRole(@Param("employeeId") Integer employeeId, @Param("roleId") List<Integer> roleId);
+    void saveRole(@Param("employeeId") Long employeeId, @Param("roleId") List<Long> roleId);
 }

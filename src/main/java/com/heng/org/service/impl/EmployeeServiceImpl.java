@@ -33,7 +33,7 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee> implements IE
     }
 
     @Override
-    public List<Integer> getRoleByEmployeeId(Integer employeeId) {
+    public List<Long> getRoleByEmployeeId(Long employeeId) {
         return employeeMapper.getRoleByEmployeeId(employeeId);
     }
 

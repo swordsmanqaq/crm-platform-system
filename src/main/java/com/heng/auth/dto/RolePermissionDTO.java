@@ -16,6 +16,6 @@ import java.util.List;
 @Data
 public class RolePermissionDTO {
 
-    private Integer roleId;
+    private Long roleId;
     private List<String> permissionSns;
 }

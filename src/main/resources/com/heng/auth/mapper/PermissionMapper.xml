@@ -35,7 +35,7 @@
         </where>
     </sql>
 
-    <select id="loadTotal" resultType="java.lang.Integer">
+    <select id="loadTotal" resultType="java.lang.Long">
         select count(*) from t_auth_permission c left join  t_auth_permission p
         on c.parent_id = p.id
         <include refid="whereSql"></include>

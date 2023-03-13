@@ -25,7 +25,7 @@ public interface PermissionMapper extends BaseMapper<Permission> {
     List<String> getSns();
 
     //根据用户ID获取所有权限
-    List<String> getAllPermissionByEmployeeId(Integer employeeId);
+    List<String> getAllPermissionByEmployeeId(Long employeeId);
 
 
 }

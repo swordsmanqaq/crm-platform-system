@@ -19,21 +19,21 @@ public interface RoleMapper extends BaseMapper<Role> {
 
     //保存权限
     //若mapper传多个参数，需要使用@Param注解
-    void savePermission(@Param("roleId") Integer roleId, @Param("permissionSns") List<String> permissionSns);
+    void savePermission(@Param("roleId") Long roleId, @Param("permissionSns") List<String> permissionSns);
 
     //根据角色id删除
-    void removeRoleById(Integer roleId);
+    void removeRoleById(Long roleId);
 
     //根据roleId获取sn
-    List<String> getPermissionByRoleId(Integer roleId);
+    List<String> getPermissionByRoleId(Long roleId);
 
     //根据roleId获取menu_id
-    List<Integer> getMenuByRoleId(Integer roleId);
+    List<Long> getMenuByRoleId(Long roleId);
 
-    void deleteRoleById(Integer roleId);
+    void deleteRoleById(Long roleId);
 
-    void saveMenu(@Param("roleId") Integer roleId, @Param("menuId") List<Integer> menuId);
+    void saveMenu(@Param("roleId") Long roleId, @Param("menuId") List<Long> menuId);
 
-    List<Integer> getRoleIds();
+    List<Long> getRoleIds();
 
 }

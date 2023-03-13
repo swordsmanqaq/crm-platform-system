@@ -60,7 +60,7 @@ public class RoleController {
      */
     @DeleteMapping("/{id}")
     @MyPermission(name = "角色删除管理",desc = "角色删除权限管理")
-    public AjaxResult deleteById(@PathVariable("id") Integer id) {
+    public AjaxResult deleteById(@PathVariable("id") Long id) {
         try {
             roleService.remove(id);
 
@@ -79,7 +79,7 @@ public class RoleController {
      * @return
      */
     @GetMapping("/{id}")
-    public AjaxResult getById(@PathVariable("id") Integer id) {
+    public AjaxResult getById(@PathVariable("id") Long id) {
         try {
             Role role = roleService.loadById(id);
             return AjaxResult.me().setResultObj(role);
@@ -126,7 +126,7 @@ public class RoleController {
      */
     @PatchMapping
     @MyPermission(name = "角色批量删除管理",desc = "角色批量删除权限管理")
-    public AjaxResult patchRemove(@RequestBody List<Integer> ids) {
+    public AjaxResult patchRemove(@RequestBody List<Long> ids) {
         try {
             roleService.patchRemove(ids);
             return AjaxResult.me();
@@ -159,7 +159,7 @@ public class RoleController {
      * @return
      */
     @GetMapping("/permission/{roleId}")
-    public AjaxResult getPermissionByRoleId(@PathVariable("roleId") Integer roleId){
+    public AjaxResult getPermissionByRoleId(@PathVariable("roleId") Long roleId){
         try {
             List<String> snsKeys = roleService.getPermissionByRoleId(roleId);
             return AjaxResult.me().setResultObj(snsKeys);
@@ -176,9 +176,9 @@ public class RoleController {
      * @return
      */
     @GetMapping("/menu/{roleId}")
-    public AjaxResult getMenuByRoleId(@PathVariable("roleId") Integer roleId){
+    public AjaxResult getMenuByRoleId(@PathVariable("roleId") Long roleId){
         try {
-            List<Integer> menuIds = roleService.getMenuByRoleId(roleId);
+            List<Long> menuIds = roleService.getMenuByRoleId(roleId);
             return AjaxResult.me().setResultObj(menuIds);
         } catch (Exception e) {
             e.printStackTrace();
@@ -211,7 +211,7 @@ public class RoleController {
     @GetMapping("/ids")
     public AjaxResult getIds(){
         try {
-            List<Integer> roleIds = roleService.getRoleIds();
+            List<Long> roleIds = roleService.getRoleIds();
             return AjaxResult.me().setResultObj(roleIds);
         } catch (Exception e) {
             e.printStackTrace();

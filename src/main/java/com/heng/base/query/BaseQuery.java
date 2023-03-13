@@ -13,11 +13,11 @@ import lombok.Data;
 @Data
 public class BaseQuery {
 
-    private Integer currentPage;    //当前页码
-    private Integer pageSize;      //每页展示的数据条数
+    private Long currentPage;    //当前页码
+    private Long pageSize;      //每页展示的数据条数
     private String keyword;       //高级搜索关键字
 
-    public Integer getStart() {
+    public Long getStart() {
         return (currentPage - 1) * pageSize;
     }
 

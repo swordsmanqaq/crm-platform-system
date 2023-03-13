@@ -55,7 +55,7 @@
         select * from ${table.name}
     </select>
     <!--//查询总数=参数（查询对象），返回值：long-->
-    <select id="loadTotal" parameterType="${entity}Query" resultType="integer">
+    <select id="loadTotal" parameterType="${entity}Query" resultType="Long">
         select count(*) from ${table.name}
         <include refid="whereSql"/>
     </select>

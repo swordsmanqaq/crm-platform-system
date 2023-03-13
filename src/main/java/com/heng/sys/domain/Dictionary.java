@@ -31,5 +31,5 @@ public class Dictionary extends BaseDomain{
      * 描述
      */
     private String intro;
-    private Integer status;
+    private Long status;
 }

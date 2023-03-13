@@ -14,6 +14,6 @@ import java.util.List;
  */
 @Data
 public class RoleMenuDTO {
-    private Integer roleId;
-    private List<Integer> menuId;
+    private Long roleId;
+    private List<Long> menuId;
 }

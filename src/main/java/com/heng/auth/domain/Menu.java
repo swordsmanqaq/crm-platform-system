@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 public class Menu {
 
-    private Integer id;
+    private Long id;
     private String name;
     private String url;
     private String icon;

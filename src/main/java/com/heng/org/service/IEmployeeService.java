@@ -19,7 +19,7 @@ public interface IEmployeeService extends IBaseService<Employee> {
 
 
     //根据employeeId查询RoleId
-    List<Integer> getRoleByEmployeeId(Integer employeeId);
+    List<Long> getRoleByEmployeeId(Long employeeId);
 
     //保存角色列表
     void saveRole(EmployeeRoleDTO dto);

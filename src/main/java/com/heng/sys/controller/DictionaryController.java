@@ -6,6 +6,7 @@ import com.heng.sys.domain.Dictionary;
 import com.heng.sys.query.DictionaryQuery;
 import com.heng.base.utils.PageList;
 import com.heng.base.utils.AjaxResult;
+import com.heng.sys.service.IDictionaryitemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,9 @@ import java.util.List;
 public class DictionaryController {
     @Autowired
     public IDictionaryService dictionaryService;
+
+    @Autowired
+    public IDictionaryitemService dictionaryitemService;
 
 
     /**
@@ -59,7 +63,7 @@ public class DictionaryController {
      */
     @PatchMapping
     @MyPermission(name = "菜单批量删除管理", desc = "菜单批量删除")
-    public AjaxResult patchRemove(@RequestBody List<Integer> ids) {
+    public AjaxResult patchRemove(@RequestBody List<Long> ids) {
         try {
             dictionaryService.patchRemove(ids);
             return AjaxResult.me();

@@ -16,12 +16,12 @@ import java.util.List;
 @Data
 public class Permission {
 
-    private Integer id;
+    private Long id;
     private String name;
     private String url;
     private String descs;
     private String sn;
-    private Integer parent_id;  // 父权限ID
+    private Long parent_id;  // 父权限ID
     private Permission parent;  // 父权限 最主要作用做分类管理 一个权限只有一个父权限
     private List<Permission> children;
 

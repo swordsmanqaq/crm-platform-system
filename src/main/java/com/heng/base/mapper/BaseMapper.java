@@ -17,11 +17,11 @@ public interface BaseMapper<T> {
     //新增
     void insert(T t);
 
-    //删除   使用Serializable 但时候可以传入Long Integer String都可以
+    //删除   使用Serializable 但时候可以传入Long Long String都可以
     void remove(Serializable id);
 
     //批量删除
-    void patchRemove(List<Integer> ids);
+    void patchRemove(List<Long> ids);
 
     //修改
     void update(T t);
@@ -36,6 +36,6 @@ public interface BaseMapper<T> {
     List<T> pageList(BaseQuery query);
 
     //记录总条数
-    int loadTotal(BaseQuery query);
+    long loadTotal(BaseQuery query);
 
 }

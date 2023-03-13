@@ -19,7 +19,7 @@ public interface IMenuService extends IBaseService<Menu> {
 
     List<Menu> getTree();
 
-    List<Integer> getMenuIds();
+    List<Long> getMenuIds();
 
-    List<Menu> getMenuTree(Integer loginUserId);
+    List<Menu> getMenuTree(Long loginUserId);
 }

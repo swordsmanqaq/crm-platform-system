@@ -77,7 +77,7 @@
         <include refid="conditionSql"></include>
         limit #{start},#{pageSize}
     </select>
-    <select id="loadTotal" resultType="java.lang.Integer">
+    <select id="loadTotal" resultType="java.lang.Long">
         select count(*)
         from t_org_employee e
         left join t_org_department d on e.department_id = d.id
@@ -90,7 +90,7 @@
         where username = #{username};
     </select>
 
-    <select id="getRoleByEmployeeId" resultType="java.lang.Integer">
+    <select id="getRoleByEmployeeId" resultType="java.lang.Long">
         select role_id from t_auth_employee_role where employee_id = #{employeeId}
     </select>
 

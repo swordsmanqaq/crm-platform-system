@@ -14,6 +14,6 @@ import java.util.List;
  */
 @Data
 public class EmployeeRoleDTO {
-    private Integer employeeId;
-    private List<Integer> roleId;
+    private Long employeeId;
+    private List<Long> roleId;
 }

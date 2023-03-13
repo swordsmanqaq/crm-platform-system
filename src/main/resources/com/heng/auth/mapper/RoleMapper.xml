@@ -71,7 +71,7 @@
         <include refid="whereSql"></include>
         limit #{start},#{pageSize}
     </select>
-    <select id="loadTotal" resultType="java.lang.Integer">
+    <select id="loadTotal" resultType="java.lang.Long">
         select count(*)
         from t_auth_role
         <include refid="whereSql"></include>
@@ -81,11 +81,11 @@
         select permission_sn from t_auth_role_permission where role_id = #{roleId}
     </select>
 
-    <select id="getMenuByRoleId" resultType="java.lang.Integer">
+    <select id="getMenuByRoleId" resultType="java.lang.Long">
         select menu_id from t_auth_role_menu where role_id = #{roleId}
     </select>
 
-    <select id="getRoleIds" resultType="java.lang.Integer">
+    <select id="getRoleIds" resultType="java.lang.Long">
         select id from t_auth_role
     </select>
 

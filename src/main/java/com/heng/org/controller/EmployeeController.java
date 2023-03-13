@@ -67,7 +67,7 @@ public class EmployeeController {
      */
     @DeleteMapping("/{id}")
     @MyPermission(name = "员工删除管理",desc = "员工删除权限管理")
-    public AjaxResult deleteById(@PathVariable("id") Integer id) {
+    public AjaxResult deleteById(@PathVariable("id") Long id) {
         try {
             employeeService.remove(id);
             return AjaxResult.me();
@@ -84,7 +84,7 @@ public class EmployeeController {
      */
     @PatchMapping
     @MyPermission(name = "员工批量删除管理",desc = "员工批量删除权限管理")
-    public AjaxResult patchDeleteEmployee(@RequestBody List<Integer> ids){
+    public AjaxResult patchDeleteEmployee(@RequestBody List<Long> ids){
         try {
             employeeService.patchRemove(ids);
             return AjaxResult.me();
@@ -125,9 +125,9 @@ public class EmployeeController {
      * @return
      */
     @GetMapping("/role/{employeeId}")
-    public AjaxResult getRoleByRoleId(@PathVariable("employeeId") Integer employeeId){
+    public AjaxResult getRoleByRoleId(@PathVariable("employeeId") Long employeeId){
         try {
-            List<Integer> roleIds = employeeService.getRoleByEmployeeId(employeeId);
+            List<Long> roleIds = employeeService.getRoleByEmployeeId(employeeId);
             return AjaxResult.me().setResultObj(roleIds);
         } catch (Exception e) {
             e.printStackTrace();

@@ -20,7 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 public class PageList<T> {
 
-    private int total = 0;        //总条数
+    private long total = 0;        //总条数
     private List<T>  rows = new ArrayList<T>();  //展示当前页的数据
 
 

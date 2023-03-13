@@ -3,6 +3,8 @@ package com.heng.sys.service;
 import com.heng.sys.domain.Dictionaryitem;
 import com.heng.base.service.IBaseService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类

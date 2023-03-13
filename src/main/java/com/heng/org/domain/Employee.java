@@ -12,11 +12,11 @@ import lombok.Data;
  */
 @Data
 public class Employee {
-    private Integer id;
+    private Long id;
     private String username;
     private String password;
     private String email;
     private String headImage;
-    private Integer age;
+    private Long age;
     private Department department;
 }

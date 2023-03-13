@@ -35,12 +35,12 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements IRoleServi
     }
 
     @Override
-    public List<String> getPermissionByRoleId(Integer roleId) {
+    public List<String> getPermissionByRoleId(Long roleId) {
         return roleMapper.getPermissionByRoleId(roleId);
     }
 
     @Override
-    public List<Integer> getMenuByRoleId(Integer roleId) {
+    public List<Long> getMenuByRoleId(Long roleId) {
         return roleMapper.getMenuByRoleId(roleId);
     }
 
@@ -53,7 +53,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements IRoleServi
     }
 
     @Override
-    public List<Integer> getRoleIds() {
+    public List<Long> getRoleIds() {
         return roleMapper.getRoleIds();
     }
 

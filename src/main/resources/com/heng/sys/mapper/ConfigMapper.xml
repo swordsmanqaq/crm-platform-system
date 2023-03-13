@@ -40,7 +40,7 @@
         select * from t_sys_config
     </select>
     <!--//查询总数=参数（查询对象），返回值：long-->
-    <select id="loadTotal" parameterType="ConfigQuery" resultType="integer">
+    <select id="loadTotal" parameterType="ConfigQuery" resultType="Long">
         select count(*) from t_sys_config
         <include refid="whereSql"/>
     </select>
