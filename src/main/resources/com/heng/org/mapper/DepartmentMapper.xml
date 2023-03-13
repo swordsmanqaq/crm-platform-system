@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heng.org.mapper.DepartmentMapper">
+
+    <insert id="insert" parameterType="department" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into t_org_department(name, intro, create_time, update_time, manager_id, parent_id, path, state)
+        values (#{name},
+                #{intro},
+                #{create_time},
+                #{update_time},
+                #{employee.id},
+                #{department.id},
+                #{path},
+                #{state})
+    </insert>
+
+    <update id="update" parameterType="department">
+        update t_org_department
+        set
+            `name` = #{name},
+            `intro` = #{intro},
+            create_time = #{create_time},
+            update_time = #{update_time},
+            manager_id = #{employee.id},
+            parent_id = #{department.id},
+            `path` = #{path},
+            `state` = #{state}
+        where id = #{id}
+    </update>
+
+    <delete id="remove">
+        delete
+        from t_org_department
+        where id = #{id}
+    </delete>
+
+    <delete id="patchRemove">
+        delete from t_org_department where id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="loadById" resultMap="BaseDepartment">
+        select d.*, e.id as `eid`, e.username as `eusername`, d1.id as `did`, d1.name as `dname`
+        from t_org_department d
+        left join t_org_employee e on d.manager_id = e.id
+        left join t_org_department d1 on d.parent_id = d1.id
+        where d.id = #{id};
+    </select>
+
+    <select id="loadAll" resultMap="BaseDepartment">
+        select d.*, e.id as `eid`, e.username as `eusername`, d1.id as `did`, d1.name as `dname`
+        from t_org_department d
+        left join t_org_employee e on d.manager_id = e.id
+        left join t_org_department d1 on d.parent_id = d1.id;
+    </select>
+
+    
+    <sql id="whereSql">
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and d.name like concat('%',#{keyword},'%')
+            </if>
+        </where>
+    </sql>
+
+    <select id="pageList" resultMap="BaseDepartment">
+        select d.*, e.id as `eid`, e.username as `eusername`, d1.id as `did`, d1.name as `dname`
+        from t_org_department d
+        left join t_org_employee e on d.manager_id = e.id
+        left join t_org_department d1 on d.parent_id = d1.id
+        <include refid="whereSql"></include>
+        limit #{start},#{pageSize}
+    </select>
+
+    <select id="loadTotal" resultType="java.lang.Integer">
+        select COUNT(*)
+        from t_org_department d
+        left join t_org_employee e on d.manager_id = e.id
+        left join t_org_department d1 on d.parent_id = d1.id
+        <include refid="whereSql"></include>
+    </select>
+
+    <select id="getDeptTree" resultMap="BaseDepartment">
+        SELECT p.* ,c.id AS `cid`,c.`name` AS `cname`
+        FROM t_org_department p
+        LEFT JOIN t_org_department c
+        ON c.parent_id = p.id
+        WHERE p.parent_id is NULL;
+    </select>
+
+    <select id="getAllDepartments" resultType="com.heng.org.domain.Department">
+        select * from t_org_department;
+    </select>
+
+    <resultMap id="BaseDepartment" type="department">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="intro" property="intro"></result>
+        <result column="create_time" property="create_time"></result>
+        <result column="update_time" property="update_time"></result>
+        <result column="path" property="path"></result>
+        <result column="state" property="state"></result>
+        <association property="employee" javaType="employee">
+            <id column="eid" property="id"></id>
+            <result column="eusername" property="username"></result>
+        </association>
+        <association property="department" javaType="department">
+            <id column="did" property="id"></id>
+            <result column="dname" property="name"></result>
+        </association>
+<!--        子部门集合映射-->
+        <collection property="children" ofType="department">
+            <id column="cid" property="id"></id>
+            <result column="cname" property="name"></result>
+        </collection>
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heng.org.mapper.EmployeeMapper">
+
+    <insert id="insert">
+        insert into t_org_employee(username, password, email, headImage, age, department_id)
+        values (
+                #{username},
+                #{password},
+                #{email},
+                #{headImage},
+                #{age},
+                #{department.id}
+                )
+    </insert>
+
+    <insert id="saveRole">
+        insert into t_auth_employee_role(employee_id,role_id)
+        values
+        <foreach collection="roleId" item="roleId" separator=",">
+            (#{employeeId},#{roleId})
+        </foreach>
+    </insert>
+
+    <update id="update">
+        update t_org_employee
+        set
+            username = #{username},
+            password = #{password},
+            email = #{email},
+            headImage = #{headImage},
+            age = #{age},
+            department_id = #{department.id}
+       where id = #{id}
+    </update>
+
+    <delete id="remove">
+        delete from t_org_employee
+        where id = #{id};
+    </delete>
+
+    <delete id="patchRemove">
+        delete from t_org_employee where id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+    </delete>
+
+    <delete id="removeRole">
+        delete from t_auth_employee_role where employee_id = #{employeeId}
+    </delete>
+
+    <select id="getAllEmployees" resultType="employee">
+        select * from t_org_employee;
+    </select>
+
+    <select id="loadById" resultMap="BaseEmployee">
+        select e.username, e.email, e.headImage, e.age, e.department_id, d.id as `did`, d.name as `dname`
+        from t_org_employee e
+        left join t_org_department d
+        on e.department_id = d.id
+        where e.id = #{id};
+    </select>
+
+    <select id="loadAll" resultMap="BaseEmployee">
+        select e.username, e.email, e.headImage, e.age, e.department_id, d.id as `did`, d.name as `dname`
+        from t_org_employee e
+        left join t_org_department d on e.department_id = d.id;
+    </select>
+
+    <select id="pageList" resultMap="BaseEmployee">
+        select e.*, d.id as `did`, d.name as `dname`
+        from t_org_employee e
+        left join t_org_department d on e.department_id = d.id
+        <include refid="conditionSql"></include>
+        limit #{start},#{pageSize}
+    </select>
+    <select id="loadTotal" resultType="java.lang.Integer">
+        select count(*)
+        from t_org_employee e
+        left join t_org_department d on e.department_id = d.id
+        <include refid="conditionSql"></include>
+    </select>
+    
+    <select id="loadByUsername" resultType="com.heng.org.domain.Employee">
+        select *
+        from t_org_employee
+        where username = #{username};
+    </select>
+
+    <select id="getRoleByEmployeeId" resultType="java.lang.Integer">
+        select role_id from t_auth_employee_role where employee_id = #{employeeId}
+    </select>
+
+    <sql id="conditionSql">
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and e.username like concat('%',#{keyword},'%')
+            </if>
+        </where>
+    </sql>
+
+    <resultMap id="BaseEmployee" type="employee">
+        <id column="id" property="id"></id>
+        <result column="username" property="username"></result>
+        <result column="password" property="password"></result>
+        <result column="email" property="email"></result>
+        <result column="headImage" property="headImage"></result>
+        <result column="age" property="age"></result>
+        <association property="department" javaType="department">
+            <id column="did" property="id"></id>
+            <result column="dname" property="name"></result>
+        </association>
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heng.auth.mapper.PermissionMapper">
+
+    <insert id="batchInsert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into t_auth_permission(name,descs,url,sn,parent_id)
+        values
+        <foreach collection="list" item="p" separator=",">
+            (#{p.name},#{p.descs},#{p.url},#{p.sn},#{p.parent.id})
+        </foreach>
+    </insert>
+
+    <insert id="insert" parameterType="permission" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into t_auth_permission(name,descs,url,sn,parent_id)
+        values (
+                #{name},
+                #{descs},
+                #{url},
+                #{sn},
+                #{parent.id}
+               )
+    </insert>
+
+    <delete id="removeAll">
+        delete from t_auth_permission
+    </delete>
+
+    <sql id="whereSql">
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (c.name like concat('%',#{keyword},'%') or c.descs like concat('%',#{keyword},'%'))
+            </if>
+        </where>
+    </sql>
+
+    <select id="loadTotal" resultType="java.lang.Integer">
+        select count(*) from t_auth_permission c left join  t_auth_permission p
+        on c.parent_id = p.id
+        <include refid="whereSql"></include>
+    </select>
+
+    <select id="pageList" resultMap="BasePermission">
+        select c.*, p.id as `pid`, p.name as `pname`
+        from t_auth_permission c left join  t_auth_permission p
+        on c.parent_id = p.id
+        <include refid="whereSql"></include>
+        limit #{start},#{pageSize}
+    </select>
+
+    <select id="getTree" resultMap="BasePermission">
+        SELECT p.* , c.id AS `cid`, c.name as `cname`, c.sn as `csn`
+        FROM t_auth_permission p
+        LEFT JOIN t_auth_permission c
+        ON p.id = c.parent_id
+        WHERE p.parent_id IS NULL
+    </select>
+    
+    <select id="getSns" resultType="java.lang.String">
+        select sn
+        from t_auth_permission;
+    </select>
+
+    <select id="getAllPermissionByEmployeeId" resultType="java.lang.String">
+        SELECT rp.permission_sn
+        FROM t_auth_employee_role er
+        LEFT JOIN t_auth_role_permission rp
+        on er.role_id = rp.role_id
+        WHERE er.employee_id = #{employeeId}
+    </select>
+
+    <resultMap id="BasePermission" type="permission">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="url" property="url"></result>
+        <result column="descs" property="descs"></result>
+        <result column="sn" property="sn"></result>
+        <association property="parent" javaType="permission">
+            <id column="pid" property="id"></id>
+            <result column="pname" property="name"></result>
+        </association>
+        <collection property="children" ofType="permission">
+            <id column="cid" property="id"></id>
+            <result column="cname" property="name"></result>
+            <result column="csn" property="sn"></result>
+        </collection>
+    </resultMap>
+
+</mapper>

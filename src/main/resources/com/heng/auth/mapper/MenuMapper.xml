@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.heng.auth.mapper.MenuMapper">
+
+    <insert id="insert">
+        insert into t_auth_menu(name,url,icon,parent_id)
+        values (
+                #{name},
+                #{url},
+                #{icon},
+                #{menu.id}
+               )
+    </insert>
+
+    <update id="update">
+        update t_auth_menu set
+                               name = #{name},
+                               url = #{url},
+                               icon = #{icon},
+                               parent_id = #{menu.id}
+        where id = #{id}
+    </update>
+
+    <delete id="remove">
+        delete from t_auth_menu where id = #{id}
+    </delete>
+
+    <delete id="patchRemove">
+        delete from t_auth_menu where id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="loadById" resultType="com.heng.auth.domain.Menu">
+        select * from t_auth_menu where id = #{id}
+    </select>
+
+    <select id="loadAll" resultMap="BaseMenu">
+        select  ch.*, p.id as `pid`, p.name as `pname`
+        from t_auth_menu ch
+        left join t_auth_menu p on ch.parent_id = p.id
+    </select>
+
+    <sql id="whereSql">
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and ch.name like concat('%',#{keyword},'%')
+            </if>
+        </where>
+    </sql>
+
+    <select id="loadTotal" resultType="java.lang.Integer">
+        select count(*) from t_auth_menu ch
+        <include refid="whereSql"></include>
+    </select>
+
+    <select id="pageList" resultMap="BaseMenu">
+        select  ch.*, p.id as `pid`, p.name as `pname`
+        from t_auth_menu ch
+        left join t_auth_menu p on ch.parent_id = p.id
+        <include refid="whereSql"></include>
+        limit #{start},#{pageSize}
+    </select>
+
+    <select id="getTree" resultMap="BaseMenu">
+        SELECT p.* , c.id AS `cid`, c.name as `cname`
+        FROM t_auth_menu p
+        LEFT JOIN t_auth_menu c
+        ON p.id = c.parent_id
+        WHERE p.parent_id is null
+    </select>
+
+    <select id="getMenuIds" resultType="java.lang.Integer">
+        select id from t_auth_menu;
+    </select>
+
+    <select id="getMenuTree" resultMap="BaseMenu">
+        SELECT
+            c.`name` as `cname`, c.url AS `curl`, c.icon AS `cicon`,
+            p.*
+        FROM
+            t_auth_employee_role er
+            LEFT JOIN t_auth_role_menu rm ON er.role_id = rm.role_id
+            LEFT JOIN t_auth_menu p ON rm.menu_id = p.id
+            LEFT JOIN t_auth_menu c ON p.id = c.parent_id
+            AND c.id IN (
+                SELECT menu_id
+                FROM t_auth_employee_role er1
+                LEFT JOIN t_auth_role_menu rm1
+                ON er1.role_id = rm1.role_id
+                WHERE er1.employee_id = #{loginUserId}
+            )
+        WHERE
+            er.employee_id = #{loginUserId}
+            AND p.parent_id IS NULL
+    </select>
+
+    <resultMap id="BaseMenu" type="menu">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="url" property="url"></result>
+        <result column="icon" property="icon"></result>
+        <association property="menu" javaType="menu">
+            <id column="pid" property="id"></id>
+            <result column="pname" property="name"></result>
+        </association>
+        <collection property="children" ofType="menu">
+            <id column="cid" property="id"></id>
+            <result column="cname" property="name"></result>
+            <result column="curl" property="url"></result>
+            <result column="cicon" property="icon"></result>
+        </collection>
+
+    </resultMap>
+
+</mapper>

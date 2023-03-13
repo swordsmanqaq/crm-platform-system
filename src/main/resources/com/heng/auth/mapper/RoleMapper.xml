@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heng.auth.mapper.RoleMapper">
+
+    <insert id="insert">
+        insert into t_auth_role(name,sn)
+        values (
+                 #{name},
+                 #{sn}
+                )
+    </insert>
+
+    <insert id="savePermission">
+        insert into t_auth_role_permission(role_id,permission_sn)
+        values
+        <foreach collection="permissionSns" item="sn" separator=",">
+            (#{roleId},#{sn})
+        </foreach>
+    </insert>
+
+    <insert id="saveMenu">
+        insert into t_auth_role_menu(role_id,menu_id)
+        values
+        <foreach collection="menuId" item="menuId" separator=",">
+            (#{roleId},#{menuId})
+        </foreach>
+    </insert>
+
+    <update id="update">
+        update t_auth_role set
+                                name = #{name},
+                                sn = #{sn}
+        where id = #{id}
+    </update>
+
+    <delete id="remove">
+        delete from t_auth_role where id = #{id}
+    </delete>
+
+    <delete id="patchRemove">
+        delete
+        from t_auth_role
+        where id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="removeRoleById">
+        delete from t_auth_role_permission where role_id = #{roleId}
+    </delete>
+
+    <delete id="deleteRoleById">
+        delete from t_auth_role_menu where role_id = #{roleId}
+    </delete>
+
+    <select id="loadById" resultType="com.heng.auth.domain.Role">
+        select * from t_auth_role where id = #{id}
+    </select>
+
+    <select id="loadAll" resultType="com.heng.auth.domain.Role">
+        select *
+        from t_auth_role;
+    </select>
+
+    <select id="pageList" resultType="com.heng.auth.domain.Role">
+        select *
+        from t_auth_role
+        <include refid="whereSql"></include>
+        limit #{start},#{pageSize}
+    </select>
+    <select id="loadTotal" resultType="java.lang.Integer">
+        select count(*)
+        from t_auth_role
+        <include refid="whereSql"></include>
+    </select>
+
+    <select id="getPermissionByRoleId" resultType="java.lang.String">
+        select permission_sn from t_auth_role_permission where role_id = #{roleId}
+    </select>
+
+    <select id="getMenuByRoleId" resultType="java.lang.Integer">
+        select menu_id from t_auth_role_menu where role_id = #{roleId}
+    </select>
+
+    <select id="getRoleIds" resultType="java.lang.Integer">
+        select id from t_auth_role
+    </select>
+
+    <sql id="whereSql">
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (name like concat('%',#{keyword},'%') or sn like concat('%',#{keyword},'%'))
+            </if>
+        </where>
+    </sql>
+</mapper>
