@@ -26,5 +26,5 @@ public class Dictionaryitem extends BaseDomain{
     /**
      * 数据字典类型id
      */
-    private Long parentId;
+    private Dictionary parent;
 }

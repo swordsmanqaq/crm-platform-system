@@ -40,7 +40,7 @@
         select * from t_sys_dictionary where id = #{id}
     </select>
     <!--加载所有对象-->
-    <select id="loadAll" resultMap="BaseResultMap">
+    <select id="loadAll" resultType="dictionary">
         select * from t_sys_dictionary
     </select>
     <!--//查询总数=参数（查询对象），返回值：long-->

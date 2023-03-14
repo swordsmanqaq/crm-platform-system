@@ -19,15 +19,4 @@ import java.util.List;
 @Service
 public class DictionaryServiceImpl extends BaseServiceImpl<Dictionary> implements IDictionaryService {
 
-//    @Override
-//    @Transactional
-//    public void removeByParentId(Long parentId) {
-//        dictionaryitemMapper.removeByParentId(parentId);
-//    }
-//
-//    @Override
-//    @Transactional
-//    public void patchRemoveByParentId(List<Long> parentIds) {
-//        dictionaryitemMapper.patchRemoveByParentId(parentIds);
-//    }
 }
