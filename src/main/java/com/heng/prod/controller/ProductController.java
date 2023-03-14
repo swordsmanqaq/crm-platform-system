@@ -1,8 +1,8 @@
-package ${package.Controller};
+package com.heng.prod.controller;
 
-import ${package.Service}.${table.serviceName};
-import ${package.Entity}.${entity};
-import ${cfg.parent}.query.${entity}Query;
+import com.heng.prod.service.IProductService;
+import com.heng.prod.domain.Product;
+import com.heng.prod.query.ProductQuery;
 import com.heng.base.utils.PageList;
 import com.heng.base.utils.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,24 +11,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/${table.entityPath}")
-public class ${entity}Controller {
+@RequestMapping("/product")
+public class ProductController {
     @Autowired
-    public ${table.serviceName} ${table.entityPath}Service;
+    public IProductService productService;
 
 
     /**
      * 保存和修改公用的
-     * @param ${table.entityPath} 传递的实体
+     * @param product 传递的实体
      * @return Ajaxresult转换结果
      */
     @PutMapping
-    public AjaxResult addOrUpdate(@RequestBody ${entity} ${table.entityPath}) {
+    public AjaxResult addOrUpdate(@RequestBody Product product) {
         try {
-            if ( ${table.entityPath}.getId() != null)
-                ${table.entityPath}Service.update(${table.entityPath});
+            if ( product.getId() != null)
+                productService.update(product);
             else
-                ${table.entityPath}Service.insert(${table.entityPath});
+                productService.insert(product);
             return AjaxResult.me();
         } catch (Exception e) {
             e.printStackTrace();
@@ -44,7 +44,7 @@ public class ${entity}Controller {
     @DeleteMapping(value = "/{id}")
     public AjaxResult remove(@PathVariable("id") Long id) {
         try {
-                ${table.entityPath}Service.remove(id);
+                productService.remove(id);
             return AjaxResult.me();
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,7 +60,7 @@ public class ${entity}Controller {
     @PatchMapping
     public AjaxResult patchRemove(@RequestBody List<Long> ids) {
         try {
-                ${table.entityPath}Service.patchRemove(ids);
+                productService.patchRemove(ids);
             return AjaxResult.me();
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,8 +76,8 @@ public class ${entity}Controller {
     @GetMapping("/{id}")
     public AjaxResult loadById(@PathVariable("id") Long id) {
         try {
-            ${entity} ${table.entityPath} =${table.entityPath}Service.loadById(id);
-            return AjaxResult.me().setResultObj(${table.entityPath});
+            Product product =productService.loadById(id);
+            return AjaxResult.me().setResultObj(product);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.me().setSuccess(false).setMessage("获取一个失败！" + e.getMessage());
@@ -93,7 +93,7 @@ public class ${entity}Controller {
     public AjaxResult loadAll() {
 
         try {
-            List< ${entity}> list = ${table.entityPath}Service.loadAll();
+            List< Product> list = productService.loadAll();
             return AjaxResult.me().setResultObj(list);
         } catch (Exception e) {
             e.printStackTrace();
@@ -109,9 +109,9 @@ public class ${entity}Controller {
     * @return PageList 分页对象
     */
     @PostMapping
-    public AjaxResult pageList(@RequestBody ${entity}Query query) {
+    public AjaxResult pageList(@RequestBody ProductQuery query) {
         try {
-            PageList<${entity}> pageList = ${table.entityPath}Service.pageList(query);
+            PageList<Product> pageList = productService.pageList(query);
             return AjaxResult.me().setResultObj(pageList);
         } catch (Exception e) {
             e.printStackTrace();

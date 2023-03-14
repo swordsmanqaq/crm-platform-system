@@ -1,8 +1,8 @@
-package ${package.Controller};
+package com.heng.prod.controller;
 
-import ${package.Service}.${table.serviceName};
-import ${package.Entity}.${entity};
-import ${cfg.parent}.query.${entity}Query;
+import com.heng.prod.service.IProductTypeService;
+import com.heng.prod.domain.ProductType;
+import com.heng.prod.query.ProductTypeQuery;
 import com.heng.base.utils.PageList;
 import com.heng.base.utils.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,24 +11,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/${table.entityPath}")
-public class ${entity}Controller {
+@RequestMapping("/productType")
+public class ProductTypeController {
     @Autowired
-    public ${table.serviceName} ${table.entityPath}Service;
+    public IProductTypeService productTypeService;
 
 
     /**
      * 保存和修改公用的
-     * @param ${table.entityPath} 传递的实体
+     * @param productType 传递的实体
      * @return Ajaxresult转换结果
      */
     @PutMapping
-    public AjaxResult addOrUpdate(@RequestBody ${entity} ${table.entityPath}) {
+    public AjaxResult addOrUpdate(@RequestBody ProductType productType) {
         try {
-            if ( ${table.entityPath}.getId() != null)
-                ${table.entityPath}Service.update(${table.entityPath});
+            if ( productType.getId() != null)
+                productTypeService.update(productType);
             else
-                ${table.entityPath}Service.insert(${table.entityPath});
+                productTypeService.insert(productType);
             return AjaxResult.me();
         } catch (Exception e) {
             e.printStackTrace();
@@ -44,7 +44,7 @@ public class ${entity}Controller {
     @DeleteMapping(value = "/{id}")
     public AjaxResult remove(@PathVariable("id") Long id) {
         try {
-                ${table.entityPath}Service.remove(id);
+                productTypeService.remove(id);
             return AjaxResult.me();
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,7 +60,7 @@ public class ${entity}Controller {
     @PatchMapping
     public AjaxResult patchRemove(@RequestBody List<Long> ids) {
         try {
-                ${table.entityPath}Service.patchRemove(ids);
+                productTypeService.patchRemove(ids);
             return AjaxResult.me();
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,8 +76,8 @@ public class ${entity}Controller {
     @GetMapping("/{id}")
     public AjaxResult loadById(@PathVariable("id") Long id) {
         try {
-            ${entity} ${table.entityPath} =${table.entityPath}Service.loadById(id);
-            return AjaxResult.me().setResultObj(${table.entityPath});
+            ProductType productType =productTypeService.loadById(id);
+            return AjaxResult.me().setResultObj(productType);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.me().setSuccess(false).setMessage("获取一个失败！" + e.getMessage());
@@ -86,14 +86,14 @@ public class ${entity}Controller {
 
 
     /**
-    * 查看所有的员工信息
+    * 查看所有的信息
     * @return
     */
     @GetMapping
     public AjaxResult loadAll() {
 
         try {
-            List< ${entity}> list = ${table.entityPath}Service.loadAll();
+            List< ProductType> list = productTypeService.loadAll();
             return AjaxResult.me().setResultObj(list);
         } catch (Exception e) {
             e.printStackTrace();
@@ -109,13 +109,29 @@ public class ${entity}Controller {
     * @return PageList 分页对象
     */
     @PostMapping
-    public AjaxResult pageList(@RequestBody ${entity}Query query) {
+    public AjaxResult pageList(@RequestBody ProductTypeQuery query) {
         try {
-            PageList<${entity}> pageList = ${table.entityPath}Service.pageList(query);
+            PageList<ProductType> pageList = productTypeService.pageList(query);
             return AjaxResult.me().setResultObj(pageList);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.me().setSuccess(false).setMessage("获取分页数据失败！" + e.getMessage());
         }
     }
+
+    /**
+     * 查找父产品
+     * @return
+     */
+    @GetMapping("/first")
+    public AjaxResult getFirstProductType(){
+        try {
+            List<ProductType> firstProducts = productTypeService.getFirstProductType();
+            return AjaxResult.me().setResultObj(firstProducts);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("获取失败！" + e.getMessage());
+        }
+    }
+
 }

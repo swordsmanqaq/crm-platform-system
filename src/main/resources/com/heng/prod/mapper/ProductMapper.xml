@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heng.prod.mapper.ProductMapper">
+    <!--保存对象-->
+    <insert id="insert" parameterType="Product" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into t_prod_product(
+                            name,
+                            price,
+                            description,
+                            resource,
+                            type_id
+        ) values(
+                                   #{name},
+                                   #{price},
+                                   #{description},
+                                   #{resource},
+                                   #{type.id}
+        )
+    </insert>
+    <!--删除对象-->
+    <delete id="remove" parameterType="long">
+        delete from t_prod_product where id = #{id}
+    </delete>
+
+    <!--更新对象-->
+    <update id="update" parameterType="Product">
+        update t_prod_product
+        set
+
+                            name = #{name},
+                            price = #{price},
+                            description = #{description},
+                            resource = #{resource},
+                            type_id = #{type.id}
+        where id = #{id}
+    </update>
+    <!--加载对象-->
+    <select id="loadById" resultMap="BaseResultMap" parameterType="long">
+        select * from t_prod_product where id = #{id}
+    </select>
+    <!--加载所有对象-->
+    <select id="loadAll" resultMap="BaseResultMap">
+        select * from t_prod_product
+    </select>
+    <!--//查询总数=参数（查询对象），返回值：long-->
+    <select id="loadTotal" parameterType="ProductQuery" resultType="Long">
+        select count(*)
+        FROM t_prod_product pp LEFT JOIN t_prod_product_type pt
+        ON pp.type_id = pt.id
+        <include refid="whereSql"/>
+    </select>
+    <!--//查询当前页数据=参数（查询对象），返回值:List-->
+    <select id="pageList" parameterType="ProductQuery" resultMap="BaseResultMap">
+        SELECT pp.*, pt.id as `ptid`, pt.`name` as `ptname`
+        FROM t_prod_product pp LEFT JOIN t_prod_product_type pt
+        ON pp.type_id = pt.id
+        <include refid="whereSql"/>
+        limit #{start},#{pageSize}
+    </select>
+
+
+    <sql id="whereSql">
+        <where>
+            <if test="keyword!=null and keyword!=''">
+                and (pp.name like concat('%',#{keyword},'%'))
+            </if>
+        </where>
+    </sql>
+
+    <!--//批量删除-->
+    <delete id="patchRemove" parameterType="arraylist">
+        delete from t_prod_product where id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.heng.prod.domain.Product">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="price" property="price" />
+        <result column="description" property="description" />
+        <result column="resource" property="resource" />
+        <association property="type" javaType="productType">
+            <id column="ptid" property="id"></id>
+            <result column="ptname" property="name"></result>
+        </association>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, price, description, resource, type_id AS typeId
+    </sql>
+
+</mapper>
