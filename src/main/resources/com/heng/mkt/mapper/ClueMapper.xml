@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heng.mkt.mapper.ClueMapper">
+    <!--保存对象-->
+    <insert id="insert" parameterType="Clue" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into t_mkt_clue(
+                            full_name,
+                            appellation,
+                            company,
+                            job,
+                            email,
+                            phone,
+                            mphone,
+                            address,
+                            source,
+                            owner,
+                            state,
+                            create_by,
+                            create_time,
+                            edit_by,
+                            edit_time,
+                            description,
+                            contact_summary,
+                            next_contact_time
+        ) values(
+                                   #{fullName},
+                                   #{appellation},
+                                   #{company},
+                                   #{job},
+                                   #{email},
+                                   #{phone},
+                                   #{mphone},
+                                   #{address},
+                                   #{source},
+                                   #{owner},
+                                   #{state},
+                                   #{createBy},
+                                   #{createTime},
+                                   #{editBy},
+                                   #{editTime},
+                                   #{description},
+                                   #{contactSummary},
+                                   #{nextContactTime}
+        )
+    </insert>
+    <!--删除对象-->
+    <delete id="remove" parameterType="long">
+        delete from t_mkt_clue where id = #{id}
+    </delete>
+
+    <!--更新对象-->
+    <update id="update" parameterType="Clue">
+        update t_mkt_clue
+        set
+
+                            full_name = #{fullName},
+                            appellation = #{appellation},
+                            company = #{company},
+                            job = #{job},
+                            email = #{email},
+                            phone = #{phone},
+                            mphone = #{mphone},
+                            address = #{address},
+                            source = #{source},
+                            owner = #{owner},
+                            state = #{state},
+                            create_by = #{createBy},
+                            create_time = #{createTime},
+                            edit_by = #{editBy},
+                            edit_time = #{editTime},
+                            description = #{description},
+                            contact_summary = #{contactSummary},
+                            next_contact_time = #{nextContactTime}
+        where id = #{id}
+    </update>
+    <!--加载对象-->
+    <select id="loadById" resultMap="BaseResultMap" parameterType="long">
+        select * from t_mkt_clue where id = #{id}
+    </select>
+    <!--加载所有对象-->
+    <select id="loadAll" resultMap="BaseResultMap">
+        select * from t_mkt_clue
+    </select>
+    <!--//查询总数=参数（查询对象），返回值：long-->
+    <select id="loadTotal" parameterType="ClueQuery" resultType="Long">
+        select count(*) from t_mkt_clue
+        <include refid="whereSql"/>
+    </select>
+    <!--//查询当前页数据=参数（查询对象），返回值:List-->
+    <select id="pageList" parameterType="ClueQuery" resultMap="BaseResultMap">
+        select * from t_mkt_clue
+        <include refid="whereSql"/>
+        limit #{start},#{pageSize}
+    </select>
+
+
+    <sql id="whereSql">
+        <where>
+            <if test="keyword!=null and keyword!=''">
+                and (name like concat('%',#{keyword},'%'))
+            </if>
+        </where>
+    </sql>
+
+    <!--//批量删除-->
+    <delete id="patchRemove" parameterType="arraylist">
+        delete from t_mkt_clue where id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.heng.mkt.domain.Clue">
+        <id column="id" property="id" />
+        <result column="full_name" property="fullName" />
+        <result column="appellation" property="appellation" />
+        <result column="company" property="company" />
+        <result column="job" property="job" />
+        <result column="email" property="email" />
+        <result column="phone" property="phone" />
+        <result column="mphone" property="mphone" />
+        <result column="address" property="address" />
+        <result column="source" property="source" />
+        <result column="owner" property="owner" />
+        <result column="state" property="state" />
+        <result column="create_by" property="createBy" />
+        <result column="create_time" property="createTime" />
+        <result column="edit_by" property="editBy" />
+        <result column="edit_time" property="editTime" />
+        <result column="description" property="description" />
+        <result column="contact_summary" property="contactSummary" />
+        <result column="next_contact_time" property="nextContactTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, full_name AS fullName, appellation, company, job, email, phone, mphone, address, source, owner, state, create_by AS createBy, create_time AS createTime, edit_by AS editBy, edit_time AS editTime, description, contact_summary AS contactSummary, next_contact_time AS nextContactTime
+    </sql>
+
+</mapper>

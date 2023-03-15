@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heng.mkt.mapper.BusinessRemarkMapper">
+    <!--保存对象-->
+    <insert id="insert" parameterType="BusinessRemark" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into t_mkt_business_remark(
+                            bisiness_id,
+                            note_content,
+                            create_by,
+                            create_time,
+                            edit_by,
+                            edit_time
+        ) values(
+                                   #{bisinessId},
+                                   #{noteContent},
+                                   #{createBy},
+                                   #{createTime},
+                                   #{editBy},
+                                   #{editTime}
+        )
+    </insert>
+    <!--删除对象-->
+    <delete id="remove" parameterType="long">
+        delete from t_mkt_business_remark where id = #{id}
+    </delete>
+
+    <!--更新对象-->
+    <update id="update" parameterType="BusinessRemark">
+        update t_mkt_business_remark
+        set
+
+                            bisiness_id = #{bisinessId},
+                            note_content = #{noteContent},
+                            create_by = #{createBy},
+                            create_time = #{createTime},
+                            edit_by = #{editBy},
+                            edit_time = #{editTime}
+        where id = #{id}
+    </update>
+    <!--加载对象-->
+    <select id="loadById" resultMap="BaseResultMap" parameterType="long">
+        select * from t_mkt_business_remark where id = #{id}
+    </select>
+    <!--加载所有对象-->
+    <select id="loadAll" resultMap="BaseResultMap">
+        select * from t_mkt_business_remark
+    </select>
+    <!--//查询总数=参数（查询对象），返回值：long-->
+    <select id="loadTotal" parameterType="BusinessRemarkQuery" resultType="Long">
+        select count(*) from t_mkt_business_remark
+        <include refid="whereSql"/>
+    </select>
+    <!--//查询当前页数据=参数（查询对象），返回值:List-->
+    <select id="pageList" parameterType="BusinessRemarkQuery" resultMap="BaseResultMap">
+        select * from t_mkt_business_remark
+        <include refid="whereSql"/>
+        limit #{start},#{pageSize}
+    </select>
+
+
+    <sql id="whereSql">
+        <where>
+            <if test="keyword!=null and keyword!=''">
+                and (name like concat('%',#{keyword},'%'))
+            </if>
+        </where>
+    </sql>
+
+    <!--//批量删除-->
+    <delete id="patchRemove" parameterType="arraylist">
+        delete from t_mkt_business_remark where id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.heng.mkt.domain.BusinessRemark">
+        <id column="id" property="id" />
+        <result column="bisiness_id" property="bisinessId" />
+        <result column="note_content" property="noteContent" />
+        <result column="create_by" property="createBy" />
+        <result column="create_time" property="createTime" />
+        <result column="edit_by" property="editBy" />
+        <result column="edit_time" property="editTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, bisiness_id AS bisinessId, note_content AS noteContent, create_by AS createBy, create_time AS createTime, edit_by AS editBy, edit_time AS editTime
+    </sql>
+
+</mapper>

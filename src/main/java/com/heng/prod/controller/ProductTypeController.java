@@ -134,4 +134,19 @@ public class ProductTypeController {
         }
     }
 
+    /**
+     * 获取产品类型表
+     * @return
+     */
+    @GetMapping("/tree")
+    public AjaxResult getProdTree(){
+        try {
+            List<ProductType> typeTrees = productTypeService.getProdTree();
+            return AjaxResult.me().setResultObj(typeTrees);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("查找产品类型树失败");
+        }
+    }
+
 }

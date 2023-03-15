@@ -17,4 +17,6 @@ public interface IProductTypeService extends IBaseService<ProductType> {
 
     List<ProductType> getFirstProductType();
 
+    List<ProductType> getProdTree();
+
 }

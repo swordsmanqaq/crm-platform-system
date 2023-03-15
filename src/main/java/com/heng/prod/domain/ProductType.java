@@ -2,6 +2,8 @@ package com.heng.prod.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+
 import com.heng.base.domain.BaseDomain;
 import lombok.Data;
 
@@ -23,4 +25,5 @@ public class ProductType extends BaseDomain{
     private String description;
     private Long parentId;
     private ProductType parent;
+    private List<ProductType> children;
 }

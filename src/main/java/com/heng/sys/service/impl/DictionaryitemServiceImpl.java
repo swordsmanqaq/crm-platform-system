@@ -6,7 +6,6 @@ import com.heng.sys.service.IDictionaryitemService;
 import com.heng.base.service.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,5 +20,11 @@ import java.util.List;
 @Service
 public class DictionaryitemServiceImpl extends BaseServiceImpl<Dictionaryitem> implements IDictionaryitemService {
 
+    @Autowired
+    private DictionaryitemMapper dictionaryitemMapper;
 
+    @Override
+    public List<Dictionaryitem> loadItemById(Long id) {
+        return dictionaryitemMapper.loadItemById(id);
+    }
 }

@@ -1,5 +1,6 @@
 package com.heng.prod.controller;
 
+import com.heng.prod.domain.ProductType;
 import com.heng.prod.service.IProductService;
 import com.heng.prod.domain.Product;
 import com.heng.prod.query.ProductQuery;
@@ -118,4 +119,5 @@ public class ProductController {
             return AjaxResult.me().setSuccess(false).setMessage("获取分页数据失败！" + e.getMessage());
         }
     }
+
 }

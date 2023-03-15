@@ -17,4 +17,6 @@ public interface ProductTypeMapper extends BaseMapper<ProductType> {
 
     List<ProductType> getFirstProductType();
 
+    List<ProductType> getProdTree();
+
 }

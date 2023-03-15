@@ -60,6 +60,12 @@
         limit #{start},#{pageSize}
     </select>
 
+    <select id="loadItemById" resultType="com.heng.sys.domain.Dictionaryitem">
+        select *
+        from t_sys_dictionaryitem
+        where parent_id = #{id};
+    </select>
+
 
     <sql id="whereSql">
         <where>

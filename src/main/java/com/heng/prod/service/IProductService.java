@@ -2,6 +2,9 @@ package com.heng.prod.service;
 
 import com.heng.prod.domain.Product;
 import com.heng.base.service.IBaseService;
+import com.heng.prod.domain.ProductType;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,7 @@ import com.heng.base.service.IBaseService;
  * @since 2023-03-14
  */
 public interface IProductService extends IBaseService<Product> {
+
+
 
 }

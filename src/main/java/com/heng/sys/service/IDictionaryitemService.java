@@ -15,4 +15,6 @@ import java.util.List;
  */
 public interface IDictionaryitemService extends IBaseService<Dictionaryitem> {
 
+    List<Dictionaryitem> loadItemById(Long id);
+
 }

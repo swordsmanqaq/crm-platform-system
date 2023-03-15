@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heng.mkt.mapper.ActivityMapper">
+    <!--保存对象-->
+    <insert id="insert" parameterType="Activity" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into t_mkt_activity(
+                            `name`,
+                            preferential_method_id,
+                            start_date,
+                            end_date,
+                            `type`,
+                            enoughPrice,
+                            costPrice,
+                            description,
+                            create_time,
+                            create_by,
+                            edit_time,
+                            edit_by
+        ) values(
+                                   #{name},
+                                   #{discount.id},
+                                   #{startDate},
+                                   #{endDate},
+                                   #{type},
+                                   #{enoughPrice},
+                                   #{costPrice},
+                                   #{description},
+                                   #{createTime},
+                                   #{createBy},
+                                   #{editTime},
+                                   #{editBy}
+        )
+    </insert>
+    <!--删除对象-->
+    <delete id="remove" parameterType="long">
+        delete from t_mkt_activity where id = #{id}
+    </delete>
+
+    <!--更新对象-->
+    <update id="update" parameterType="Activity">
+        update t_mkt_activity
+        set
+
+                            `name` = #{name},
+                            preferential_method_id = #{discount.id},
+                            start_date = #{startDate},
+                            end_date = #{endDate},
+                            `type` = #{type},
+                            enoughPrice = #{enoughPrice},
+                            costPrice = #{costPrice},
+                            description = #{description},
+                            create_time = #{createTime},
+                            create_by = #{createBy},
+                            edit_time = #{editTime},
+                            edit_by = #{editBy}
+        where id = #{id}
+    </update>
+    <!--加载对象-->
+    <select id="loadById" resultMap="BaseResultMap" parameterType="long">
+        select * from t_mkt_activity where id = #{id}
+    </select>
+    <!--加载所有对象-->
+    <select id="loadAll" resultMap="BaseResultMap">
+        select * from t_mkt_activity
+    </select>
+    <!--//查询总数=参数（查询对象），返回值：long-->
+    <select id="loadTotal" parameterType="ActivityQuery" resultType="Long">
+        select count(*)
+        FROM t_mkt_activity a LEFT JOIN t_sys_dictionaryitem d
+        on a.preferential_method_id = d.id
+        <include refid="whereSql"/>
+    </select>
+
+    <!--//查询当前页数据=参数（查询对象），返回值:List-->
+    <select id="pageList" parameterType="ActivityQuery" resultMap="BaseResultMap">
+        SELECT a.*, d.id AS `did`, d.`title` AS `dtitle`
+        FROM t_mkt_activity a LEFT JOIN t_sys_dictionaryitem d
+        on a.preferential_method_id = d.id
+        <include refid="whereSql"/>
+        limit #{start},#{pageSize}
+    </select>
+
+
+    <sql id="whereSql">
+        <where>
+            <if test="keyword!=null and keyword!=''">
+                and (a.name like concat('%',#{keyword},'%'))
+            </if>
+        </where>
+    </sql>
+
+    <!--//批量删除-->
+    <delete id="patchRemove" parameterType="arraylist">
+        delete from t_mkt_activity where id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.heng.mkt.domain.Activity">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="start_date" property="startDate" />
+        <result column="end_date" property="endDate" />
+        <result column="type" property="type" />
+        <result column="enoughPrice" property="enoughPrice" />
+        <result column="costPrice" property="costPrice" />
+        <result column="description" property="description" />
+        <result column="create_time" property="createTime" />
+        <result column="create_by" property="createBy" />
+        <result column="edit_time" property="editTime" />
+        <result column="edit_by" property="editBy" />
+        <association property="discount" javaType="dictionaryitem">
+            <id column="did" property="id"></id>
+            <result column="dtitle" property="title"></result>
+        </association>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, preferential_method_id AS preferentialMethodId, start_date AS startDate, end_date AS endDate, type, enoughPrice, costPrice, description, create_time AS createTime, create_by AS createBy, edit_time AS editTime, edit_by AS editBy
+    </sql>
+
+</mapper>

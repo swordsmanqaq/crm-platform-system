@@ -117,4 +117,16 @@ public class DictionaryitemController {
             return AjaxResult.me().setSuccess(false).setMessage("获取分页数据失败！"+e.getMessage());
         }
     }
+
+    @GetMapping("/type/{id}")
+    public AjaxResult loadItemById(@PathVariable("id") Long id){
+
+        try {
+            List< Dictionaryitem> list = dictionaryitemService.loadItemById(id);
+            return AjaxResult.me().setResultObj(list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("获取所有失败！"+e.getMessage());
+        }
+    }
 }

@@ -58,6 +58,13 @@
         where parent_id is null;
     </select>
 
+    <select id="getProdTree" resultMap="BaseResultMap">
+        SELECT p.*, t.id as `tid`, t.`name` as `tname`
+        FROM t_prod_product_type p LEFT JOIN t_prod_product_type t
+        ON p.id = t.parent_id
+        WHERE p.parent_id is NULL
+    </select>
+
 
     <sql id="whereSql">
         <where>
@@ -83,6 +90,10 @@
             <id column="pid" property="id"></id>
             <result column="pname" property="name"></result>
         </association>
+        <collection property="children" ofType="productType">
+            <id column="tid" property="id"></id>
+            <result column="tname" property="name"></result>
+        </collection>
     </resultMap>
 
     <!-- 通用查询结果列 -->
