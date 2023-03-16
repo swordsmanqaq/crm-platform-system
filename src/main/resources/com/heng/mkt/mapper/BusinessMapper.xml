@@ -12,8 +12,8 @@
                             state
         ) values(
                                    #{name},
-                                   #{clueId},
-                                   #{productId},
+                                   #{clue.id},
+                                   #{product.id},
                                    #{productName},
                                    #{productPrice},
                                    #{state}
@@ -30,8 +30,8 @@
         set
 
                             name = #{name},
-                            clue_id = #{clueId},
-                            product_id = #{productId},
+                            clue_id = #{clue.id},
+                            product_id = #{product.id},
                             product_name = #{productName},
                             product_price = #{productPrice},
                             state = #{state}
@@ -47,12 +47,18 @@
     </select>
     <!--//查询总数=参数（查询对象），返回值：long-->
     <select id="loadTotal" parameterType="BusinessQuery" resultType="Long">
-        select count(*) from t_mkt_business
+        select count(*)
+        from t_mkt_business b
+        LEFT JOIN t_mkt_clue c on b.clue_id = c.id
+        LEFT JOIN t_prod_product p on b.`product_id` = p.id
         <include refid="whereSql"/>
     </select>
     <!--//查询当前页数据=参数（查询对象），返回值:List-->
     <select id="pageList" parameterType="BusinessQuery" resultMap="BaseResultMap">
-        select * from t_mkt_business
+        select b.*, c.id as `cid`, c.full_name as `cfullname`, p.id as `pid`, p.`name` as `pname`
+        from t_mkt_business b
+        LEFT JOIN t_mkt_clue c on b.clue_id = c.id
+        LEFT JOIN t_prod_product p on b.`product_id` = p.id
         <include refid="whereSql"/>
         limit #{start},#{pageSize}
     </select>
@@ -61,7 +67,7 @@
     <sql id="whereSql">
         <where>
             <if test="keyword!=null and keyword!=''">
-                and (name like concat('%',#{keyword},'%'))
+                and (b.name like concat('%',#{keyword},'%'))
             </if>
         </where>
     </sql>
@@ -77,11 +83,17 @@
     <resultMap id="BaseResultMap" type="com.heng.mkt.domain.Business">
         <id column="id" property="id" />
         <result column="name" property="name" />
-        <result column="clue_id" property="clueId" />
-        <result column="product_id" property="productId" />
         <result column="product_name" property="productName" />
         <result column="product_price" property="productPrice" />
         <result column="state" property="state" />
+        <association property="clue" javaType="clue">
+            <id column="cid" property="id"></id>
+            <result column="cfullname" property="fullName"></result>
+        </association>
+        <association property="product" javaType="product">
+            <id column="pid" property="id"></id>
+            <result column="pname" property="name"></result>
+        </association>
     </resultMap>
 
     <!-- 通用查询结果列 -->

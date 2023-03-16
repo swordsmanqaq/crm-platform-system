@@ -2,6 +2,8 @@ package com.heng.mkt.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.heng.base.domain.BaseDomain;
 import lombok.Data;
 
@@ -22,7 +24,9 @@ public class ClueRemark extends BaseDomain{
     private Long clueId;
     private String noteContent;
     private String createBy;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     private String editBy;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date editTime;
 }

@@ -14,7 +14,7 @@
                             address,
                             source,
                             owner,
-                            state,
+                            `state`,
                             create_by,
                             create_time,
                             edit_by,
@@ -23,26 +23,35 @@
                             contact_summary,
                             next_contact_time
         ) values(
-                                   #{fullName},
-                                   #{appellation},
-                                   #{company},
-                                   #{job},
-                                   #{email},
-                                   #{phone},
-                                   #{mphone},
-                                   #{address},
-                                   #{source},
-                                   #{owner},
-                                   #{state},
-                                   #{createBy},
-                                   #{createTime},
-                                   #{editBy},
-                                   #{editTime},
-                                   #{description},
-                                   #{contactSummary},
-                                   #{nextContactTime}
+                           #{fullName},
+                           #{appellation},
+                           #{company},
+                           #{job},
+                           #{email},
+                           #{phone},
+                           #{mphone},
+                           #{address},
+                           #{dictionaryitem.id},
+                           #{employee.id},
+                           #{state},
+                           #{createBy},
+                           #{createTime},
+                           #{editBy},
+                           #{editTime},
+                           #{description},
+                           #{contactSummary},
+                           #{nextContactTime}
         )
     </insert>
+
+    <insert id="saveActivity">
+        insert into t_mkt_clue_activity(clue_id,activity_id)
+        values
+        <foreach collection="activityId" item="activityId" separator=",">
+            (#{clueId},#{activityId})
+        </foreach>
+    </insert>
+
     <!--删除对象-->
     <delete id="remove" parameterType="long">
         delete from t_mkt_clue where id = #{id}
@@ -52,27 +61,28 @@
     <update id="update" parameterType="Clue">
         update t_mkt_clue
         set
-
-                            full_name = #{fullName},
-                            appellation = #{appellation},
-                            company = #{company},
-                            job = #{job},
-                            email = #{email},
-                            phone = #{phone},
-                            mphone = #{mphone},
-                            address = #{address},
-                            source = #{source},
-                            owner = #{owner},
-                            state = #{state},
-                            create_by = #{createBy},
-                            create_time = #{createTime},
-                            edit_by = #{editBy},
-                            edit_time = #{editTime},
-                            description = #{description},
-                            contact_summary = #{contactSummary},
-                            next_contact_time = #{nextContactTime}
+                full_name = #{fullName},
+                appellation = #{appellation},
+                company = #{company},
+                job = #{job},
+                email = #{email},
+                phone = #{phone},
+                mphone = #{mphone},
+                address = #{address},
+                source = #{dictionaryitem.id},
+                owner = #{employee.id},
+                `state` = #{state},
+                create_by = #{createBy},
+                create_time = #{createTime},
+                edit_by = #{editBy},
+                edit_time = #{editTime},
+                description = #{description},
+                contact_summary = #{contactSummary},
+                next_contact_time = #{nextContactTime}
         where id = #{id}
     </update>
+
+
     <!--加载对象-->
     <select id="loadById" resultMap="BaseResultMap" parameterType="long">
         select * from t_mkt_clue where id = #{id}
@@ -83,12 +93,18 @@
     </select>
     <!--//查询总数=参数（查询对象），返回值：long-->
     <select id="loadTotal" parameterType="ClueQuery" resultType="Long">
-        select count(*) from t_mkt_clue
+        select count(*)
+        from t_mkt_clue c
+        LEFT JOIN t_sys_dictionaryitem d on c.source = d.id
+        LEFT JOIN t_org_employee e on c.`owner` = e.id
         <include refid="whereSql"/>
     </select>
     <!--//查询当前页数据=参数（查询对象），返回值:List-->
     <select id="pageList" parameterType="ClueQuery" resultMap="BaseResultMap">
-        select * from t_mkt_clue
+        select c.*, d.id as `did`, d.title as `dtitle`, e.id as `eid`, e.username as `eusername`
+        from t_mkt_clue c
+        LEFT JOIN t_sys_dictionaryitem d on c.source = d.id
+        LEFT JOIN t_org_employee e on c.`owner` = e.id
         <include refid="whereSql"/>
         limit #{start},#{pageSize}
     </select>
@@ -97,7 +113,7 @@
     <sql id="whereSql">
         <where>
             <if test="keyword!=null and keyword!=''">
-                and (name like concat('%',#{keyword},'%'))
+                and (c.name like concat('%',#{keyword},'%'))
             </if>
         </where>
     </sql>
@@ -109,6 +125,12 @@
             #{id}
         </foreach>
     </delete>
+
+    <delete id="deleteActivityByClueId">
+        delete from t_mkt_clue_activity where clue_id = #{clueId}
+    </delete>
+
+
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.heng.mkt.domain.Clue">
         <id column="id" property="id" />
@@ -120,8 +142,6 @@
         <result column="phone" property="phone" />
         <result column="mphone" property="mphone" />
         <result column="address" property="address" />
-        <result column="source" property="source" />
-        <result column="owner" property="owner" />
         <result column="state" property="state" />
         <result column="create_by" property="createBy" />
         <result column="create_time" property="createTime" />
@@ -130,6 +150,14 @@
         <result column="description" property="description" />
         <result column="contact_summary" property="contactSummary" />
         <result column="next_contact_time" property="nextContactTime" />
+        <association property="dictionaryitem" javaType="Dictionaryitem">
+            <id column="did" property="id"></id>
+            <result column="dtitle" property="title"></result>
+        </association>
+        <association property="employee" javaType="employee">
+            <id column="eid" property="id"></id>
+            <result column="eusername" property="username"></result>
+        </association>
     </resultMap>
 
     <!-- 通用查询结果列 -->

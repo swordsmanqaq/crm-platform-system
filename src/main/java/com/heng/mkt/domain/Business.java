@@ -3,6 +3,7 @@ package com.heng.mkt.domain;
 import java.math.BigDecimal;
 import java.util.Date;
 import com.heng.base.domain.BaseDomain;
+import com.heng.prod.domain.Product;
 import lombok.Data;
 
 /**
@@ -21,10 +22,12 @@ public class Business extends BaseDomain{
     private Long id;
     private String name;
     private Long clueId;
+    private Clue clue;
     /**
      * 关联商品表t_prod_product表的主键
      */
     private Long productId;
+    private Product product;
     /**
      * 产生商机那一刻记录的商品名字
      */
