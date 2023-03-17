@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -135,6 +136,11 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue> implements IClueServi
         saveClueRemark(clue,loginUser,content);
     }
 
+    //获取所有活动
+    @Override
+    public List<Activity> getActivitys(Long typeId) {
+        return clueMapper.getActivitys(typeId);
+    }
 
 
     //添加记录方法

@@ -3,6 +3,7 @@ package com.heng.mkt.controller;
 import com.heng.auth.annotation.MyPermission;
 import com.heng.auth.dto.RoleMenuDTO;
 import com.heng.base.utils.LoginContext;
+import com.heng.mkt.domain.Activity;
 import com.heng.mkt.dto.ClueActivityDto;
 import com.heng.mkt.dto.ClueBusinessDto;
 import com.heng.mkt.service.IClueService;
@@ -128,6 +129,22 @@ public class ClueController {
 
 
     /**
+     * 获取所有市场活动
+     * @param typeId
+     * @return
+     */
+    @GetMapping("/type/{typeId}")
+    public AjaxResult getActivitys(@PathVariable Long typeId) {
+        try {
+            List<Activity> activityList = clueService.getActivitys(typeId);
+            return AjaxResult.me().setResultObj(activityList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("获取所有失败！" + e.getMessage());
+        }
+    }
+
+    /**
      * 关联活动的提交接口
      * @param dto
      * @return
@@ -144,7 +161,7 @@ public class ClueController {
     }
 
     /**
-     * 关联活动的提交接口
+     * 分配的提交接口
      * @param clue
      * @return
      */

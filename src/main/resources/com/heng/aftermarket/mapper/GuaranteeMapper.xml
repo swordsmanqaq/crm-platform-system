@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heng.aftermarket.mapper.GuaranteeMapper">
+    <!--保存对象-->
+    <insert id="insert" parameterType="Guarantee" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into t_aftermarket_guarantee(
+                            product_id,
+                            product_name,
+                            order_id,
+                            order_sn,
+                            customer_id,
+                            customer_name,
+                            start_time,
+                            end_time,
+                            state
+        ) values(
+                                   #{productId},
+                                   #{productName},
+                                   #{orderId},
+                                   #{orderSn},
+                                   #{customerId},
+                                   #{customerName},
+                                   #{startTime},
+                                   #{endTime},
+                                   #{state}
+        )
+    </insert>
+    <!--删除对象-->
+    <delete id="remove" parameterType="long">
+        delete from t_aftermarket_guarantee where id = #{id}
+    </delete>
+
+    <!--更新对象-->
+    <update id="update" parameterType="Guarantee">
+        update t_aftermarket_guarantee
+        set
+
+                            product_id = #{productId},
+                            product_name = #{productName},
+                            order_id = #{orderId},
+                            order_sn = #{orderSn},
+                            customer_id = #{customerId},
+                            customer_name = #{customerName},
+                            start_time = #{startTime},
+                            end_time = #{endTime},
+                            state = #{state}
+        where id = #{id}
+    </update>
+    <!--加载对象-->
+    <select id="loadById" resultMap="BaseResultMap" parameterType="long">
+        select * from t_aftermarket_guarantee where id = #{id}
+    </select>
+    <!--加载所有对象-->
+    <select id="loadAll" resultMap="BaseResultMap">
+        select * from t_aftermarket_guarantee
+    </select>
+    <!--//查询总数=参数（查询对象），返回值：long-->
+    <select id="loadTotal" parameterType="GuaranteeQuery" resultType="Long">
+        select count(*) from t_aftermarket_guarantee
+        <include refid="whereSql"/>
+    </select>
+    <!--//查询当前页数据=参数（查询对象），返回值:List-->
+    <select id="pageList" parameterType="GuaranteeQuery" resultMap="BaseResultMap">
+        select * from t_aftermarket_guarantee
+        <include refid="whereSql"/>
+        limit #{start},#{pageSize}
+    </select>
+
+
+    <sql id="whereSql">
+        <where>
+            <if test="keyword!=null and keyword!=''">
+                and (name like concat('%',#{keyword},'%'))
+            </if>
+        </where>
+    </sql>
+
+    <!--//批量删除-->
+    <delete id="patchRemove" parameterType="arraylist">
+        delete from t_aftermarket_guarantee where id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.heng.aftermarket.domain.Guarantee">
+        <id column="id" property="id" />
+        <result column="product_id" property="productId" />
+        <result column="product_name" property="productName" />
+        <result column="order_id" property="orderId" />
+        <result column="order_sn" property="orderSn" />
+        <result column="customer_id" property="customerId" />
+        <result column="customer_name" property="customerName" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
+        <result column="state" property="state" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, product_id AS productId, product_name AS productName, order_id AS orderId, order_sn AS orderSn, customer_id AS customerId, customer_name AS customerName, start_time AS startTime, end_time AS endTime, state
+    </sql>
+
+</mapper>

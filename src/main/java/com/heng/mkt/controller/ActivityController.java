@@ -91,7 +91,6 @@ public class ActivityController {
     */
     @GetMapping
     public AjaxResult loadAll() {
-
         try {
             List< Activity> list = activityService.loadAll();
             return AjaxResult.me().setResultObj(list);
@@ -116,6 +115,22 @@ public class ActivityController {
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.me().setSuccess(false).setMessage("获取分页数据失败！" + e.getMessage());
+        }
+    }
+
+    /**
+     * 获取所有营销活动
+     * @param typeId
+     * @return
+     */
+    @GetMapping("/type/{typeId}")
+    public AjaxResult getActivitys(@PathVariable Long typeId) {
+        try {
+            List<Activity> activityList = activityService.getActivitys(typeId);
+            return AjaxResult.me().setResultObj(activityList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("获取所有失败！" + e.getMessage());
         }
     }
 }

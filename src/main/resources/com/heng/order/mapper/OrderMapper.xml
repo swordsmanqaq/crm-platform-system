@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heng.order.mapper.OrderMapper">
+    <!--保存对象-->
+    <insert id="insert" parameterType="Order" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into t_order_order(
+                            sn,
+                            business_id,
+                            business_name,
+                            product_id,
+                            product_name,
+                            price,
+                            customer_id,
+                            customer_name,
+                            state
+        ) values(
+                                   #{sn},
+                                   #{businessId},
+                                   #{businessName},
+                                   #{productId},
+                                   #{productName},
+                                   #{price},
+                                   #{customerId},
+                                   #{customerName},
+                                   #{state}
+        )
+    </insert>
+    <!--删除对象-->
+    <delete id="remove" parameterType="long">
+        delete from t_order_order where id = #{id}
+    </delete>
+
+    <!--更新对象-->
+    <update id="update" parameterType="Order">
+        update t_order_order
+        set
+
+                            sn = #{sn},
+                            business_id = #{businessId},
+                            business_name = #{businessName},
+                            product_id = #{productId},
+                            product_name = #{productName},
+                            price = #{price},
+                            customer_id = #{customerId},
+                            customer_name = #{customerName},
+                            state = #{state}
+        where id = #{id}
+    </update>
+    <!--加载对象-->
+    <select id="loadById" resultMap="BaseResultMap" parameterType="long">
+        select * from t_order_order where id = #{id}
+    </select>
+    <!--加载所有对象-->
+    <select id="loadAll" resultMap="BaseResultMap">
+        select * from t_order_order
+    </select>
+    <!--//查询总数=参数（查询对象），返回值：long-->
+    <select id="loadTotal" parameterType="OrderQuery" resultType="Long">
+        select count(*) from t_order_order
+        <include refid="whereSql"/>
+    </select>
+    <!--//查询当前页数据=参数（查询对象），返回值:List-->
+    <select id="pageList" parameterType="OrderQuery" resultMap="BaseResultMap">
+        select * from t_order_order
+        <include refid="whereSql"/>
+        limit #{start},#{pageSize}
+    </select>
+
+
+    <sql id="whereSql">
+        <where>
+            <if test="keyword!=null and keyword!=''">
+                and (name like concat('%',#{keyword},'%'))
+            </if>
+        </where>
+    </sql>
+
+    <!--//批量删除-->
+    <delete id="patchRemove" parameterType="arraylist">
+        delete from t_order_order where id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.heng.order.domain.Order">
+        <id column="id" property="id" />
+        <result column="sn" property="sn" />
+        <result column="business_id" property="businessId" />
+        <result column="business_name" property="businessName" />
+        <result column="product_id" property="productId" />
+        <result column="product_name" property="productName" />
+        <result column="price" property="price" />
+        <result column="customer_id" property="customerId" />
+        <result column="customer_name" property="customerName" />
+        <result column="state" property="state" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, sn, business_id AS businessId, business_name AS businessName, product_id AS productId, product_name AS productName, price, customer_id AS customerId, customer_name AS customerName, state
+    </sql>
+
+</mapper>

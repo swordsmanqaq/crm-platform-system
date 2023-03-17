@@ -1,10 +1,13 @@
 package com.heng.mkt.service;
 
+import com.heng.mkt.domain.Activity;
 import com.heng.mkt.domain.Clue;
 import com.heng.base.service.IBaseService;
 import com.heng.mkt.dto.ClueActivityDto;
 import com.heng.mkt.dto.ClueBusinessDto;
 import com.heng.org.domain.Employee;
+
+import java.util.List;
 
 /**
  * <p>
@@ -25,4 +28,6 @@ public interface IClueService extends IBaseService<Clue> {
     void saveClueBusiness(ClueBusinessDto dto, Employee loginUser);
 
     void clueScrap(Clue clue, Employee loginUser);
+
+    List<Activity> getActivitys(Long typeId);
 }

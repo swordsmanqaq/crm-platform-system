@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heng.finance.mapper.ReceivablesRemarkMapper">
+    <!--保存对象-->
+    <insert id="insert" parameterType="ReceivablesRemark" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into t_finance_receivables_remark(
+                            note_content,
+                            create_time,
+                            create_by,
+                            edit_time,
+                            edit_by,
+                            edit_flag,
+                            receivables_id
+        ) values(
+                                   #{noteContent},
+                                   #{createTime},
+                                   #{createBy},
+                                   #{editTime},
+                                   #{editBy},
+                                   #{editFlag},
+                                   #{receivablesId}
+        )
+    </insert>
+    <!--删除对象-->
+    <delete id="remove" parameterType="long">
+        delete from t_finance_receivables_remark where id = #{id}
+    </delete>
+
+    <!--更新对象-->
+    <update id="update" parameterType="ReceivablesRemark">
+        update t_finance_receivables_remark
+        set
+
+                            note_content = #{noteContent},
+                            create_time = #{createTime},
+                            create_by = #{createBy},
+                            edit_time = #{editTime},
+                            edit_by = #{editBy},
+                            edit_flag = #{editFlag},
+                            receivables_id = #{receivablesId}
+        where id = #{id}
+    </update>
+    <!--加载对象-->
+    <select id="loadById" resultMap="BaseResultMap" parameterType="long">
+        select * from t_finance_receivables_remark where id = #{id}
+    </select>
+    <!--加载所有对象-->
+    <select id="loadAll" resultMap="BaseResultMap">
+        select * from t_finance_receivables_remark
+    </select>
+    <!--//查询总数=参数（查询对象），返回值：long-->
+    <select id="loadTotal" parameterType="ReceivablesRemarkQuery" resultType="Long">
+        select count(*) from t_finance_receivables_remark
+        <include refid="whereSql"/>
+    </select>
+    <!--//查询当前页数据=参数（查询对象），返回值:List-->
+    <select id="pageList" parameterType="ReceivablesRemarkQuery" resultMap="BaseResultMap">
+        select * from t_finance_receivables_remark
+        <include refid="whereSql"/>
+        limit #{start},#{pageSize}
+    </select>
+
+
+    <sql id="whereSql">
+        <where>
+            <if test="keyword!=null and keyword!=''">
+                and (name like concat('%',#{keyword},'%'))
+            </if>
+        </where>
+    </sql>
+
+    <!--//批量删除-->
+    <delete id="patchRemove" parameterType="arraylist">
+        delete from t_finance_receivables_remark where id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.heng.finance.domain.ReceivablesRemark">
+        <id column="id" property="id" />
+        <result column="note_content" property="noteContent" />
+        <result column="create_time" property="createTime" />
+        <result column="create_by" property="createBy" />
+        <result column="edit_time" property="editTime" />
+        <result column="edit_by" property="editBy" />
+        <result column="edit_flag" property="editFlag" />
+        <result column="receivables_id" property="receivablesId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, note_content AS noteContent, create_time AS createTime, create_by AS createBy, edit_time AS editTime, edit_by AS editBy, edit_flag AS editFlag, receivables_id AS receivablesId
+    </sql>
+
+</mapper>

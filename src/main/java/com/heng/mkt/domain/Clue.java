@@ -40,12 +40,12 @@ public class Clue extends BaseDomain{
     /**
      * 客户来源，关联向数据字典明细
      */
-//    private Long source;
+    private Long source;
     private Dictionaryitem dictionaryitem;
     /**
      * 营销人员，关联向员工表
      */
-//    private Long owner;
+    private Long owner;
     private Employee employee;
     /**
      * 未分配  跟进中 已转化为商机 放入线索池

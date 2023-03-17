@@ -2,6 +2,8 @@ package com.heng.mkt.service;
 
 import com.heng.mkt.domain.Business;
 import com.heng.base.service.IBaseService;
+import com.heng.mkt.dto.PayDepositDTO;
+import com.heng.org.domain.Employee;
 
 /**
  * <p>
@@ -13,4 +15,6 @@ import com.heng.base.service.IBaseService;
  */
 public interface IBusinessService extends IBaseService<Business> {
 
+
+    void payDeposit(PayDepositDTO dto, Employee loginUser);
 }

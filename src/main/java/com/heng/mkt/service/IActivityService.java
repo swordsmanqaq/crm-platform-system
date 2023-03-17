@@ -3,6 +3,8 @@ package com.heng.mkt.service;
 import com.heng.mkt.domain.Activity;
 import com.heng.base.service.IBaseService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -13,4 +15,5 @@ import com.heng.base.service.IBaseService;
  */
 public interface IActivityService extends IBaseService<Activity> {
 
+    List<Activity> getActivitys(Long typeId);
 }

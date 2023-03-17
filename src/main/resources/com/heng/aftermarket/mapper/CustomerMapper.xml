@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heng.aftermarket.mapper.CustomerMapper">
+    <!--保存对象-->
+    <insert id="insert" parameterType="Customer" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into t_aftermarket_customer(
+                            name,
+                            age,
+                            gender,
+                            tel,
+                            email,
+                            qq,
+                            wechat,
+                            inputTime,
+                            state,
+                            customerSource_id,
+                            job_id,
+                            salaryLevel_id,
+                            seller_id,
+                            inputUser_id
+        ) values(
+                                   #{name},
+                                   #{age},
+                                   #{gender},
+                                   #{tel},
+                                   #{email},
+                                   #{qq},
+                                   #{wechat},
+                                   #{inputTime},
+                                   #{state},
+                                   #{customersourceId},
+                                   #{jobId},
+                                   #{salarylevelId},
+                                   #{sellerId},
+                                   #{inputuserId}
+        )
+    </insert>
+    <!--删除对象-->
+    <delete id="remove" parameterType="long">
+        delete from t_aftermarket_customer where id = #{id}
+    </delete>
+
+    <!--更新对象-->
+    <update id="update" parameterType="Customer">
+        update t_aftermarket_customer
+        set
+
+                            name = #{name},
+                            age = #{age},
+                            gender = #{gender},
+                            tel = #{tel},
+                            email = #{email},
+                            qq = #{qq},
+                            wechat = #{wechat},
+                            inputTime = #{inputTime},
+                            state = #{state},
+                            customerSource_id = #{customersourceId},
+                            job_id = #{jobId},
+                            salaryLevel_id = #{salarylevelId},
+                            seller_id = #{sellerId},
+                            inputUser_id = #{inputuserId}
+        where id = #{id}
+    </update>
+    <!--加载对象-->
+    <select id="loadById" resultMap="BaseResultMap" parameterType="long">
+        select * from t_aftermarket_customer where id = #{id}
+    </select>
+    <!--加载所有对象-->
+    <select id="loadAll" resultMap="BaseResultMap">
+        select * from t_aftermarket_customer
+    </select>
+    <!--//查询总数=参数（查询对象），返回值：long-->
+    <select id="loadTotal" parameterType="CustomerQuery" resultType="Long">
+        select count(*) from t_aftermarket_customer
+        <include refid="whereSql"/>
+    </select>
+    <!--//查询当前页数据=参数（查询对象），返回值:List-->
+    <select id="pageList" parameterType="CustomerQuery" resultMap="BaseResultMap">
+        select * from t_aftermarket_customer
+        <include refid="whereSql"/>
+        limit #{start},#{pageSize}
+    </select>
+
+
+    <sql id="whereSql">
+        <where>
+            <if test="keyword!=null and keyword!=''">
+                and (name like concat('%',#{keyword},'%'))
+            </if>
+        </where>
+    </sql>
+
+    <!--//批量删除-->
+    <delete id="patchRemove" parameterType="arraylist">
+        delete from t_aftermarket_customer where id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.heng.aftermarket.domain.Customer">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="age" property="age" />
+        <result column="gender" property="gender" />
+        <result column="tel" property="tel" />
+        <result column="email" property="email" />
+        <result column="qq" property="qq" />
+        <result column="wechat" property="wechat" />
+        <result column="inputTime" property="inputTime" />
+        <result column="state" property="state" />
+        <result column="customerSource_id" property="customersourceId" />
+        <result column="job_id" property="jobId" />
+        <result column="salaryLevel_id" property="salarylevelId" />
+        <result column="seller_id" property="sellerId" />
+        <result column="inputUser_id" property="inputuserId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, age, gender, tel, email, qq, wechat, inputTime, state, customerSource_id AS customersourceId, job_id AS jobId, salaryLevel_id AS salarylevelId, seller_id AS sellerId, inputUser_id AS inputuserId
+    </sql>
+
+</mapper>

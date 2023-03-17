@@ -80,6 +80,13 @@
         limit #{start},#{pageSize}
     </select>
 
+    <select id="getActivitys" resultType="com.heng.mkt.domain.Activity">
+        select * from t_mkt_activity where type = #{typeId}
+        <if test="typeId == 1">
+            and now() >= start_date and now() <![CDATA[ <= ]]> end_date
+        </if>
+    </select>
+
 
     <sql id="whereSql">
         <where>

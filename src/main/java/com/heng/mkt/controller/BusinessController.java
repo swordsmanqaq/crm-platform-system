@@ -1,13 +1,17 @@
 package com.heng.mkt.controller;
 
+import com.heng.base.utils.LoginContext;
+import com.heng.mkt.dto.PayDepositDTO;
 import com.heng.mkt.service.IBusinessService;
 import com.heng.mkt.domain.Business;
 import com.heng.mkt.query.BusinessQuery;
 import com.heng.base.utils.PageList;
 import com.heng.base.utils.AjaxResult;
+import com.heng.org.domain.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -116,6 +120,24 @@ public class BusinessController {
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.me().setSuccess(false).setMessage("获取分页数据失败！" + e.getMessage());
+        }
+    }
+
+
+    /**
+     * 缴纳定金请接口
+     * @param dto
+     * @return
+     */
+    @PostMapping ("/saveDeposit")
+    public AjaxResult saveDeposit(@RequestBody PayDepositDTO dto, HttpServletRequest request) {
+        try {
+            Employee loginUser = LoginContext.getLoginUser(request);
+            businessService.payDeposit(dto,loginUser);
+            return AjaxResult.me();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setMessage("保存对象失败！" + e.getMessage());
         }
     }
 }

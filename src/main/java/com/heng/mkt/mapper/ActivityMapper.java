@@ -2,6 +2,9 @@ package com.heng.mkt.mapper;
 
 import com.heng.mkt.domain.Activity;
 import com.heng.base.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.heng.base.mapper.BaseMapper;
  */
 public interface ActivityMapper extends BaseMapper<Activity> {
 
+    List<Activity> getActivitys(@Param("typeId") Long typeId);
 }

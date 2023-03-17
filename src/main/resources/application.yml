@@ -16,7 +16,10 @@ mybatis:
   type-aliases-package: com.heng.org.domain,com.heng.auth.domain,
                         com.heng.sys.domain,com.heng.sys.query,
                         com.heng.prod.domain,com.heng.prod.query,
-                        com.heng.mkt.domain,com.heng.mkt.query
+                        com.heng.mkt.domain,com.heng.mkt.query,
+                        com.heng.aftermarket.domain,com.heng.aftermarket.query,
+                        com.heng.finance.domain,com.heng.finance.query,
+                        com.heng.order.domain,com.heng.order.query
 
 #别名包的配置
   #扫描mapper.xml文件,当mapper.xml和Mapper.java接口在同一个包下时，可以不配置

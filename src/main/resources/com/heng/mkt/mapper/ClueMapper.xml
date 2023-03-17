@@ -109,6 +109,10 @@
         limit #{start},#{pageSize}
     </select>
 
+    <select id="getActivitys" resultType="com.heng.mkt.domain.Activity">
+        select * from t_mkt_activity where type = #{typeId}
+    </select>
+
 
     <sql id="whereSql">
         <where>

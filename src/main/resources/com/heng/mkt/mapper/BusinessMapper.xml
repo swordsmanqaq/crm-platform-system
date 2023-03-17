@@ -83,6 +83,8 @@
     <resultMap id="BaseResultMap" type="com.heng.mkt.domain.Business">
         <id column="id" property="id" />
         <result column="name" property="name" />
+        <result column="clue_id" property="clueId" />
+        <result column="product_id" property="productId" />
         <result column="product_name" property="productName" />
         <result column="product_price" property="productPrice" />
         <result column="state" property="state" />
