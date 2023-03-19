@@ -1,25 +1,34 @@
 package com.heng.mkt.service.impl;
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
-import com.heng.base.utils.LoginContext;
+import cn.afterturn.easypoi.excel.ExcelExportUtil;
+import cn.afterturn.easypoi.excel.ExcelImportUtil;
+import cn.afterturn.easypoi.excel.entity.ExportParams;
+import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.heng.mkt.domain.*;
-import com.heng.mkt.dto.ClueActivityDto;
-import com.heng.mkt.dto.ClueBusinessDto;
+import com.heng.mkt.dto.*;
 import com.heng.mkt.mapper.*;
-import com.heng.mkt.service.IClueRemarkService;
 import com.heng.mkt.service.IClueService;
 import com.heng.base.service.impl.BaseServiceImpl;
 import com.heng.org.domain.Employee;
 import com.heng.prod.domain.Product;
 import com.heng.prod.mapper.ProductMapper;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileOutputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
+import static java.lang.System.out;
 
 /**
  * <p>
@@ -140,6 +149,90 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue> implements IClueServi
     @Override
     public List<Activity> getActivitys(Long typeId) {
         return clueMapper.getActivitys(typeId);
+    }
+
+    @Override
+    @Transactional
+    public List<ClueDataDTO> getDrawPieChartData() {
+        return clueMapper.getDrawPieChartData();
+    }
+
+    @Override
+    @Transactional
+    public List<LineChartDTO> getDrawLineChart() {
+        return clueMapper.getDrawLineChart();
+    }
+
+    //导入excel文件
+    @Override
+    public void importExcel(MultipartFile file) {
+        ImportParams importParams = new ImportParams();
+//        importParams.setTitleRows(1);
+//        importParams.setHeadRows(1);
+        try {
+            //读取excel
+            List<ImportDTO> resultList = ExcelImportUtil.importExcel(file.getInputStream(), ImportDTO.class, importParams);
+            clueMapper.batchImport(resultList);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    //导出excel文件(无keyword)
+    @Override
+    public void exportExcel(Map<String, Object> param, HttpServletResponse response) {
+        try {
+            //先查询需要导出的线索数据
+            List<Clue> res = clueMapper.getClueForEmport();
+//            ExportDTO exportDTO = new ExportDTO();
+//            List<ExportDTO> lists = BeanUtils.copyProperties(res,exportDTO);
+            //设置信息头，告诉浏览器内容为excel类型
+            response.setHeader("content-Type", "application/vnd.ms-excel");
+            //设置下载名称
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("线索客户表.xls", StandardCharsets.UTF_8.name()));
+            //字节流输出
+            ServletOutputStream out = response.getOutputStream();
+            //设置excel参数
+            ExportParams params = new ExportParams();
+            //设置sheet名名称
+            params.setSheetName("线索列表");
+            //设置标题
+            params.setTitle("线索信息表");
+            Workbook workbook = ExcelExportUtil.exportExcel(params, Clue.class, res);
+            //下面语句是导入到本地的某个excel文档里
+            //FileOutputStream fos = new FileOutputStream("/Users/jarvis/Downloads/export.xlsx");
+            workbook.write(out);
+            //fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    //导出excel文件(有keyword)
+    @Override
+    public void exportExcelByKeyword(String keyword, Map<String, Object> param, HttpServletResponse response) {
+        try {
+            //先查询需要导出的线索数据
+            List<Clue> res = clueMapper.getClueForEmportByKeyword(keyword);
+            //设置信息头，告诉浏览器内容为excel类型
+            response.setHeader("content-Type", "application/vnd.ms-excel");
+            //设置下载名称
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("线索客户表.xls", StandardCharsets.UTF_8.name()));
+            //字节流输出
+            ServletOutputStream out = response.getOutputStream();
+            //设置excel参数
+            ExportParams params = new ExportParams();
+            //设置sheet名名称
+            params.setSheetName("线索列表");
+            //设置标题
+            params.setTitle("线索信息表");
+            Workbook workbook = ExcelExportUtil.exportExcel(params, Clue.class, res);
+            workbook.write(out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

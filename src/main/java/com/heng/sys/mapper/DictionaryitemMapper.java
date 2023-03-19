@@ -2,6 +2,7 @@ package com.heng.sys.mapper;
 
 import com.heng.sys.domain.Dictionaryitem;
 import com.heng.base.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ import java.util.List;
  */
 public interface DictionaryitemMapper extends BaseMapper<Dictionaryitem> {
     List<Dictionaryitem> loadItemById(Long id);
+
+    List<Dictionaryitem> getPayModel(@Param("sn") String sn);
 }

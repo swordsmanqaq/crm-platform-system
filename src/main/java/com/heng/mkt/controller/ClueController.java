@@ -4,8 +4,7 @@ import com.heng.auth.annotation.MyPermission;
 import com.heng.auth.dto.RoleMenuDTO;
 import com.heng.base.utils.LoginContext;
 import com.heng.mkt.domain.Activity;
-import com.heng.mkt.dto.ClueActivityDto;
-import com.heng.mkt.dto.ClueBusinessDto;
+import com.heng.mkt.dto.*;
 import com.heng.mkt.service.IClueService;
 import com.heng.mkt.domain.Clue;
 import com.heng.mkt.query.ClueQuery;
@@ -14,9 +13,12 @@ import com.heng.base.utils.AjaxResult;
 import com.heng.org.domain.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/clue")
@@ -225,6 +227,87 @@ public class ClueController {
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.me().setSuccess(false).setMessage("菜单保存失败");
+        }
+    }
+
+    /**
+     * 查询饼状图线索的数据值
+     * @return
+     */
+    @PostMapping("/data")
+    public AjaxResult getDrawPieChartData(){
+        try {
+            List<ClueDataDTO> clueDataList = clueService.getDrawPieChartData();
+            return AjaxResult.me().setResultObj(clueDataList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("查询失败");
+        }
+    }
+
+    /**
+     * 获取折线图的数据
+     * @return
+     */
+    @PostMapping("/chart")
+    public AjaxResult getDrawLineChart(){
+        try {
+            List<LineChartDTO> lineChartList = clueService.getDrawLineChart();
+            return AjaxResult.me().setResultObj(lineChartList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("查询失败");
+        }
+    }
+
+
+    /**
+     * 导入excel文件
+     * @param file
+     * @return
+     */
+    @PostMapping("/importExcel")
+    public AjaxResult importExcel(@RequestParam("file") MultipartFile file){
+        try {
+            clueService.importExcel(file);
+            return AjaxResult.me();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("导入失败");
+        }
+    }
+
+    /**
+     * 导出excel无keyword
+     * @param param
+     * @param response
+     * @return
+     */
+    @GetMapping("/exportExcel")
+    public AjaxResult exportExcel(Map<String,Object> param, HttpServletResponse response){
+        try {
+            clueService.exportExcel(param,response);
+            return AjaxResult.me();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("导出失败");
+        }
+    }
+
+    /**
+     * 导出excel有keyword
+     * @param param
+     * @param response
+     * @return
+     */
+    @GetMapping("/exportExcel/{keyword}")
+    public AjaxResult exportExcelByKeyword(@PathVariable("keyword") String keyword, Map<String,Object> param, HttpServletResponse response){
+        try {
+            clueService.exportExcelByKeyword(keyword,param,response);
+            return AjaxResult.me();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("导出失败");
         }
     }
 

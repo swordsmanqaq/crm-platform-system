@@ -1,13 +1,17 @@
 package com.heng.order.controller;
 
+import com.heng.base.utils.LoginContext;
+import com.heng.order.dto.PayBalanceDTO;
 import com.heng.order.service.IOrderService;
 import com.heng.order.domain.Order;
 import com.heng.order.query.OrderQuery;
 import com.heng.base.utils.PageList;
 import com.heng.base.utils.AjaxResult;
+import com.heng.org.domain.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -116,6 +120,18 @@ public class OrderController {
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.me().setSuccess(false).setMessage("获取分页数据失败！" + e.getMessage());
+        }
+    }
+
+    @PostMapping("/paybalance")
+    public AjaxResult orderPayBalance(@RequestBody PayBalanceDTO dto, HttpServletRequest request) {
+        try {
+            Employee loginUser = LoginContext.getLoginUser(request);
+            orderService.orderPayBalance(dto,loginUser);
+            return AjaxResult.me();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("支付尾款失败" + e.getMessage());
         }
     }
 }

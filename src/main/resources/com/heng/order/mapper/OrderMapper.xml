@@ -70,7 +70,7 @@
     <sql id="whereSql">
         <where>
             <if test="keyword!=null and keyword!=''">
-                and (name like concat('%',#{keyword},'%'))
+                and (business_name like concat('%',#{keyword},'%'))
             </if>
         </where>
     </sql>

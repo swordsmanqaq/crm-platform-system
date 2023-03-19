@@ -66,6 +66,15 @@
         where parent_id = #{id};
     </select>
 
+    <select id="getPayModel" resultType="com.heng.sys.domain.Dictionaryitem">
+        SELECT
+            d.*
+        FROM
+            t_sys_dictionaryitem d
+                LEFT JOIN t_sys_dictionary s ON d.parent_id = s.id
+        WHERE s.sn = #{sn}
+    </select>
+
 
     <sql id="whereSql">
         <where>
@@ -90,8 +99,10 @@
         <result column="value" property="value" />
         <result column="sequence" property="sequence" />
         <result column="intro" property="intro" />
-        <result column="pid" property="parent.id"></result>
-        <result column="ptitle" property="parent.title"></result>
+        <association property="parent" javaType="dictionary">
+            <result column="pid" property="id"></result>
+            <result column="ptitle" property="title"></result>
+        </association>
     </resultMap>
 
     <!-- 通用查询结果列 -->

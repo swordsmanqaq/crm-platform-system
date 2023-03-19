@@ -2,6 +2,8 @@ package com.heng.order.service;
 
 import com.heng.order.domain.Order;
 import com.heng.base.service.IBaseService;
+import com.heng.order.dto.PayBalanceDTO;
+import com.heng.org.domain.Employee;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.heng.base.service.IBaseService;
  */
 public interface IOrderService extends IBaseService<Order> {
 
+    void orderPayBalance(PayBalanceDTO dto, Employee loginUser);
 }

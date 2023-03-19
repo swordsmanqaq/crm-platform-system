@@ -13,4 +13,5 @@ import com.heng.base.service.IBaseService;
  */
 public interface IDepositService extends IBaseService<Deposit> {
 
+    Deposit getOrderDeposit(Long id);
 }

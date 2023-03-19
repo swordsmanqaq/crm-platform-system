@@ -2,6 +2,7 @@ package com.heng.order.mapper;
 
 import com.heng.order.domain.Order;
 import com.heng.base.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>

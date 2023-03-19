@@ -75,6 +75,10 @@
         limit #{start},#{pageSize}
     </select>
 
+    <select id="getOrderDeposit" resultType="com.heng.finance.domain.Deposit">
+        select * from t_finance_deposit where order_id = #{id}
+    </select>
+
 
     <sql id="whereSql">
         <where>

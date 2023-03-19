@@ -118,4 +118,22 @@ public class DepositController {
             return AjaxResult.me().setSuccess(false).setMessage("获取分页数据失败！" + e.getMessage());
         }
     }
+
+
+    /**
+     * 获取订单id
+     * @param id
+     * @return
+     */
+    @GetMapping("/id/{id}")
+    public AjaxResult getOrderDeposit(@PathVariable("id") Long id)
+    {
+        try {
+            Deposit deposit = depositService.getOrderDeposit(id);
+            return AjaxResult.me().setResultObj(deposit);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("获取失败"+e.getMessage());
+        }
+    }
 }

@@ -75,6 +75,10 @@
         limit #{start},#{pageSize}
     </select>
 
+    <select id="loadByOrderId" resultType="com.heng.order.domain.Contract">
+        select * from t_order_contract where order_id = #{id}
+    </select>
+
 
     <sql id="whereSql">
         <where>

@@ -27,4 +27,9 @@ public class DictionaryitemServiceImpl extends BaseServiceImpl<Dictionaryitem> i
     public List<Dictionaryitem> loadItemById(Long id) {
         return dictionaryitemMapper.loadItemById(id);
     }
+
+    @Override
+    public List<Dictionaryitem> getPayModel(String sn) {
+        return dictionaryitemMapper.getPayModel(sn);
+    }
 }

@@ -88,6 +88,13 @@
             <version>2.0</version>
         </dependency>
 
+        <!-- EasyPoi依赖导入 -->
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-spring-boot-starter</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -52,6 +52,14 @@
         </foreach>
     </insert>
 
+    <insert id="batchImport">
+        insert into t_mkt_clue(full_name,appellation,company,job,email,phone,mphone,address,description)
+        values
+        <foreach collection="resultList" item="result" separator=",">
+            (#{result.fullName},#{result.appellation},#{result.company},#{result.job},#{result.email},#{result.phone},#{result.mphone},#{result.address},#{result.description})
+        </foreach>
+    </insert>
+
     <!--删除对象-->
     <delete id="remove" parameterType="long">
         delete from t_mkt_clue where id = #{id}
@@ -113,11 +121,58 @@
         select * from t_mkt_activity where type = #{typeId}
     </select>
 
+    <!-- 获取饼状图数据 -->
+    <select id="getDrawPieChartData" resultType="com.heng.mkt.dto.ClueDataDTO">
+        SELECT
+            i.title AS NAME,
+            count(*) AS VALUE
+        FROM
+            t_mkt_clue c
+            LEFT JOIN t_sys_dictionaryitem i ON c.source = i.id
+        GROUP BY
+            i.title
+    </select>
+
+    <!-- 获取折线图数据 -->
+    <select id="getDrawLineChart" resultType="com.heng.mkt.dto.LineChartDTO">
+        select a.clickDate as date,ifnull(b.salesSum,0) as salesSum,ifnull(b.salesCount,0) as salesCount
+        from (
+            SELECT curdate() as clickDate
+            union all
+            SELECT date_sub(curdate(), interval 1 day) as clickDate
+            union all
+            SELECT date_sub(curdate(), interval 2 day) as clickDate
+            union all
+            SELECT date_sub(curdate(), interval 3 day) as clickDate
+            union all
+            SELECT date_sub(curdate(), interval 4 day) as clickDate
+            union all
+            SELECT date_sub(curdate(), interval 5 day) as clickDate
+            union all
+            SELECT date_sub(curdate(), interval 6 day) as clickDate
+            ) a left join (
+            select date(pay_time) as datetime, sum(deposit) as salesSum,count(*) salesCount
+            from t_finance_deposit
+            group by date(pay_time)
+            ) b on a.clickDate = b.datetime order by a.clickDate
+    </select>
+
+    <select id="getClueForEmport" resultMap="BaseResultMap">
+        SELECT *
+        FROM t_mkt_clue
+    </select>
+
+    <select id="getClueForEmportByKeyword" resultMap="BaseResultMap">
+        SELECT c.*
+        FROM t_mkt_clue c
+        where c.full_name like concat('%',#{keyword},'%')
+    </select>
+
 
     <sql id="whereSql">
         <where>
             <if test="keyword!=null and keyword!=''">
-                and (c.name like concat('%',#{keyword},'%'))
+                and (c.full_name like concat('%',#{keyword},'%'))
             </if>
         </where>
     </sql>

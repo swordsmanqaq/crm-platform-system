@@ -129,4 +129,22 @@ public class DictionaryitemController {
             return AjaxResult.me().setSuccess(false).setMessage("获取所有失败！"+e.getMessage());
         }
     }
+
+
+    /**
+     * 获取支付模式
+     * @param sn
+     * @return
+     */
+    @GetMapping("/sn/{sn}")
+    public AjaxResult getPayModel(@PathVariable("sn") String sn)
+    {
+        try {
+            List<Dictionaryitem> dictionaryitems = dictionaryitemService.getPayModel(sn);
+            return AjaxResult.me().setResultObj(dictionaryitems);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("获取一个失败！"+e.getMessage());
+        }
+    }
 }

@@ -17,4 +17,5 @@ public interface IDictionaryitemService extends IBaseService<Dictionaryitem> {
 
     List<Dictionaryitem> loadItemById(Long id);
 
+    List<Dictionaryitem> getPayModel(String sn);
 }
