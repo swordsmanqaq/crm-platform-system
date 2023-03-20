@@ -28,4 +28,6 @@ mybatis:
 permission:
   scan-base-package: com.heng.org.controller,com.heng.auth.controller
 
+server:
+  port: 8081
 
