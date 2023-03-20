@@ -111,6 +111,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue> implements IClueServi
         //添加商机
         Business business = new Business();
         business.setName(String.format("客户%s意向购买%s",clue.getFullName(),product.getName()));
+        business.setState(0);
         business.setClueId(clue.getId());
         business.setProductId(product.getId());
         business.setProductName(product.getName());

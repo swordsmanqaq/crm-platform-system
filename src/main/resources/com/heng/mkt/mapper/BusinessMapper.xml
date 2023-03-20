@@ -12,8 +12,8 @@
                             state
         ) values(
                                    #{name},
-                                   #{clue.id},
-                                   #{product.id},
+                                   #{clueId},
+                                   #{productId},
                                    #{productName},
                                    #{productPrice},
                                    #{state}
@@ -30,8 +30,8 @@
         set
 
                             name = #{name},
-                            clue_id = #{clue.id},
-                            product_id = #{product.id},
+                            clue_id = #{clueId},
+                            product_id = #{productId},
                             product_name = #{productName},
                             product_price = #{productPrice},
                             state = #{state}
