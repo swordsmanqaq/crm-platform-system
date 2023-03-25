@@ -15,6 +15,9 @@ public class GlobalCorsConfig {
         //1) 允许的域,不要写*，否则cookie就无法使用了
         config.addAllowedOrigin("http://127.0.0.1:8080");
         config.addAllowedOrigin("http://localhost:8080");
+        config.addAllowedOrigin("http://47.120.8.237:8080");
+        config.addAllowedOrigin("http://47.120.8.237:80");
+        config.addAllowedOrigin("http://47.120.8.237");
         config.addAllowedOrigin("http://127.0.0.1:80");
         config.addAllowedOrigin("http://localhost:80");
         config.addAllowedOrigin("http://127.0.0.1");
