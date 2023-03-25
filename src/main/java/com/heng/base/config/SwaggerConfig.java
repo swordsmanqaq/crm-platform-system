@@ -36,7 +36,6 @@ public class SwaggerConfig {
                 .build();
     }
 
-
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("权限基础管理系统")

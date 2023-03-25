@@ -6,8 +6,7 @@ package com.heng.auth.interceptor;/**
 import com.heng.auth.annotation.MyPermission;
 import com.heng.auth.mapper.PermissionMapper;
 import com.heng.base.utils.BaseMap;
-import com.heng.org.domain.Employee;
-import com.heng.org.mapper.EmployeeMapper;
+import com.heng.org.domain.Household;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -51,7 +50,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        Employee employee = (Employee)loginUser;
+        Household household = (Household) loginUser;
 
         //2、权限拦截
         if(handler instanceof HandlerMethod){
@@ -65,7 +64,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             }
             //方法上有注解说明需要权限
             //获取当前用户的所有权限
-            List<String> sns = permissionMapper.getAllPermissionByEmployeeId(employee.getId());
+            List<String> sns = permissionMapper.getAllPermissionByEmployeeId(household.getId());
             //拼接当前权限
             String sn = method.getDeclaringClass().getSimpleName() + ":" + method.getName();
             //判断用户是否有权限

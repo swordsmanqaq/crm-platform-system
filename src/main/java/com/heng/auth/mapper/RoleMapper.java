@@ -1,14 +1,9 @@
 package com.heng.auth.mapper;
 
 import com.heng.auth.domain.Role;
-import com.heng.auth.query.RoleQuery;
 import com.heng.base.mapper.BaseMapper;
-import com.heng.base.utils.PageList;
-import com.heng.org.domain.Department;
-import com.heng.org.query.DepartmentQuery;
 import org.apache.ibatis.annotations.Param;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**

@@ -5,7 +5,7 @@ spring:
       load-on-startup: 1
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/swords_man-crm?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/access_control_system?serverTimezone=UTC
     username: root
     password: 426218107liuf
 
@@ -13,8 +13,8 @@ spring:
 
 #配置mybatis
 mybatis:
-  type-aliases-package: com.heng.org.domain,com.heng.auth.domain,
-                        com.heng.sys.domain,com.heng.sys.query
+  type-aliases-package: com.heng.org.domain,com.heng.org.query,
+                        com.heng.auth.domain,com.heng.auth.query
 
 #别名包的配置
   #扫描mapper.xml文件,当mapper.xml和Mapper.java接口在同一个包下时，可以不配置

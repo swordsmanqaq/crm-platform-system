@@ -6,8 +6,8 @@ package com.heng.auth.service.impl;/**
 import com.heng.auth.dto.LoginDTO;
 import com.heng.auth.service.ILoginService;
 import com.heng.base.utils.BaseMap;
-import com.heng.org.domain.Employee;
-import com.heng.org.mapper.EmployeeMapper;
+import com.heng.org.domain.Household;
+import com.heng.org.mapper.HouseholdMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -28,7 +28,7 @@ import java.util.UUID;
 @Transactional(readOnly = true,propagation = Propagation.SUPPORTS)
 public class LoginServiceImpl implements ILoginService {
     @Autowired
-    private EmployeeMapper employeeMapper;
+    private HouseholdMapper householdMapper;
 
     @Override
     public Map<String, Object> loginIn(LoginDTO dto) {
@@ -37,23 +37,23 @@ public class LoginServiceImpl implements ILoginService {
             throw new RuntimeException("用户名或密码不能为空");
         }
         //根据用户名查询数据库的用户信息
-        Employee employee = employeeMapper.loadByUsername(dto.getUsername());
-        if (Objects.isNull(employee)){
+        Household household = householdMapper.loadByUsername(dto.getUsername());
+        if (Objects.isNull(household)){
             throw new RuntimeException("用户名或密码错误");
         }
         //校验用户名的密码是否正确
-        if (!dto.getPassword().equals(employee.getPassword())){
+        if (!dto.getPassword().equals(household.getPassword())){
             throw new RuntimeException("用户名或密码错误");
         }
 
-//        登录成功，需要返回前端token和loginUser
+        //登录成功，需要返回前端token和loginUser
         Map<String, Object> userMap = new HashMap<>();
         //通过UUID生成随即字符串作为key，用户信息作为value
         String token = UUID.randomUUID().toString();
-        BaseMap.map.put(token, employee);
+        BaseMap.map.put(token, household);
         //把密码制空
-        employee.setPassword("");
-        userMap.put("loginUser",employee);
+        household.setPassword("");
+        userMap.put("loginUser",household);
         userMap.put("token", token);
 
         //返回map

@@ -1,9 +1,8 @@
-package com.heng.sys.controller;
+package com.heng.org.controller;
 
-import com.heng.auth.annotation.MyPermission;
-import com.heng.sys.service.IConfigService;
-import com.heng.sys.domain.Config;
-import com.heng.sys.query.ConfigQuery;
+import com.heng.org.service.IHouseholdService;
+import com.heng.org.domain.Household;
+import com.heng.org.query.HouseholdQuery;
 import com.heng.base.utils.PageList;
 import com.heng.base.utils.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,24 +11,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/config")
-public class ConfigController {
+@RequestMapping("/household")
+public class HouseholdController {
     @Autowired
-    public IConfigService configService;
+    public IHouseholdService householdService;
 
 
     /**
      * 保存和修改公用的
-     * @param config  传递的实体
+     * @param household  传递的实体
      * @return Ajaxresult转换结果
      */
     @PutMapping
-    public AjaxResult addOrUpdate(@RequestBody Config config){
+    public AjaxResult addOrUpdate(@RequestBody Household household){
         try {
-            if( config.getId()!=null)
-                configService.update(config);
+            if( household.getId()!=null)
+                householdService.update(household);
             else
-                configService.insert(config);
+                householdService.insert(household);
             return AjaxResult.me();
         } catch (Exception e) {
             e.printStackTrace();
@@ -44,7 +43,7 @@ public class ConfigController {
     @DeleteMapping(value="/{id}")
     public AjaxResult remove(@PathVariable("id") Long id){
         try {
-            configService.remove(id);
+            householdService.remove(id);
             return AjaxResult.me();
         } catch (Exception e) {
         e.printStackTrace();
@@ -56,26 +55,30 @@ public class ConfigController {
      * 批量删除
      * @param ids
      * @return
-     */
+    */
     @PatchMapping
-    @MyPermission(name = "菜单批量删除管理", desc = "菜单批量删除")
-    public AjaxResult patchRemove(@RequestBody List<Long> ids) {
+    public AjaxResult patchRemove(@RequestBody List<Long> ids)
+    {
         try {
-            configService.patchRemove(ids);
+                householdService.patchRemove(ids);
             return AjaxResult.me();
         } catch (Exception e) {
             e.printStackTrace();
-            return AjaxResult.me().setSuccess(false).setMessage("很抱歉，批量删除失败");
+            return AjaxResult.me().setSuccess(false).setMessage("批量删除失败！"+e.getMessage());
         }
     }
-	
-    //获取用户
+
+    /**
+     * 根据id获取
+     * @param id
+     * @return
+     */
     @GetMapping("/{id}")
     public AjaxResult loadById(@PathVariable("id")Long id)
     {
         try {
-            Config config = configService.loadById(id);
-            return AjaxResult.me().setResultObj(config);
+            Household household = householdService.loadById(id);
+            return AjaxResult.me().setResultObj(household);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.me().setSuccess(false).setMessage("获取一个失败！"+e.getMessage());
@@ -91,7 +94,7 @@ public class ConfigController {
     public AjaxResult loadAll(){
 
         try {
-            List< Config> list = configService.loadAll();
+            List< Household> list = householdService.loadAll();
             return AjaxResult.me().setResultObj(list);
         } catch (Exception e) {
             e.printStackTrace();
@@ -106,16 +109,15 @@ public class ConfigController {
     * @param query 查询对象
     * @return PageList 分页对象
     */
-    @PostMapping
-    public AjaxResult pageList(@RequestBody ConfigQuery query)
+    @PostMapping("/page")
+    public AjaxResult pageList(@RequestBody HouseholdQuery query)
     {
         try {
-            PageList<Config> pageList = configService.pageList(query);
+            PageList<Household> pageList = householdService.pageList(query);
             return AjaxResult.me().setResultObj(pageList);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.me().setSuccess(false).setMessage("获取分页数据失败！"+e.getMessage());
         }
     }
-
 }

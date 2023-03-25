@@ -5,16 +5,11 @@ package com.heng.auth.service.impl;/**
 
 import com.heng.auth.domain.Menu;
 import com.heng.auth.mapper.MenuMapper;
-import com.heng.auth.query.MenuQuery;
 import com.heng.auth.service.IMenuService;
 import com.heng.base.service.impl.BaseServiceImpl;
-import com.heng.base.utils.PageList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**

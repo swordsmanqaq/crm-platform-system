@@ -25,7 +25,7 @@ public class FoundationAppStart implements WebMvcConfigurer {
         SpringApplication.run(FoundationAppStart.class,args);
     }
 
-//    重写添加拦截器方法
+    //重写添加拦截器方法
 //    @Override
 //    public void addInterceptors(InterceptorRegistry registry) {
 //        registry.addInterceptor(loginInterceptor)

@@ -60,7 +60,7 @@ public class ${entity}Controller {
     public AjaxResult patchRemove(@RequestBody List<Long> ids)
     {
         try {
-                ${table.entityPath}Service.patchremove(ids);
+                ${table.entityPath}Service.patchRemove(ids);
             return AjaxResult.me();
         } catch (Exception e) {
             e.printStackTrace();

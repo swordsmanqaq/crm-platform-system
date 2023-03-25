@@ -1,9 +1,6 @@
 package com.heng.base.mapper;
 
 import com.heng.base.query.BaseQuery;
-import com.heng.org.domain.Department;
-import com.heng.org.query.DepartmentQuery;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.io.Serializable;
 import java.util.List;

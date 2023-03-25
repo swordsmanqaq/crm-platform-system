@@ -23,7 +23,7 @@ import javax.servlet.ServletContextListener;
 public class PermissionScanListener implements ServletContextListener {
 
     @Autowired
-    private PermissionMapper mapper;
+    private PermissionMapper permissionMapper;
 
     @Autowired
     private IPermissionScanService permissionScanner;
@@ -32,7 +32,7 @@ public class PermissionScanListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         System.out.println("开始注解扫描");
         //先将数据库的权限删除,然后再添加
-        mapper.removeAll();
+        permissionMapper.removeAll();
         permissionScanner.scan();
         System.out.println("结束注解扫描");
     }

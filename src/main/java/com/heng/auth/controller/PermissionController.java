@@ -22,7 +22,6 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/permission")
-@MyPermission(name = "权限管理", desc = "权限管理层")
 public class PermissionController {
 
     @Autowired

@@ -1,13 +1,8 @@
 package com.heng.auth.service;
 
 import com.heng.auth.domain.Menu;
-import com.heng.auth.query.MenuQuery;
 import com.heng.base.service.IBaseService;
-import com.heng.base.utils.PageList;
-import com.heng.org.domain.Department;
-import com.heng.org.query.DepartmentQuery;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**

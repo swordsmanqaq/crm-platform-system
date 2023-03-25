@@ -83,13 +83,13 @@
             c.`name` as `cname`, c.url AS `curl`, c.icon AS `cicon`,
             p.*
         FROM
-            t_auth_employee_role er
+            t_auth_household_role er
             LEFT JOIN t_auth_role_menu rm ON er.role_id = rm.role_id
             LEFT JOIN t_auth_menu p ON rm.menu_id = p.id
             LEFT JOIN t_auth_menu c ON p.id = c.parent_id
             AND c.id IN (
                 SELECT menu_id
-                FROM t_auth_employee_role er1
+                FROM t_auth_household_role er1
                 LEFT JOIN t_auth_role_menu rm1
                 ON er1.role_id = rm1.role_id
                 WHERE er1.employee_id = #{loginUserId}
