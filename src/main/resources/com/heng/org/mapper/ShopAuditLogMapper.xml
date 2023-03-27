@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heng.org.mapper.ShopAuditLogMapper">
+    <!--保存对象-->
+    <insert id="insert" parameterType="ShopAuditLog" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into t_org_shop_audit_log(
+                            state,
+                            shop_id,
+                            audit_id,
+                            audit_time,
+                            note
+        ) values(
+                                   #{state},
+                                   #{shopId},
+                                   #{auditId},
+                                   #{auditTime},
+                                   #{note}
+        )
+    </insert>
+    <!--删除对象-->
+    <delete id="remove" parameterType="long">
+        delete from t_org_shop_audit_log where id = #{id}
+    </delete>
+
+    <!--更新对象-->
+    <update id="update" parameterType="ShopAuditLog">
+        update t_org_shop_audit_log
+        set
+
+                            state = #{state},
+                            shop_id = #{shopId},
+                            audit_id = #{auditId},
+                            audit_time = #{auditTime},
+                            note = #{note}
+        where id = #{id}
+    </update>
+    <!--加载对象-->
+    <select id="loadById" resultMap="BaseResultMap" parameterType="long">
+        select * from t_org_shop_audit_log where id = #{id}
+    </select>
+    <!--加载所有对象-->
+    <select id="loadAll" resultMap="BaseResultMap">
+        select * from t_org_shop_audit_log
+    </select>
+    <!--//查询总数=参数（查询对象），返回值：long-->
+    <select id="loadTotal" parameterType="ShopAuditLogQuery" resultType="Long">
+        select count(*) from t_org_shop_audit_log
+        <include refid="whereSql"/>
+    </select>
+    <!--//查询当前页数据=参数（查询对象），返回值:List-->
+    <select id="pageList" parameterType="ShopAuditLogQuery" resultMap="BaseResultMap">
+        select * from t_org_shop_audit_log
+        <include refid="whereSql"/>
+        limit #{start},#{pageSize}
+    </select>
+
+
+    <sql id="whereSql">
+        <where>
+            <if test="keyword!=null and keyword!=''">
+                and (name like concat('%',#{keyword},'%'))
+            </if>
+        </where>
+    </sql>
+
+    <!--//批量删除-->
+    <delete id="patchRemove" parameterType="arraylist">
+        delete from t_org_shop_audit_log where id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.heng.org.domain.ShopAuditLog">
+        <id column="id" property="id" />
+        <result column="state" property="state" />
+        <result column="shop_id" property="shopId" />
+        <result column="audit_id" property="auditId" />
+        <result column="audit_time" property="auditTime" />
+        <result column="note" property="note" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, state, shop_id AS shopId, audit_id AS auditId, audit_time AS auditTime, note
+    </sql>
+
+</mapper>

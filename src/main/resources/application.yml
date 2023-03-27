@@ -5,7 +5,7 @@ spring:
       load-on-startup: 1
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/swords_man-crm?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/Maserati_car?serverTimezone=UTC
     username: root
     password: 426218107liuf
 
@@ -13,7 +13,8 @@ spring:
 
 #配置mybatis
 mybatis:
-  type-aliases-package: com.heng.org.domain,com.heng.auth.domain,
+  type-aliases-package: com.heng.org.domain,com.heng.org.query,
+                        com.heng.auth.domain,com.heng.auth.query,
                         com.heng.sys.domain,com.heng.sys.query
 
 #别名包的配置
@@ -23,4 +24,5 @@ mybatis:
 permission:
   scan-base-package: com.heng.org.controller,com.heng.auth.controller
 
-
+server:
+  port: 8081
