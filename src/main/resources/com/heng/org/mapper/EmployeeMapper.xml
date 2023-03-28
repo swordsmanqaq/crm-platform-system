@@ -5,13 +5,17 @@
 <mapper namespace="com.heng.org.mapper.EmployeeMapper">
 
     <insert id="insert">
-        insert into t_org_employee(username, password, email, headImage, age, department_id)
+        insert into t_org_employee(nickName,username, password, email,phone,salt, age, sex,`state`,department_id)
         values (
+                #{nickName},
                 #{username},
                 #{password},
                 #{email},
-                #{headImage},
+                #{phone},
+                #{salt},
                 #{age},
+                #{sex},
+                #{state},
                 #{department.id}
                 )
     </insert>
@@ -27,11 +31,15 @@
     <update id="update">
         update t_org_employee
         set
+            nickName = #{nickName},
             username = #{username},
             password = #{password},
             email = #{email},
-            headImage = #{headImage},
+            phone = #{phone},
+            salt = #{salt},
             age = #{age},
+            sex = #{sex},
+            `state` = #{state},
             department_id = #{department.id}
        where id = #{id}
     </update>
@@ -57,7 +65,7 @@
     </select>
 
     <select id="loadById" resultMap="BaseEmployee">
-        select e.username, e.email, e.headImage, e.age, e.department_id, d.id as `did`, d.name as `dname`
+        select e.*, d.id as `did`, d.name as `dname`
         from t_org_employee e
         left join t_org_department d
         on e.department_id = d.id
@@ -65,7 +73,7 @@
     </select>
 
     <select id="loadAll" resultMap="BaseEmployee">
-        select e.username, e.email, e.headImage, e.age, e.department_id, d.id as `did`, d.name as `dname`
+        select e.*, d.id as `did`, d.name as `dname`
         from t_org_employee e
         left join t_org_department d on e.department_id = d.id;
     </select>
@@ -77,6 +85,7 @@
         <include refid="conditionSql"></include>
         limit #{start},#{pageSize}
     </select>
+
     <select id="loadTotal" resultType="java.lang.Long">
         select count(*)
         from t_org_employee e
@@ -97,18 +106,22 @@
     <sql id="conditionSql">
         <where>
             <if test="keyword != null and keyword != ''">
-                and e.username like concat('%',#{keyword},'%')
+                and (e.username like concat('%',#{keyword},'%')
             </if>
         </where>
     </sql>
 
     <resultMap id="BaseEmployee" type="employee">
         <id column="id" property="id"></id>
+        <result column="nickName" property="nickName"></result>
         <result column="username" property="username"></result>
         <result column="password" property="password"></result>
         <result column="email" property="email"></result>
-        <result column="headImage" property="headImage"></result>
+        <result column="phone" property="phone"></result>
+        <result column="salt" property="salt"></result>
         <result column="age" property="age"></result>
+        <result column="sex" property="sex"></result>
+        <result column="state" property="state"></result>
         <association property="department" javaType="department">
             <id column="did" property="id"></id>
             <result column="dname" property="name"></result>

@@ -13,10 +13,14 @@ import lombok.Data;
 @Data
 public class Employee {
     private Long id;
+    private String nickName;
     private String username;
     private String password;
     private String email;
-    private String headImage;
+    private String phone;
+    private String salt;
     private Long age;
+    private Long sex;
+    private Long state;
     private Department department;
 }

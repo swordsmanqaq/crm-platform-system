@@ -28,7 +28,6 @@
     <update id="update" parameterType="Shop">
         update t_org_shop
         set
-
                             name = #{name},
                             tel = #{tel},
                             registerTime = #{registerTime},
@@ -45,23 +44,29 @@
     <select id="loadAll" resultMap="BaseResultMap">
         select * from t_org_shop
     </select>
+
     <!--//查询总数=参数（查询对象），返回值：long-->
     <select id="loadTotal" parameterType="ShopQuery" resultType="Long">
-        select count(*) from t_org_shop
+        select count(*) from t_org_shop s
+        LEFT JOIN t_org_employee_shop es ON es.shop_id = s.id AND es.is_manager = 1
+        LEFT JOIN t_org_employee e ON es.employee_id = e.id
         <include refid="whereSql"/>
     </select>
+
     <!--//查询当前页数据=参数（查询对象），返回值:List-->
     <select id="pageList" parameterType="ShopQuery" resultMap="BaseResultMap">
-        select * from t_org_shop
+        SELECT s.*, e.id as `eid`, e.nickName as `enickName`
+        FROM t_org_shop s
+        LEFT JOIN t_org_employee_shop es ON es.shop_id = s.id AND es.is_manager = 1
+        LEFT JOIN t_org_employee e ON es.employee_id = e.id
         <include refid="whereSql"/>
         limit #{start},#{pageSize}
     </select>
 
-
     <sql id="whereSql">
         <where>
             <if test="keyword!=null and keyword!=''">
-                and (name like concat('%',#{keyword},'%'))
+                and (s.name like concat('%',#{keyword},'%'))
             </if>
         </where>
     </sql>
@@ -73,6 +78,7 @@
             #{id}
         </foreach>
     </delete>
+
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.heng.org.domain.Shop">
         <id column="id" property="id" />
@@ -82,6 +88,10 @@
         <result column="state" property="state" />
         <result column="address" property="address" />
         <result column="logo" property="logo" />
+        <association property="manager" javaType="employee">
+            <id column="eid" property="id"></id>
+            <result column="enickName" property="nickName"></result>
+        </association>
     </resultMap>
 
     <!-- 通用查询结果列 -->

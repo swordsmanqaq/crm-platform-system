@@ -37,7 +37,7 @@ public class ShopController {
     }
 
     /**
-    * 删除对象信息
+    * 根据id删除
     * @param id
     * @return
     */
@@ -84,7 +84,6 @@ public class ShopController {
         }
     }
 
-
     /**
     * 查看所有的员工信息
     * @return
@@ -108,7 +107,7 @@ public class ShopController {
     * @param query 查询对象
     * @return PageList 分页对象
     */
-    @PostMapping
+    @PostMapping("/page")
     public AjaxResult pageList(@RequestBody ShopQuery query) {
         try {
             PageList<Shop> pageList = shopService.pageList(query);
