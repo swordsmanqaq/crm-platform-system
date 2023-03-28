@@ -7,7 +7,7 @@
                             name,
                             tel,
                             registerTime,
-                            state,
+                            `state`,
                             address,
                             logo
         ) values(
@@ -31,7 +31,7 @@
                             name = #{name},
                             tel = #{tel},
                             registerTime = #{registerTime},
-                            state = #{state},
+                            `state` = #{state},
                             address = #{address},
                             logo = #{logo}
         where id = #{id}
@@ -61,6 +61,12 @@
         LEFT JOIN t_org_employee e ON es.employee_id = e.id
         <include refid="whereSql"/>
         limit #{start},#{pageSize}
+    </select>
+
+    <select id="loadByName" resultType="com.heng.org.domain.Shop">
+        select *
+        from t_org_shop
+        where name = #{name};
     </select>
 
     <sql id="whereSql">

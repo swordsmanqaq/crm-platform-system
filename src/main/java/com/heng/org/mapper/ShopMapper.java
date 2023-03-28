@@ -13,4 +13,5 @@ import com.heng.base.mapper.BaseMapper;
  */
 public interface ShopMapper extends BaseMapper<Shop> {
 
+    Shop loadByName(String name);
 }

@@ -2,6 +2,7 @@ package com.heng.org.service;
 
 import com.heng.org.domain.Shop;
 import com.heng.base.service.IBaseService;
+import com.heng.org.dto.ShopRegisterDTO;
 
 /**
  * <p>
@@ -13,4 +14,11 @@ import com.heng.base.service.IBaseService;
  */
 public interface IShopService extends IBaseService<Shop> {
 
+    void shopSubmission(ShopRegisterDTO shopRegisterDTO);
+
+    void saveSuccessful(Long id);
+
+    void saveReject(Long id);
+
+    void active(Long id);
 }

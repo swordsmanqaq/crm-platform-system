@@ -2,6 +2,8 @@ package com.heng.org.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.heng.base.domain.BaseDomain;
 import lombok.Data;
 
@@ -34,6 +36,7 @@ public class ShopAuditLog extends BaseDomain{
     /**
      * 审核时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date auditTime;
     /**
      * 备注

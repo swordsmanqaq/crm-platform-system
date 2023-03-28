@@ -1,5 +1,7 @@
 package com.heng.org.controller;
 
+import com.heng.auth.domain.Menu;
+import com.heng.org.dto.ShopRegisterDTO;
 import com.heng.org.service.IShopService;
 import com.heng.org.domain.Shop;
 import com.heng.org.query.ShopQuery;
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/shop" )
+@RequestMapping("/shop")
 public class ShopController {
     @Autowired
     public IShopService shopService;
@@ -19,13 +21,14 @@ public class ShopController {
 
     /**
      * 保存和修改公用的
+     *
      * @param shop 传递的实体
      * @return Ajaxresult转换结果
      */
     @PutMapping
     public AjaxResult addOrUpdate(@RequestBody Shop shop) {
         try {
-            if ( shop.getId() != null)
+            if (shop.getId() != null)
                 shopService.update(shop);
             else
                 shopService.insert(shop);
@@ -37,14 +40,15 @@ public class ShopController {
     }
 
     /**
-    * 根据id删除
-    * @param id
-    * @return
-    */
+     * 根据id删除
+     *
+     * @param id
+     * @return
+     */
     @DeleteMapping(value = "/{id}" )
     public AjaxResult remove(@PathVariable("id" ) Long id) {
         try {
-                shopService.remove(id);
+            shopService.remove(id);
             return AjaxResult.me();
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,13 +58,14 @@ public class ShopController {
 
     /**
      * 批量删除
+     *
      * @param ids
      * @return
-    */
+     */
     @PatchMapping
     public AjaxResult patchRemove(@RequestBody List<Long> ids) {
         try {
-                shopService.patchRemove(ids);
+            shopService.patchRemove(ids);
             return AjaxResult.me();
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,14 +74,15 @@ public class ShopController {
     }
 
     /**
-    * 根据Id获取用户
-    * @param id
-    * @return
-    */
-    @GetMapping("/{id}" )
+     * 根据Id获取用户
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping(value = "/{id}" )
     public AjaxResult loadById(@PathVariable("id" ) Long id) {
         try {
-            Shop shop =shopService.loadById(id);
+            Shop shop = shopService.loadById(id);
             return AjaxResult.me().setResultObj(shop);
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,14 +91,15 @@ public class ShopController {
     }
 
     /**
-    * 查看所有的员工信息
-    * @return
-    */
+     * 查看所有的员工信息
+     *
+     * @return
+     */
     @GetMapping
     public AjaxResult loadAll() {
 
         try {
-            List< Shop> list = shopService.loadAll();
+            List<Shop> list = shopService.loadAll();
             return AjaxResult.me().setResultObj(list);
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,12 +109,12 @@ public class ShopController {
 
 
     /**
-    * 分页查询数据
-    *
-    * @param query 查询对象
-    * @return PageList 分页对象
-    */
-    @PostMapping("/page")
+     * 分页查询数据
+     *
+     * @param query 查询对象
+     * @return PageList 分页对象
+     */
+    @PostMapping("/page" )
     public AjaxResult pageList(@RequestBody ShopQuery query) {
         try {
             PageList<Shop> pageList = shopService.pageList(query);
@@ -115,6 +122,72 @@ public class ShopController {
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.me().setSuccess(false).setMessage("获取分页数据失败！" + e.getMessage());
+        }
+    }
+
+
+    /**
+     * 店铺入驻提交接口
+     *
+     * @param shopRegisterDTO
+     * @return
+     */
+    @PostMapping("/settlement" )
+    public AjaxResult shopSubmission(@RequestBody ShopRegisterDTO shopRegisterDTO) {
+        try {
+            shopService.shopSubmission(shopRegisterDTO);
+            return AjaxResult.me();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("店铺入驻提交失败！" + e.getMessage());
+        }
+    }
+
+    /**
+     * 激活
+     * @param id
+     * @return
+     */
+    @GetMapping("/active/{id}" )
+    public AjaxResult active(@PathVariable("id") Long id) {
+        try {
+            shopService.active(id);
+            return AjaxResult.me();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("激活失败失败！" + e.getMessage());
+        }
+    }
+
+    /**
+     * 确认审核提交
+     * @param id
+     * @return
+     */
+    @GetMapping("/audit/{id}" )
+    public AjaxResult saveSuccessful(@PathVariable("id") Long id) {
+        try {
+            shopService.saveSuccessful(id);
+            return AjaxResult.me();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("审核提交失败！" + e.getMessage());
+        }
+    }
+
+    /**
+     * 驳回提交
+     * @param id
+     * @return
+     */
+    @GetMapping("/reject/{id}" )
+    public AjaxResult saveReject(@PathVariable("id") Long id) {
+        try {
+            shopService.saveReject(id);
+            return AjaxResult.me();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("驳回提交失败！" + e.getMessage());
         }
     }
 }

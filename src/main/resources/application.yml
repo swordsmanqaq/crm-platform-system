@@ -1,4 +1,3 @@
-#数据库的链接配置
 spring:
   mvc:
     servlet:
@@ -9,6 +8,10 @@ spring:
     username: root
     password: 426218107liuf
 
+  mail:
+    host: smtp.163.com
+    username: swords_man12@163.com
+    password: GREGATUSDHBSFYIA
 
 
 #配置mybatis
