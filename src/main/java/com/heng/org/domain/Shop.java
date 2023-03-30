@@ -1,6 +1,5 @@
 package com.heng.org.domain;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -23,7 +22,8 @@ public class Shop extends BaseDomain{
     private Long id;
     private String name;
     private String tel;
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date registerTime;
     /**
      * 1=待审核 2=审核通过待激活 3=激活成功 4=驳回

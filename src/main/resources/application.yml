@@ -4,7 +4,7 @@ spring:
       load-on-startup: 1
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/Maserati_car?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/Maserati_car?serverTimezone=GMT%2b8
     username: root
     password: 426218107liuf
 
@@ -18,7 +18,8 @@ spring:
 mybatis:
   type-aliases-package: com.heng.org.domain,com.heng.org.query,
                         com.heng.auth.domain,com.heng.auth.query,
-                        com.heng.sys.domain,com.heng.sys.query
+                        com.heng.sys.domain,com.heng.sys.query,
+                        com.heng.car.domain,com.heng.car.query
 
 #别名包的配置
   #扫描mapper.xml文件,当mapper.xml和Mapper.java接口在同一个包下时，可以不配置
@@ -29,3 +30,6 @@ permission:
 
 server:
   port: 8081
+
+fastDfs:
+  prefixUrl: "http://115.159.217.249:8888"

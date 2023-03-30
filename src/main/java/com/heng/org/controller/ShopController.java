@@ -1,7 +1,7 @@
 package com.heng.org.controller;
 
-import com.heng.auth.domain.Menu;
 import com.heng.org.dto.ShopRegisterDTO;
+import com.heng.org.dto.ShopRejectDTO;
 import com.heng.org.service.IShopService;
 import com.heng.org.domain.Shop;
 import com.heng.org.query.ShopQuery;
@@ -161,13 +161,13 @@ public class ShopController {
 
     /**
      * 确认审核提交
-     * @param id
+     * @param shopRejectDTO
      * @return
      */
-    @GetMapping("/audit/{id}" )
-    public AjaxResult saveSuccessful(@PathVariable("id") Long id) {
+    @PostMapping("/audit" )
+    public AjaxResult saveCommit(@RequestBody ShopRejectDTO shopRejectDTO) {
         try {
-            shopService.saveSuccessful(id);
+            shopService.auditCommit(shopRejectDTO);
             return AjaxResult.me();
         } catch (Exception e) {
             e.printStackTrace();
@@ -175,19 +175,4 @@ public class ShopController {
         }
     }
 
-    /**
-     * 驳回提交
-     * @param id
-     * @return
-     */
-    @GetMapping("/reject/{id}" )
-    public AjaxResult saveReject(@PathVariable("id") Long id) {
-        try {
-            shopService.saveReject(id);
-            return AjaxResult.me();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return AjaxResult.me().setSuccess(false).setMessage("驳回提交失败！" + e.getMessage());
-        }
-    }
 }

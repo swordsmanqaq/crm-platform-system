@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heng.car.mapper.CarMapper">
+    <!--保存对象-->
+    <insert id="insert" parameterType="Car" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into t_car_car(
+                            title,
+                            cover,
+                            saleprice,
+                            costprice,
+                            isnew,
+                            reigstertime,
+                            mileage,
+                            shop_id,
+                            shopname,
+                            createtime,
+                            onsaletime,
+                            offsaletime,
+                            state,
+                            costeffective,
+                            rushsale,
+                            quasinewcar,
+                            transitivecountry,
+                            type_id,
+                            seller_id,
+                            user_id,
+                            search_master_msg_id,
+                            auditstate
+        ) values(
+                                   #{title},
+                                   #{cover},
+                                   #{saleprice},
+                                   #{costprice},
+                                   #{isnew},
+                                   #{reigstertime},
+                                   #{mileage},
+                                   #{shopId},
+                                   #{shopname},
+                                   #{createtime},
+                                   #{onsaletime},
+                                   #{offsaletime},
+                                   #{state},
+                                   #{costeffective},
+                                   #{rushsale},
+                                   #{quasinewcar},
+                                   #{transitivecountry},
+                                   #{typeId},
+                                   #{sellerId},
+                                   #{userId},
+                                   #{searchMasterMsgId},
+                                   #{auditstate}
+        )
+    </insert>
+    <!--删除对象-->
+    <delete id="remove" parameterType="long">
+        delete from t_car_car where id = #{id}
+    </delete>
+
+    <!--更新对象-->
+    <update id="update" parameterType="Car">
+        update t_car_car
+        set
+
+                            title = #{title},
+                            cover = #{cover},
+                            saleprice = #{saleprice},
+                            costprice = #{costprice},
+                            isnew = #{isnew},
+                            reigstertime = #{reigstertime},
+                            mileage = #{mileage},
+                            shop_id = #{shopId},
+                            shopname = #{shopname},
+                            createtime = #{createtime},
+                            onsaletime = #{onsaletime},
+                            offsaletime = #{offsaletime},
+                            state = #{state},
+                            costeffective = #{costeffective},
+                            rushsale = #{rushsale},
+                            quasinewcar = #{quasinewcar},
+                            transitivecountry = #{transitivecountry},
+                            type_id = #{typeId},
+                            seller_id = #{sellerId},
+                            user_id = #{userId},
+                            search_master_msg_id = #{searchMasterMsgId},
+                            auditstate = #{auditstate}
+        where id = #{id}
+    </update>
+    <!--加载对象-->
+    <select id="loadById" resultMap="BaseResultMap" parameterType="long">
+        select * from t_car_car where id = #{id}
+    </select>
+    <!--加载所有对象-->
+    <select id="loadAll" resultMap="BaseResultMap">
+        select * from t_car_car
+    </select>
+    <!--//查询总数=参数（查询对象），返回值：long-->
+    <select id="loadTotal" parameterType="CarQuery" resultType="Long">
+        select count(*) from t_car_car
+        <include refid="whereSql"/>
+    </select>
+    <!--//查询当前页数据=参数（查询对象），返回值:List-->
+    <select id="pageList" parameterType="CarQuery" resultMap="BaseResultMap">
+        select * from t_car_car
+        <include refid="whereSql"/>
+        limit #{start},#{pageSize}
+    </select>
+
+
+    <sql id="whereSql">
+        <where>
+            <if test="keyword!=null and keyword!=''">
+                and (name like concat('%',#{keyword},'%'))
+            </if>
+        </where>
+    </sql>
+
+    <!--//批量删除-->
+    <delete id="patchRemove" parameterType="arraylist">
+        delete from t_car_car where id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.heng.car.domain.Car">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="cover" property="cover" />
+        <result column="saleprice" property="saleprice" />
+        <result column="costprice" property="costprice" />
+        <result column="isnew" property="isnew" />
+        <result column="reigstertime" property="reigstertime" />
+        <result column="mileage" property="mileage" />
+        <result column="shop_id" property="shopId" />
+        <result column="shopname" property="shopname" />
+        <result column="createtime" property="createtime" />
+        <result column="onsaletime" property="onsaletime" />
+        <result column="offsaletime" property="offsaletime" />
+        <result column="state" property="state" />
+        <result column="costeffective" property="costeffective" />
+        <result column="rushsale" property="rushsale" />
+        <result column="quasinewcar" property="quasinewcar" />
+        <result column="transitivecountry" property="transitivecountry" />
+        <result column="type_id" property="typeId" />
+        <result column="seller_id" property="sellerId" />
+        <result column="user_id" property="userId" />
+        <result column="search_master_msg_id" property="searchMasterMsgId" />
+        <result column="auditstate" property="auditstate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, title, cover, saleprice, costprice, isnew, reigstertime, mileage, shop_id AS shopId, shopname, createtime, onsaletime, offsaletime, state, costeffective, rushsale, quasinewcar, transitivecountry, type_id AS typeId, seller_id AS sellerId, user_id AS userId, search_master_msg_id AS searchMasterMsgId, auditstate
+    </sql>
+
+</mapper>

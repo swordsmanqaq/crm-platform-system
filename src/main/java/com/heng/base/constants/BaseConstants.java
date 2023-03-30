@@ -23,6 +23,11 @@ public class BaseConstants {
     public class IsManager{
         public static final int STATE_WAIT_AUTID = 0 ; //"员工",
         public static final int STATE_NORMAL = 1 ; //"店长",
+    }
 
+    //店铺记录表状态
+    public class ShopAudit{
+        public static final int STATE_WAIT_AUTID = 0 ; //"审核失败",
+        public static final int STATE_NORMAL = 1 ; //"审核成功",
     }
 }

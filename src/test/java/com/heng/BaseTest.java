@@ -3,9 +3,12 @@ package com.heng;/**
  * @create 2023-03-01 19:03
  */
 
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Date;
 
 /**
  *@Auther:Jarvis
@@ -15,4 +18,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = FoundationAppStart.class)
 public class BaseTest {
+
+    @Test
+    public void test() throws Exception{
+        System.out.println(new Date());
+    }
 }
