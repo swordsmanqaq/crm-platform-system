@@ -3,6 +3,11 @@ package com.heng.base.constants;
 //系统常量
 public class BaseConstants {
 
+    //redis主key
+    public static final String CARTYPE_TREE_IN_REDIS = "cartype_tree_in_redis";
+    //redis副key
+    public static final String CARTYPE_TREE_IN_REDIS_BACKUP= "cartype_tree_in_redis_backup";
+
     //店铺状态
     public class Shop{
         public static final int STATE_WAIT_AUTID = 1 ; //"待审核";

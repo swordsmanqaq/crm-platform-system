@@ -40,7 +40,7 @@
     </select>
     <!--加载所有对象-->
     <select id="loadAll" resultMap="BaseResultMap">
-        select * from t_car_car_type
+        select * from t_car_car_type where pid is not null
     </select>
     <!--//查询总数=参数（查询对象），返回值：long-->
     <select id="loadTotal" parameterType="CarTypeQuery" resultType="Long">

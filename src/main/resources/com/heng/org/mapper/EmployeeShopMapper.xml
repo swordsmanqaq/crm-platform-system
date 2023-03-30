@@ -48,6 +48,11 @@
         limit #{start},#{pageSize}
     </select>
 
+    <select id="loadByShopId" resultType="com.heng.org.domain.EmployeeShop">
+        select * from t_org_employee_shop
+        where shop_id = #{id}
+    </select>
+
 
     <sql id="whereSql">
         <where>

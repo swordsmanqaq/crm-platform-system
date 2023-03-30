@@ -17,8 +17,6 @@ public interface IShopService extends IBaseService<Shop> {
 
     void shopSubmission(ShopRegisterDTO shopRegisterDTO);
 
-//    void saveReject(Long id);
-
     void active(Long id);
 
     void auditCommit(ShopRejectDTO shopRejectDTO);

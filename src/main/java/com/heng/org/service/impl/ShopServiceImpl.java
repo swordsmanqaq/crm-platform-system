@@ -135,19 +135,11 @@ public class ShopServiceImpl extends BaseServiceImpl<Shop> implements IShopServi
                         "</body>\n" +
                         "</html>";
                 String email = shopRegisterDTO.getAdmin().getEmail();
-                //创建复杂邮件对象
                 MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-                //发送复杂邮件的工具类
                 MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
                 helper.setFrom("swords_man12@163.com");
-                //主题
                 helper.setSubject("店铺激活");
-                //邮件内容
                 helper.setText(result, true);
-                //添加附件
-                //helper.addAttachment("罗宾.jpg",new File("C:\\Users\\hm\\Desktop\\work\\aa.jpg"));
-                //helper.addAttachment("压缩文件", new File("C:\\Users\\hm\\Desktop\\20191010\\2020-02-05-智能商贸-DAY4\\resources\\resources.zip"));
-                //收件人
                 helper.setTo(email);
                 javaMailSender.send(mimeMessage);
 
@@ -156,13 +148,9 @@ public class ShopServiceImpl extends BaseServiceImpl<Shop> implements IShopServi
                 String result = "很抱歉你的店铺审核未通过，原因:" + note;
                 String email = shopRegisterDTO.getAdmin().getEmail();
                 SimpleMailMessage mailMessage = new SimpleMailMessage();
-                //设置发送人
                 mailMessage.setFrom("swords_man12@163.com");
-                //邮件主题
                 mailMessage.setSubject("店铺激活");
-                //邮件内容
                 mailMessage.setText(result);
-                //收件人
                 mailMessage.setTo(email);
                 javaMailSender.send(mailMessage);
             }
@@ -174,7 +162,6 @@ public class ShopServiceImpl extends BaseServiceImpl<Shop> implements IShopServi
 
     /**
      * 手动审核提交
-     *
      * @param shopRejectDTO
      */
     @Override
@@ -194,13 +181,12 @@ public class ShopServiceImpl extends BaseServiceImpl<Shop> implements IShopServi
         shopAuditLog.setNote(note);
         shopAuditLog.setShopId(shop.getId());
         shopAuditLog.setAuditTime(new Date());
-        System.out.println(shopAuditLog.getAuditTime());
         shopAuditLogMapper.insert(shopAuditLog);
+
     }
 
     /**
      * 邮箱激活
-     *
      * @param id
      */
     @Override
@@ -220,7 +206,10 @@ public class ShopServiceImpl extends BaseServiceImpl<Shop> implements IShopServi
     }
 
 
-    //验证封装的方法
+    /**
+     * 参数验证封装的方法
+     * @param shopRegisterDTO
+     */
     private void validate(ShopRegisterDTO shopRegisterDTO) {
         ShopAdminDTO shopAdminDTO = shopRegisterDTO.getAdmin();
         //1.参数非空校验
@@ -239,26 +228,6 @@ public class ShopServiceImpl extends BaseServiceImpl<Shop> implements IShopServi
             throw new RuntimeException("店铺信息已经存在");
         }
 
-    }
-
-
-    //发送邮箱
-    public void sendEmail(String result, String email) throws MessagingException {
-        //创建复杂邮件对象
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        //发送复杂邮件的工具类
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
-        helper.setFrom("swords_man12@163.com");
-        //主题
-        helper.setSubject("店铺激活");
-        //邮件内容
-        helper.setText(result, true);
-        //添加附件
-        //helper.addAttachment("罗宾.jpg",new File("C:\\Users\\hm\\Desktop\\work\\aa.jpg"));
-        //helper.addAttachment("压缩文件", new File("C:\\Users\\hm\\Desktop\\20191010\\2020-02-05-智能商贸-DAY4\\resources\\resources.zip"));
-        //收件人
-        helper.setTo(email);
-        javaMailSender.send(mimeMessage);
     }
 
 }

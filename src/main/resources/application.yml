@@ -13,15 +13,26 @@ spring:
     username: swords_man12@163.com
     password: GREGATUSDHBSFYIA
 
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password: 123456
+    jedis:
+      pool:
+        max-wait: 2000ms
+        min-idle: 2
+        max-idle: 8
+
 
 #配置mybatis
 mybatis:
   type-aliases-package: com.heng.org.domain,com.heng.org.query,
-                        com.heng.auth.domain,com.heng.auth.query,
-                        com.heng.sys.domain,com.heng.sys.query,
-                        com.heng.car.domain,com.heng.car.query
+    com.heng.auth.domain,com.heng.auth.query,
+    com.heng.sys.domain,com.heng.sys.query,
+    com.heng.car.domain,com.heng.car.query
 
-#别名包的配置
+  #别名包的配置
   #扫描mapper.xml文件,当mapper.xml和Mapper.java接口在同一个包下时，可以不配置
 #  mapper-locations: classpath:com/heng/*/mapper/*Mapper.xml
 

@@ -1,6 +1,7 @@
 package com.heng.car.domain;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,5 +30,5 @@ public class CarType extends BaseDomain{
      * 父类型id
      */
     private Long pid;
-    List<CarType> children;
+    List<CarType> children = new ArrayList<>();
 }
