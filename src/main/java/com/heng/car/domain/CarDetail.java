@@ -2,6 +2,8 @@ package com.heng.car.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.heng.base.domain.BaseDomain;
 import lombok.Data;
 
@@ -28,7 +30,10 @@ public class CarDetail extends BaseDomain{
      * 车辆标题
      */
     private String cartitle;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date detectiontime;
+
     private Long detectorId;
     /**
      * 检测员名称

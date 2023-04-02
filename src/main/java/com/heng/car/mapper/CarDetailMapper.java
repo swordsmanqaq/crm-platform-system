@@ -2,6 +2,7 @@ package com.heng.car.mapper;
 
 import com.heng.car.domain.CarDetail;
 import com.heng.base.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,4 +14,8 @@ import com.heng.base.mapper.BaseMapper;
  */
 public interface CarDetailMapper extends BaseMapper<CarDetail> {
 
+    CarDetail loadByCarId(@Param("carId") Long carId);
+
+
+    void updateByCarId(CarDetail carDetail);
 }

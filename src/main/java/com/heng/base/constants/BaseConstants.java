@@ -30,8 +30,23 @@ public class BaseConstants {
         public static final int STATE_NORMAL = 1 ; //"店长",
     }
 
-    //店铺记录表状态
+    //店铺审核记录表状态
     public class ShopAudit{
+        public static final int STATE_WAIT_AUTID = 0 ; //"审核失败",
+        public static final int STATE_NORMAL = 1 ; //"审核成功",
+    }
+
+    //车辆售卖状态
+    public class Car{
+        public static final int STATE_WAIT_CAR_OFFSHELF = 0 ; //"下架",
+        public static final int STATE_CAR_SHELF = 1 ; //"上架",
+
+        public static final int STATE_WAIT_CAR_NOAUTID= 0 ; //"审核驳回",
+        public static final int STATE_CAR_AUTID = 1 ; //"审核通过",
+    }
+
+    //车辆审核记录表状态
+    public class CarAudit{
         public static final int STATE_WAIT_AUTID = 0 ; //"审核失败",
         public static final int STATE_NORMAL = 1 ; //"审核成功",
     }

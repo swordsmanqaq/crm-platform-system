@@ -5,7 +5,7 @@
     <insert id="insert" parameterType="CarOnlineAuditLog" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into t_car_car_online_audit_log(
                             car_id,
-                            state,
+                            `state`,
                             audit_id,
                             audit_time,
                             note
@@ -28,7 +28,7 @@
         set
 
                             car_id = #{carId},
-                            state = #{state},
+                            `state` = #{state},
                             audit_id = #{auditId},
                             audit_time = #{auditTime},
                             note = #{note}

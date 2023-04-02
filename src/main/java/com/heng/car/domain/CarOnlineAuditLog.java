@@ -2,6 +2,8 @@ package com.heng.car.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.heng.base.domain.BaseDomain;
 import lombok.Data;
 
@@ -34,6 +36,7 @@ public class CarOnlineAuditLog extends BaseDomain{
     /**
      * 审核时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date auditTime;
     /**
      * 备注

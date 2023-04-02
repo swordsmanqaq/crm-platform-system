@@ -47,7 +47,7 @@ public class FastDfsController {
     public AjaxResult deleteFile(String path) {
         try {
             iFastDfsService.deleteFile(path);
-            return AjaxResult.me().setResultObj(path);
+            return AjaxResult.me();
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.me().setSuccess(false).setMessage("文件上传失败！" + e.getMessage());

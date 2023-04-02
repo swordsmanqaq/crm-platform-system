@@ -119,6 +119,10 @@ public class CarTypeController {
         }
     }
 
+    /**
+     * 获取车辆类型树
+     * @return
+     */
     @GetMapping("/tree")
     public AjaxResult getTree() {
         try {

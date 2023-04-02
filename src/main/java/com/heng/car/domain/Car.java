@@ -2,7 +2,10 @@ package com.heng.car.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.heng.base.domain.BaseDomain;
+import com.heng.org.domain.Employee;
 import lombok.Data;
 
 /**
@@ -36,6 +39,7 @@ public class Car extends BaseDomain{
     /**
      * 上牌时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date reigstertime;
     /**
      * 里程
@@ -46,13 +50,19 @@ public class Car extends BaseDomain{
      */
     private Long shopId;
     private String shopname;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createtime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date onsaletime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date offsaletime;
     /**
      * 状态：0下架 1上架
      */
-    private Long state;
+    private Integer state;
     /**
      * 是否超值
      */
@@ -70,17 +80,26 @@ public class Car extends BaseDomain{
      * 类型id
      */
     private Long typeId;
+    private CarType type;
+
+
     private Long sellerId;
+    private Employee seller;
+
     /**
-     * 如果被领养为领养用户id
+     * 购买人的id
      */
     private Long userId;
     /**
-     * 寻主消息id
+     * 二手车发布消息的id
      */
     private Long searchMasterMsgId;
     /**
-     * 审核状态
+     * 审核状态   0-审核驳回 1-审核通过
      */
     private Integer auditstate;
+
+
+    private CarDetail carDetail;
+
 }

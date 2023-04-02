@@ -24,13 +24,22 @@
     <update id="update" parameterType="CarResources">
         update t_car_car_resources
         set
-
-                            viceimg = #{viceimg},
-                            img = #{img},
-                            moreimg = #{moreimg},
-                            car_id = #{carId}
+            viceimg = #{viceimg},
+            img = #{img},
+            moreimg = #{moreimg},
+            car_id = #{carId}
         where id = #{id}
     </update>
+
+    <update id="updateByCarId" parameterType="CarResources">
+        update t_car_car_resources
+        set
+            viceimg = #{viceimg},
+            img = #{img},
+            moreimg = #{moreimg}
+        where car_id = #{carId}
+    </update>
+
     <!--加载对象-->
     <select id="loadById" resultMap="BaseResultMap" parameterType="long">
         select * from t_car_car_resources where id = #{id}
@@ -49,6 +58,11 @@
         select * from t_car_car_resources
         <include refid="whereSql"/>
         limit #{start},#{pageSize}
+    </select>
+
+    <select id="loadByCarId" resultMap="BaseResultMap">
+        select * from t_car_car_resources
+        where car_id = #{carId}
     </select>
 
 

@@ -1,13 +1,16 @@
 package com.heng.car.controller;
 
+import com.heng.base.utils.LoginContext;
 import com.heng.car.service.ICarResourcesService;
 import com.heng.car.domain.CarResources;
 import com.heng.car.query.CarResourcesQuery;
 import com.heng.base.utils.PageList;
 import com.heng.base.utils.AjaxResult;
+import com.heng.org.domain.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -25,10 +28,7 @@ public class CarResourcesController {
     @PutMapping
     public AjaxResult addOrUpdate(@RequestBody CarResources carResources) {
         try {
-            if ( carResources.getId() != null)
-                carResourcesService.update(carResources);
-            else
-                carResourcesService.insert(carResources);
+            carResourcesService.saveCarResource(carResources);
             return AjaxResult.me();
         } catch (Exception e) {
             e.printStackTrace();
@@ -118,4 +118,21 @@ public class CarResourcesController {
             return AjaxResult.me().setSuccess(false).setMessage("获取分页数据失败！" + e.getMessage());
         }
     }
+
+    /**
+     * 根据carId获取资源做图片回显
+     * @param carId
+     * @return
+     */
+    @GetMapping("/carId/{carId}" )
+    public AjaxResult getCarResourcesByCarId(@PathVariable("carId" ) Long carId) {
+        try {
+            CarResources carResource = carResourcesService.loadByCarId(carId);
+            return AjaxResult.me().setResultObj(carResource);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("获取一个失败！" + e.getMessage());
+        }
+    }
+
 }

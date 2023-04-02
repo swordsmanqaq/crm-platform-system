@@ -36,9 +36,7 @@
     <update id="update" parameterType="CarDetail">
         update t_car_car_detail
         set
-
                             info = #{info},
-                            car_id = #{carId},
                             cartitle = #{cartitle},
                             detectiontime = #{detectiontime},
                             detector_id = #{detectorId},
@@ -49,6 +47,20 @@
                             appearance_inspection = #{appearanceInspection}
         where id = #{id}
     </update>
+
+    <update id="updateByCarId" parameterType="CarDetail">
+        update t_car_car_detail
+        set
+            detectiontime = #{detectiontime},
+            detector_id = #{detectorId},
+            detectorname = #{detectorname},
+            accident_investigation = #{accidentInvestigation},
+            core_components_investigation = #{coreComponentsInvestigation},
+            Common_functions_investigation = #{commonFunctionsInvestigation},
+            appearance_inspection = #{appearanceInspection}
+        where car_id = #{carId}
+    </update>
+
     <!--加载对象-->
     <select id="loadById" resultMap="BaseResultMap" parameterType="long">
         select * from t_car_car_detail where id = #{id}
@@ -67,6 +79,11 @@
         select * from t_car_car_detail
         <include refid="whereSql"/>
         limit #{start},#{pageSize}
+    </select>
+
+    <select id="loadByCarId" resultMap="BaseResultMap">
+        select * from t_car_car_detail
+        where car_id = #{carId}
     </select>
 
 

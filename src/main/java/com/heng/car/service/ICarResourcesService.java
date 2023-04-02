@@ -13,4 +13,7 @@ import com.heng.base.service.IBaseService;
  */
 public interface ICarResourcesService extends IBaseService<CarResources> {
 
+    void saveCarResource(CarResources carResources);
+
+    CarResources loadByCarId(Long carId);
 }

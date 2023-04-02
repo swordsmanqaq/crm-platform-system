@@ -13,4 +13,8 @@ import com.heng.base.mapper.BaseMapper;
  */
 public interface CarResourcesMapper extends BaseMapper<CarResources> {
 
+
+    CarResources loadByCarId(Long carId);
+
+    void updateByCarId(CarResources carResources);
 }

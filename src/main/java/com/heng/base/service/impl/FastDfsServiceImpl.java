@@ -26,7 +26,7 @@ public class FastDfsServiceImpl implements IFastDfsService {
 
     @Override
     public void deleteFile(String path) {
-        path = path.substring(this.prefixUrl.length());
+        path = path.replaceAll(prefixUrl, "");
         FastdfsUtil.delete(path);
     }
 }

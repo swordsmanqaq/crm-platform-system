@@ -2,6 +2,7 @@ package com.heng.car.service;
 
 import com.heng.car.domain.CarDetail;
 import com.heng.base.service.IBaseService;
+import com.heng.org.domain.Employee;
 
 /**
  * <p>
@@ -13,4 +14,7 @@ import com.heng.base.service.IBaseService;
  */
 public interface ICarDetailService extends IBaseService<CarDetail> {
 
+    void saveCarReport(CarDetail carDetail, Employee loginUser);
+
+    CarDetail loadByCarId(Long carId);
 }

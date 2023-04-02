@@ -16,7 +16,7 @@
                             createtime,
                             onsaletime,
                             offsaletime,
-                            state,
+                            `state`,
                             costeffective,
                             rushsale,
                             quasinewcar,
@@ -44,7 +44,7 @@
                                    #{rushsale},
                                    #{quasinewcar},
                                    #{transitivecountry},
-                                   #{typeId},
+                                   #{type.id},
                                    #{sellerId},
                                    #{userId},
                                    #{searchMasterMsgId},
@@ -60,7 +60,6 @@
     <update id="update" parameterType="Car">
         update t_car_car
         set
-
                             title = #{title},
                             cover = #{cover},
                             saleprice = #{saleprice},
@@ -73,7 +72,7 @@
                             createtime = #{createtime},
                             onsaletime = #{onsaletime},
                             offsaletime = #{offsaletime},
-                            state = #{state},
+                            `state` = #{state},
                             costeffective = #{costeffective},
                             rushsale = #{rushsale},
                             quasinewcar = #{quasinewcar},
@@ -95,12 +94,17 @@
     </select>
     <!--//查询总数=参数（查询对象），返回值：long-->
     <select id="loadTotal" parameterType="CarQuery" resultType="Long">
-        select count(*) from t_car_car
+        select count(*) FROM t_car_car c
+        LEFT JOIN t_car_car_type t ON c.type_id = t.id
+        LEFT JOIN t_org_employee e ON c.seller_id = e.id
         <include refid="whereSql"/>
     </select>
     <!--//查询当前页数据=参数（查询对象），返回值:List-->
     <select id="pageList" parameterType="CarQuery" resultMap="BaseResultMap">
-        select * from t_car_car
+        SELECT c.*,t.id as tid,t.`name` tname,e.id as eid,e.nickName
+        FROM t_car_car c
+        LEFT JOIN t_car_car_type t ON c.type_id = t.id
+        LEFT JOIN t_org_employee e ON c.seller_id = e.id
         <include refid="whereSql"/>
         limit #{start},#{pageSize}
     </select>
@@ -109,7 +113,7 @@
     <sql id="whereSql">
         <where>
             <if test="keyword!=null and keyword!=''">
-                and (name like concat('%',#{keyword},'%'))
+                and (c.title like concat('%',#{keyword},'%'))
             </if>
         </where>
     </sql>
@@ -146,6 +150,14 @@
         <result column="user_id" property="userId" />
         <result column="search_master_msg_id" property="searchMasterMsgId" />
         <result column="auditstate" property="auditstate" />
+        <association property="type" javaType="CarType">
+            <id column="tid" property="id"></id>
+            <result column="tname" property="name"></result>
+        </association>
+        <association property="seller" javaType="Employee">
+            <id column="eid" property="id"></id>
+            <result column="nickName" property="nickName"></result>
+        </association>
     </resultMap>
 
     <!-- 通用查询结果列 -->
