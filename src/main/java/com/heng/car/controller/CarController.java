@@ -44,7 +44,6 @@ public class CarController {
 
     /**
      * 删除对象信息
-     *
      * @param id
      * @return
      */
@@ -61,13 +60,14 @@ public class CarController {
 
     /**
      * 批量删除
-     *
      * @param ids
      * @return
      */
     @PatchMapping
-    public AjaxResult patchRemove(@RequestBody List<Long> ids) {
+    public AjaxResult patchRemove(@RequestBody List<Long> ids,HttpServletRequest request) {
         try {
+            Employee loginUser = LoginContext.getLoginUser(request);
+            String s = carService.saveOffsale(ids, loginUser);
             carService.patchRemove(ids);
             return AjaxResult.me();
         } catch (Exception e) {
@@ -78,7 +78,6 @@ public class CarController {
 
     /**
      * 根据Id获取用户
-     *
      * @param id
      * @return
      */
@@ -96,7 +95,6 @@ public class CarController {
 
     /**
      * 查看所有的员工信息
-     *
      * @return
      */
     @GetMapping
@@ -114,7 +112,6 @@ public class CarController {
 
     /**
      * 分页查询数据
-     *
      * @param query 查询对象
      * @return PageList 分页对象
      */
@@ -130,6 +127,11 @@ public class CarController {
     }
 
 
+    /**
+     * 手动审核
+     * @param carAuditDTO
+     * @return
+     */
     @PutMapping("/audit")
     public AjaxResult saveAuditCommit(@RequestBody CarAuditDTO carAuditDTO) {
         try {
@@ -138,6 +140,40 @@ public class CarController {
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.me().setMessage("保存对象失败！" + e.getMessage());
+        }
+    }
+
+    /**
+     * 上架
+     * @param ids
+     * @return
+     */
+    @PostMapping("/onsale")
+    public AjaxResult saveOnsale(@RequestBody List<Long> ids, HttpServletRequest request) {
+        try {
+            Employee loginUser = LoginContext.getLoginUser(request);
+            String msg = carService.saveOnsale(ids,loginUser);
+            return AjaxResult.me().setMessage(msg);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("批量上架失败！" + e.getMessage());
+        }
+    }
+
+    /**
+     * 下架
+     * @param ids
+     * @return
+     */
+    @PostMapping("/offsale")
+    public AjaxResult saveOffsale(@RequestBody List<Long> ids, HttpServletRequest request) {
+        try {
+            Employee loginUser = LoginContext.getLoginUser(request);
+            String msg = carService.saveOffsale(ids,loginUser);
+            return AjaxResult.me().setMessage(msg);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("批量下架失败！" + e.getMessage());
         }
     }
 }

@@ -6,6 +6,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.heng.base.domain.BaseDomain;
 import com.heng.org.domain.Employee;
+import com.heng.org.domain.Shop;
 import lombok.Data;
 
 /**
@@ -50,6 +51,7 @@ public class Car extends BaseDomain{
      */
     private Long shopId;
     private String shopname;
+    private Shop shop;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createtime;

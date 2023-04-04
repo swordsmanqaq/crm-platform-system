@@ -17,6 +17,20 @@
                                    #{note}
         )
     </insert>
+
+    <insert id="patchInsert">
+        insert into t_car_car_online_audit_log(
+            car_id,
+            `state`,
+            audit_id,
+            audit_time,
+            note
+        ) values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.carId},#{item.state},#{item.auditId},#{item.auditTime},#{item.note})
+        </foreach>
+    </insert>
+
     <!--删除对象-->
     <delete id="remove" parameterType="long">
         delete from t_car_car_online_audit_log where id = #{id}

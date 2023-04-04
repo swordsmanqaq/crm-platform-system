@@ -24,6 +24,11 @@ spring:
         min-idle: 2
         max-idle: 8
 
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch   #集群的名字
+      cluster-nodes: 127.0.0.1:9300
+
 
 #配置mybatis
 mybatis:

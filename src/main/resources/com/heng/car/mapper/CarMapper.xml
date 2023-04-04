@@ -84,14 +84,31 @@
                             auditstate = #{auditstate}
         where id = #{id}
     </update>
+
+    <update id="updateState">
+        update t_car_car set `state` = #{state},
+        <if test="state == 1">
+            onsaletime = NOW()
+        </if>
+        <if test="state == 0">
+            offsaletime = NOW()
+        </if>
+        where id in
+        <foreach collection="carList" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </update>
+
     <!--加载对象-->
     <select id="loadById" resultMap="BaseResultMap" parameterType="long">
         select * from t_car_car where id = #{id}
     </select>
+
     <!--加载所有对象-->
     <select id="loadAll" resultMap="BaseResultMap">
         select * from t_car_car
     </select>
+
     <!--//查询总数=参数（查询对象），返回值：long-->
     <select id="loadTotal" parameterType="CarQuery" resultType="Long">
         select count(*) FROM t_car_car c
@@ -99,6 +116,7 @@
         LEFT JOIN t_org_employee e ON c.seller_id = e.id
         <include refid="whereSql"/>
     </select>
+
     <!--//查询当前页数据=参数（查询对象），返回值:List-->
     <select id="pageList" parameterType="CarQuery" resultMap="BaseResultMap">
         SELECT c.*,t.id as tid,t.`name` tname,e.id as eid,e.nickName
@@ -107,6 +125,21 @@
         LEFT JOIN t_org_employee e ON c.seller_id = e.id
         <include refid="whereSql"/>
         limit #{start},#{pageSize}
+    </select>
+
+    <select id="loadByIds" resultMap="BaseResultMap">
+        SELECT
+        c.*,s.id sid,s.`name` sname,s.address AS saddress,t.id AS tid,t.`name` AS tname,d.id as did,d.info AS dinfo
+        FROM t_car_car c
+        LEFT JOIN t_org_shop s ON c.shop_id = s.id
+        LEFT JOIN t_car_car_type t ON c.type_id = t.id
+        LEFT JOIN t_car_car_detail d ON c.id = d.car_id
+        where c.state = #{state}
+        and c.auditstate = #{auditState}
+        and c.id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
     </select>
 
 
@@ -157,6 +190,15 @@
         <association property="seller" javaType="Employee">
             <id column="eid" property="id"></id>
             <result column="nickName" property="nickName"></result>
+        </association>
+        <association property="shop" javaType="shop">
+            <id column="sid" property="id"></id>
+            <result column="sname" property="name"></result>
+            <result column="saddress" property="address"></result>
+        </association>
+        <association property="carDetail" javaType="carDetail">
+            <id column="did" property="id"></id>
+            <result column="dinfo" property="info"></result>
         </association>
     </resultMap>
 

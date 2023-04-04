@@ -1,7 +1,6 @@
 package com.heng.car.controller;
 
 import com.heng.base.utils.LoginContext;
-import com.heng.car.domain.CarResources;
 import com.heng.car.service.ICarDetailService;
 import com.heng.car.domain.CarDetail;
 import com.heng.car.query.CarDetailQuery;

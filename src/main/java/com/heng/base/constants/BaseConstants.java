@@ -40,7 +40,6 @@ public class BaseConstants {
     public class Car{
         public static final int STATE_WAIT_CAR_OFFSHELF = 0 ; //"下架",
         public static final int STATE_CAR_SHELF = 1 ; //"上架",
-
         public static final int STATE_WAIT_CAR_NOAUTID= 0 ; //"审核驳回",
         public static final int STATE_CAR_AUTID = 1 ; //"审核通过",
     }
@@ -50,4 +49,13 @@ public class BaseConstants {
         public static final int STATE_WAIT_AUTID = 0 ; //"审核失败",
         public static final int STATE_NORMAL = 1 ; //"审核成功",
     }
+
+    //日志状态表
+    public class CarLog{
+        public static final int Audit_Failure = 0 ; //"审核失败",
+        public static final int Audit_Pass = 1 ; //"审核成功",
+        public static final int Car_Onsale = 2 ; //"上架",
+        public static final int Car_Offsale = 3 ; //"下架",
+    }
+
 }
