@@ -2,6 +2,7 @@ package com.heng.car.repository;
 
 import com.heng.car.doc.CarDoc;
 import org.springframework.data.elasticsearch.repository.ElasticsearchCrudRepository;
+import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,5 +11,5 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public interface CarDocRepository extends ElasticsearchCrudRepository<CarDoc,Long> {
+public interface CarDocRepository extends ElasticsearchRepository<CarDoc,Long> {
 }

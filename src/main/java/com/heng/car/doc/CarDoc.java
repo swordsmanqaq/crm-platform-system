@@ -1,5 +1,6 @@
 package com.heng.car.doc;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -32,6 +33,7 @@ public class CarDoc {
     private Integer isnew;
 
     @Field(type = FieldType.Date)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date reigstertime;
 
     @Field(type = FieldType.Double)
