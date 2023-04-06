@@ -2,6 +2,7 @@ package com.heng.car.service.impl;
 
 import com.heng.base.constants.BaseConstants;
 import com.heng.base.utils.BaiduAuditUtils;
+import com.heng.base.utils.VelocityUtils;
 import com.heng.car.doc.CarDoc;
 import com.heng.car.domain.Car;
 import com.heng.car.domain.CarDetail;
@@ -18,9 +19,11 @@ import com.heng.org.domain.Employee;
 import com.heng.org.domain.Shop;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -47,6 +50,9 @@ public class CarServiceImpl extends BaseServiceImpl<Car> implements ICarService 
 
     @Autowired
     private CarDocRepository carDocRepository;
+
+    @Value("${jarvis.carDetail.htmlPath}")
+    private String htmlPath;
 
     @Override
     @Transactional
@@ -136,9 +142,21 @@ public class CarServiceImpl extends BaseServiceImpl<Car> implements ICarService 
         List<CarDoc> carDocList = creatCarDocs(cars);
         carDocRepository.saveAll(carDocList);
 
-        //返回结果信息
+        //结果信息
         String msg = "共提交了%s条上架数据，成功了%s条，失败了%s条";
         msg = String.format(msg, ids.size(), cars.size(), (ids.size() - cars.size()));
+
+        //给成功上架后的车辆信息添加静态页面
+        for (CarDoc carDoc : carDocList){
+            //获取模版路径
+            String templatePath = CarServiceImpl.class.getClassLoader().getResource("carDetail.vm").getPath();
+            //生成文件的路径
+            String htmlFilePath = this.htmlPath + "/" + carDoc.getId() + ".html";
+            //模版生成静态页面
+            VelocityUtils.staticByTemplate(carDoc,templatePath,htmlFilePath);
+        }
+
+        //返回结果
         return msg;
     }
 
@@ -161,9 +179,23 @@ public class CarServiceImpl extends BaseServiceImpl<Car> implements ICarService 
         for (Long id :ids) {
             carDocRepository.deleteById(id);
         }
-        //返回结果信息
+        //结果信息
         String msg = "共提交了%s条下架数据";
         msg = String.format(msg, ids.size());
+
+        //删除静态页面
+        for (Long id : ids) {
+            //获取需要删除的静态文件的路径
+            String htmlFilePath = this.htmlPath + "/" + id + ".html";
+            //将该路径创建文件
+            File file = new File(htmlFilePath);
+            //参数校验
+            if(file.exists()){
+                file.delete();
+            }
+        }
+
+        //返回结果
         return msg;
     }
 

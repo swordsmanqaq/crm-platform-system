@@ -49,3 +49,9 @@ server:
 
 fastDfs:
   prefixUrl: "http://115.159.217.249:8888"
+
+jarvis:
+  verificationCodeExpiration:
+    timeout: 3
+  carDetail:
+    htmlPath: /Users/jarvis/Java/Idea/car-platform-client/cardetail
