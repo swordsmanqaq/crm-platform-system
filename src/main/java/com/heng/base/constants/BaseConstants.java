@@ -58,4 +58,39 @@ public class BaseConstants {
         public static final int Car_Offsale = 3 ; //"下架",
     }
 
+    /**
+     * 短信常量类
+     */
+    public class SmsContants {
+        //用户名
+        public static final String UID = "JarvisSmith";
+        //秘钥
+        public static final String KEY = "43A293807A8E0FF7A347D6320A56E709";
+    }
+
+    /**
+     * 手机验证码存入redis key的前缀
+     */
+    public class MessageCode {
+        //用户名
+        public static final String REGISTER_SMS_CODE = "register";
+        //秘钥
+        public static final String LOGIN_SMS_CODE = "login";
+    }
+
+    //logininfo表的状态
+    public class LoginInfo {
+        public static final int TYPE_MANAGER = 0;
+        public static final int TYPE_USER = 1;
+        public static final int DISABLE_USE = 1;
+        public static final int DISABLE = 0;
+    }
+
+    //User表的状态
+    public class UserState {
+        public static final int REGISTER_STATE = 1;
+        public static final int ACTIVATE_STATE = 2;
+        public static final int DISABLE_STATE = 0;
+    }
+
 }

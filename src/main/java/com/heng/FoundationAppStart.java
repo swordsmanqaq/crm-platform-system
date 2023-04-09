@@ -10,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * Hello world!
- *
  */
 @SpringBootApplication
 @MapperScan("com.heng.*.mapper")     //用于扫描mapper包下的接口

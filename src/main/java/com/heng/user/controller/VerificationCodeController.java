@@ -4,12 +4,10 @@ package com.heng.user.controller;/**
  */
 
 import com.heng.base.utils.AjaxResult;
+import com.heng.user.dto.MessageCodeDTO;
 import com.heng.user.service.IVerificationCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Auther:Jarvis
@@ -23,6 +21,11 @@ public class VerificationCodeController {
     @Autowired
     private IVerificationCodeService iVerificationCodeService;
 
+    /**
+     * 获取图片验证码
+     * @param imageCodeKey
+     * @return
+     */
     @GetMapping("/image/{imageCodeKey}")
     public AjaxResult getImg(@PathVariable("imageCodeKey") String imageCodeKey) {
         try {
@@ -31,6 +34,21 @@ public class VerificationCodeController {
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.me().setSuccess(false).setMessage("获取图片验证码失败" + e.getMessage());
+        }
+    }
+
+    /**
+     * 发送手机验证码
+     * @return
+     */
+    @PostMapping("/sms/register")
+    public AjaxResult sendMessageCode(@RequestBody MessageCodeDTO dto){
+        try {
+            iVerificationCodeService.sendMessageCode(dto);
+            return AjaxResult.me();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("发送手机验证码失败!"+e.getMessage());
         }
     }
 }

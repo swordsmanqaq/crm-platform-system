@@ -1,3 +1,6 @@
+server:
+  port: 8081
+
 spring:
   mvc:
     servlet:
@@ -29,13 +32,22 @@ spring:
       cluster-name: elasticsearch   #集群的名字
       cluster-nodes: 127.0.0.1:9300
 
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    virtualHost: /
+
+
 
 #配置mybatis
 mybatis:
   type-aliases-package: com.heng.org.domain,com.heng.org.query,
-    com.heng.auth.domain,com.heng.auth.query,
-    com.heng.sys.domain,com.heng.sys.query,
-    com.heng.car.domain,com.heng.car.query
+                        com.heng.auth.domain,com.heng.auth.query,
+                        com.heng.sys.domain,com.heng.sys.query,
+                        com.heng.car.domain,com.heng.car.query,
+                        com.heng.user.domain,com.heng.user.query,
 
   #别名包的配置
   #扫描mapper.xml文件,当mapper.xml和Mapper.java接口在同一个包下时，可以不配置
@@ -43,9 +55,6 @@ mybatis:
 
 permission:
   scan-base-package: com.heng.org.controller,com.heng.auth.controller
-
-server:
-  port: 8081
 
 fastDfs:
   prefixUrl: "http://115.159.217.249:8888"
@@ -55,3 +64,5 @@ jarvis:
     timeout: 3
   carDetail:
     htmlPath: /Users/jarvis/Java/Idea/car-platform-client/cardetail
+  messageCodeExpiration:
+    timeout: 5

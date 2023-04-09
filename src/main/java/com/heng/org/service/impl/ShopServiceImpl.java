@@ -15,6 +15,7 @@ import com.heng.org.mapper.ShopAuditLogMapper;
 import com.heng.org.mapper.ShopMapper;
 import com.heng.org.service.IShopService;
 import com.heng.base.service.impl.BaseServiceImpl;
+import com.heng.user.service.ILogininfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,9 @@ public class ShopServiceImpl extends BaseServiceImpl<Shop> implements IShopServi
 
     @Autowired
     private JavaMailSender javaMailSender;
+
+    @Autowired
+    private ILogininfoService logininfoService;
 
     @Override
     @Transactional
@@ -104,6 +108,10 @@ public class ShopServiceImpl extends BaseServiceImpl<Shop> implements IShopServi
             Employee employee = new Employee();
             BeanUtils.copyProperties(shopRegisterDTO.getAdmin(), employee);
             employee.setNickName(shopRegisterDTO.getAdmin().getUsername());
+
+            //将信息保存到loginifo中
+            logininfoService.increase(employee);
+
             employee.setState((long) BaseConstants.Employee.STATE_LOCK);
             employeeMapper.insert(employee);
             employeeId = employee.getId();

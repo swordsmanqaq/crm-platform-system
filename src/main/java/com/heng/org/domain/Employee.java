@@ -23,5 +23,6 @@ public class Employee {
     private Long sex;
     private Long state;
     private Department department;
+    private Long logininfoId;
     private Shop shop;
 }
