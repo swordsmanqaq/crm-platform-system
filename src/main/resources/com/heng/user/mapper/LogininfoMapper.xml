@@ -60,6 +60,11 @@
         limit #{start},#{pageSize}
     </select>
 
+    <select id="loadByUsernameAndType" resultType="com.heng.user.domain.Logininfo">
+        select * from t_user_logininfo where `type` = #{type}
+        and (username = #{username} or phone = #{username} or email = #{username})
+    </select>
+
 
     <sql id="whereSql">
         <where>

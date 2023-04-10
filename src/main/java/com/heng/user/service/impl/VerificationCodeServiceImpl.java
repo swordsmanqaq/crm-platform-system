@@ -105,7 +105,7 @@ public class VerificationCodeServiceImpl implements IVerificationCodeService {
 
         //将短信验证码发送给用户
         String content = String.format("您的注册验证码为%s，请不要随意泄漏，有效期为五分钟，请及时输入", redisCodeValue);
-        SmsUtil.sendSms(dto.getPhone(),content);
+//        SmsUtil.sendSms(dto.getPhone(),content);
         System.out.println(content);
     }
 }

@@ -7,9 +7,11 @@ import com.heng.auth.dto.LoginDTO;
 import com.heng.auth.service.ILoginService;
 import com.heng.base.utils.AjaxResult;
 import com.heng.base.utils.BaseMap;
+import com.heng.user.service.ILogininfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,12 +23,22 @@ import java.util.Map;
  *@Description:
  */
 @RestController
+@RequestMapping("/login")
 public class LoginController {
 
     @Autowired
     private ILoginService loginService;
 
-    @PostMapping("/login")
+    @Autowired
+    private ILogininfoService logininfoService;
+
+
+    /**
+     * 登录
+     * @param dto
+     * @return
+     */
+    @PostMapping("/map")
     public AjaxResult loginIn(@RequestBody LoginDTO dto){
         try {
             Map<String, Object> loginUser = loginService.loginIn(dto);
@@ -37,6 +49,27 @@ public class LoginController {
         }
     }
 
+    /**
+     * 账号登录
+     * @param dto
+     * @return
+     */
+    @PostMapping("/account")
+    public AjaxResult accountLoginIn(@RequestBody LoginDTO dto){
+        try {
+            Map<String, Object> loginUser = logininfoService.loginIn(dto);
+            return AjaxResult.me().setResultObj(loginUser);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage(e.getMessage());
+        }
+    }
+
+    /**
+     * 登出
+     * @param httpServletRequest
+     * @return
+     */
     @PostMapping("/logout")
     //获取请求头的信息
     public AjaxResult loginOut(HttpServletRequest httpServletRequest){

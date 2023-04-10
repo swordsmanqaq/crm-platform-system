@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -24,11 +25,11 @@ public class FoundationAppStart implements WebMvcConfigurer {
     }
 
 //    重写添加拦截器方法
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(loginInterceptor)
-//                .addPathPatterns("/**")   //拦截所有
-//                .excludePathPatterns("/login","/logout");  //放行资源
-//    }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(loginInterceptor)
+                .addPathPatterns("/**")   //拦截所有
+                .excludePathPatterns("/login/**","/verification/**");  //放行资源
+    }
 
 }

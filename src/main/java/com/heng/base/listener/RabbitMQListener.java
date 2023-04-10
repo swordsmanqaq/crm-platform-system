@@ -53,7 +53,7 @@ public class RabbitMQListener {
 
     @RabbitListener(queues = {RegisterNoticeRabbitmqConfig.QUEUE_INFORM_SMS})
     public void listenerSms(SendEmailAndMessageDTO dto){
-        //发送邮件
-        SmsUtil.sendSms(dto.getAddressee(),dto.getContent());
+        //发送短信
+//        SmsUtil.sendSms(dto.getAddressee(),dto.getContent());
     }
 }

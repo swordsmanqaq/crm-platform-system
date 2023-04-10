@@ -9,6 +9,7 @@ import com.heng.base.utils.BaseMap;
 import com.heng.org.domain.Employee;
 import com.heng.org.mapper.EmployeeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
@@ -32,6 +33,9 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Autowired
     private PermissionMapper permissionMapper;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     //前置拦截
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -44,14 +48,15 @@ public class LoginInterceptor implements HandlerInterceptor {
             return false;
         }
         //根据token查询用户信息，看是否为空，空则拦截
-        Object loginUser = BaseMap.map.get(headerToken);
+//        Object loginUser = BaseMap.map.get(headerToken);
+        Object loginUser = redisTemplate.opsForValue().get(headerToken);
 
         if (StringUtils.isEmpty(loginUser)){
             response.getWriter().write("{\"success\": false, \"message\": \"NoLogin\"}");
             return false;
         }
 
-        Employee employee = (Employee)loginUser;
+        /*Employee employee = (Employee)loginUser;
 
         //2、权限拦截
         if(handler instanceof HandlerMethod){
@@ -75,7 +80,8 @@ public class LoginInterceptor implements HandlerInterceptor {
                 return false;
             }
 
-        }
+        }*/
+
         //放行
         return true;
     }

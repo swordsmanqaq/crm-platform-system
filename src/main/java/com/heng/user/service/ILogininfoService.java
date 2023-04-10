@@ -1,8 +1,11 @@
 package com.heng.user.service;
 
+import com.heng.auth.dto.LoginDTO;
 import com.heng.org.domain.Employee;
 import com.heng.user.domain.Logininfo;
 import com.heng.base.service.IBaseService;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -15,5 +18,7 @@ import com.heng.base.service.IBaseService;
 public interface ILogininfoService extends IBaseService<Logininfo> {
 
     void increase(Employee employee);
+
+    Map<String, Object> loginIn(LoginDTO dto);
 
 }
