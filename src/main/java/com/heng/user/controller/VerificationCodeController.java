@@ -38,7 +38,7 @@ public class VerificationCodeController {
     }
 
     /**
-     * 发送手机验证码
+     * 注册发送手机验证码
      * @return
      */
     @PostMapping("/sms/register")
@@ -51,4 +51,37 @@ public class VerificationCodeController {
             return AjaxResult.me().setSuccess(false).setMessage("发送手机验证码失败!"+e.getMessage());
         }
     }
+
+    /**
+     * 手机号登录发送验证码
+     * @param dto
+     * @return
+     */
+    @PostMapping("/sms/phone")
+    public AjaxResult sendPhoneMessage(@RequestBody MessageCodeDTO dto){
+        try {
+            iVerificationCodeService.sendPhoneMessage(dto);
+            return AjaxResult.me();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("发送手机验证码失败!"+e.getMessage());
+        }
+    }
+
+    /**
+     * 修改密码手机验证码
+     * @param dto
+     * @return
+     */
+    @PostMapping("/sms/changePassword")
+    public AjaxResult sendPhoneMessageChangePassword(@RequestBody MessageCodeDTO dto){
+        try {
+            iVerificationCodeService.sendPhoneMessageChangePassword(dto);
+            return AjaxResult.me();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("发送手机验证码失败!"+e.getMessage());
+        }
+    }
+
 }

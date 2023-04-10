@@ -29,7 +29,7 @@ public class FoundationAppStart implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/**")   //拦截所有
-                .excludePathPatterns("/login/**","/verification/**");  //放行资源
+                .excludePathPatterns("/login/**","/verification/**","/user/phone/register");  //放行资源
     }
 
 }

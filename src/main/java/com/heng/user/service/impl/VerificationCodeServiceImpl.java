@@ -60,7 +60,7 @@ public class VerificationCodeServiceImpl implements IVerificationCodeService {
     }
 
     /**
-     * 发送手机验证码
+     * 注册发送手机验证码
      *
      * @param dto
      */
@@ -84,6 +84,84 @@ public class VerificationCodeServiceImpl implements IVerificationCodeService {
         //给手机号发送验证码，并将验证码存入redis并设置过期时间
         //先判断手机号是否已经存在验证码
         String redisCodeKey = BaseConstants.MessageCode.REGISTER_SMS_CODE + dto.getPhone();
+        Object valueResult = redisTemplate.opsForValue().get(redisCodeKey);
+        String redisCodeValue = "";
+        if (Objects.nonNull(valueResult)) {
+            //存在验证码
+            //判断是否已过重发时间，即一分钟
+            Long expireTime = redisTemplate.opsForValue().getOperations().getExpire(redisCodeKey, TimeUnit.MINUTES);
+            if (expireTime >= 4) {
+                throw new RuntimeException("请不要频繁发送验证码");
+            } else {
+                //过了重发时间，将验证码重新设置过期时间放入redis
+                redisCodeValue = valueResult.toString();
+            }
+        } else {
+            //验证码不存在
+            //随机生成一个六位数的验证码
+            redisCodeValue = VerifyCodeUtils.generateVerifyMessageCode(6);
+        }
+        redisTemplate.opsForValue().set(redisCodeKey, redisCodeValue, this.messageCodeTimeout, TimeUnit.MINUTES);
+
+        //将短信验证码发送给用户
+        String content = String.format("您的注册验证码为%s，请不要随意泄漏，有效期为五分钟，请及时输入", redisCodeValue);
+//        SmsUtil.sendSms(dto.getPhone(),content);
+        System.out.println(content);
+    }
+
+    /**
+     * 手机登录发送验证码
+     * @param dto
+     */
+    @Override
+    public void sendPhoneMessage(MessageCodeDTO dto) {
+        //参数的非空校验
+        if (StringUtils.isEmpty(dto.getPhone())) {
+            throw new RuntimeException("手机号不能为空");
+        }
+
+        //给手机号发送验证码，并将验证码存入redis并设置过期时间
+        //先判断手机号是否已经存在验证码
+        String redisCodeKey = BaseConstants.MessageCode.LOGIN_SMS_CODE + dto.getPhone();
+        Object valueResult = redisTemplate.opsForValue().get(redisCodeKey);
+        String redisCodeValue = "";
+        if (Objects.nonNull(valueResult)) {
+            //存在验证码
+            //判断是否已过重发时间，即一分钟
+            Long expireTime = redisTemplate.opsForValue().getOperations().getExpire(redisCodeKey, TimeUnit.MINUTES);
+            if (expireTime >= 4) {
+                throw new RuntimeException("请不要频繁发送验证码");
+            } else {
+                //过了重发时间，将验证码重新设置过期时间放入redis
+                redisCodeValue = valueResult.toString();
+            }
+        } else {
+            //验证码不存在
+            //随机生成一个六位数的验证码
+            redisCodeValue = VerifyCodeUtils.generateVerifyMessageCode(6);
+        }
+        redisTemplate.opsForValue().set(redisCodeKey, redisCodeValue, this.messageCodeTimeout, TimeUnit.MINUTES);
+
+        //将短信验证码发送给用户
+        String content = String.format("您的注册验证码为%s，请不要随意泄漏，有效期为五分钟，请及时输入", redisCodeValue);
+//        SmsUtil.sendSms(dto.getPhone(),content);
+        System.out.println(content);
+
+    }
+
+    /**
+     * 修改密码发送验证码
+     * @param dto
+     */
+    @Override
+    public void sendPhoneMessageChangePassword(MessageCodeDTO dto) {
+        //参数的非空校验
+        if (StringUtils.isEmpty(dto.getPhone())) {
+            throw new RuntimeException("手机号不能为空");
+        }
+        //给手机号发送验证码，并将验证码存入redis并设置过期时间
+        //先判断手机号是否已经存在验证码
+        String redisCodeKey = BaseConstants.MessageCode.CHANGEPASSWORD_SMS_CODE + dto.getPhone();
         Object valueResult = redisTemplate.opsForValue().get(redisCodeKey);
         String redisCodeValue = "";
         if (Objects.nonNull(valueResult)) {

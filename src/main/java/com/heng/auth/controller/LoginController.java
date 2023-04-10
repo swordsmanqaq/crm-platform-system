@@ -9,6 +9,7 @@ import com.heng.base.utils.AjaxResult;
 import com.heng.base.utils.BaseMap;
 import com.heng.user.service.ILogininfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,9 @@ public class LoginController {
 
     @Autowired
     private ILogininfoService logininfoService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
 
     /**
@@ -66,6 +70,34 @@ public class LoginController {
     }
 
     /**
+     * 手机号登录
+     * @param dto
+     * @return
+     */
+    @PostMapping("/phone")
+    public AjaxResult phoneLoginIn(@RequestBody LoginDTO dto){
+        try {
+            Map<String, Object> loginUser = logininfoService.phoneLoginIn(dto);
+            return AjaxResult.me().setResultObj(loginUser);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage(e.getMessage());
+        }
+    }
+
+
+    @PostMapping("/changePassword")
+    public AjaxResult changePasswordCommit(@RequestBody LoginDTO dto){
+        try {
+            logininfoService.changePasswordCommit(dto);
+            return AjaxResult.me();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage(e.getMessage());
+        }
+    }
+
+    /**
      * 登出
      * @param httpServletRequest
      * @return
@@ -75,11 +107,13 @@ public class LoginController {
     public AjaxResult loginOut(HttpServletRequest httpServletRequest){
         try {
             String token = httpServletRequest.getHeader("token");
-            BaseMap.map.remove(token);
+//            BaseMap.map.remove(token);
+            redisTemplate.delete(token);
             return AjaxResult.me();
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.me().setSuccess(false).setMessage("退出登录失败" + e.getMessage());
         }
     }
+
 }

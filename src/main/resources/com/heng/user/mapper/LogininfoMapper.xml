@@ -9,7 +9,7 @@
                             email,
                             salt,
                             password,
-                            type,
+                            `type`,
                             disable
         ) values(
                                    #{username},
@@ -36,7 +36,7 @@
                             email = #{email},
                             salt = #{salt},
                             password = #{password},
-                            type = #{type},
+                            `type` = #{type},
                             disable = #{disable}
         where id = #{id}
     </update>

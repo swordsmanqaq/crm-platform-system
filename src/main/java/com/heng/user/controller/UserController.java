@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user" )
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     public IUserService userService;
@@ -120,6 +120,11 @@ public class UserController {
         }
     }
 
+    /**
+     * 手机注册
+     * @param dto
+     * @return
+     */
     @PostMapping("/phone/register")
     public AjaxResult registerSave(@RequestBody RegisterDTO dto){
         try {

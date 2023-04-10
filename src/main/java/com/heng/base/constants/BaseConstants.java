@@ -72,10 +72,12 @@ public class BaseConstants {
      * 手机验证码存入redis key的前缀
      */
     public class MessageCode {
-        //用户名
+        //注册
         public static final String REGISTER_SMS_CODE = "register";
-        //秘钥
+        //登录
         public static final String LOGIN_SMS_CODE = "login";
+        //修改密码
+        public static final String CHANGEPASSWORD_SMS_CODE = "changepassword";
     }
 
     //logininfo表的状态

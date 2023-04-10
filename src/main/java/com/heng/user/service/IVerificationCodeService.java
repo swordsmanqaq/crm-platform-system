@@ -11,4 +11,8 @@ public interface IVerificationCodeService {
 
     void sendMessageCode(MessageCodeDTO dto);
 
+    void sendPhoneMessage(MessageCodeDTO dto);
+
+    void sendPhoneMessageChangePassword(MessageCodeDTO dto);
+
 }
