@@ -6,6 +6,7 @@ package com.heng.user.service.impl;/**
 import com.heng.base.constants.BaseConstants;
 import com.heng.base.utils.SmsUtil;
 import com.heng.base.utils.VerifyCodeUtils;
+import com.heng.user.dto.BindParamDTO;
 import com.heng.user.dto.MessageCodeDTO;
 import com.heng.user.service.IVerificationCodeService;
 import org.apache.commons.lang3.StringUtils;
@@ -179,6 +180,45 @@ public class VerificationCodeServiceImpl implements IVerificationCodeService {
             //随机生成一个六位数的验证码
             redisCodeValue = VerifyCodeUtils.generateVerifyMessageCode(6);
         }
+        redisTemplate.opsForValue().set(redisCodeKey, redisCodeValue, this.messageCodeTimeout, TimeUnit.MINUTES);
+
+        //将短信验证码发送给用户
+        String content = String.format("您的注册验证码为%s，请不要随意泄漏，有效期为五分钟，请及时输入", redisCodeValue);
+//        SmsUtil.sendSms(dto.getPhone(),content);
+        System.out.println(content);
+    }
+
+    /**
+     * 绑定微信手机验证码发送
+     * @param dto
+     */
+    @Override
+    public void sendPhoneMessageToBind(MessageCodeDTO dto) {
+        //参数的非空校验
+        if (StringUtils.isEmpty(dto.getPhone())) {
+            throw new RuntimeException("手机号不能为空");
+        }
+        //给手机号发送验证码，并将验证码存入redis并设置过期时间
+        //先判断手机号是否已经存在验证码
+        String redisCodeKey = BaseConstants.MessageCode.BINDWECHAT_SMS_CODE + dto.getPhone();
+        Object valueResult = redisTemplate.opsForValue().get(redisCodeKey);
+        String redisCodeValue = "";
+        if (Objects.nonNull(valueResult)) {
+            //存在验证码
+            //判断是否已过重发时间，即一分钟
+            Long expireTime = redisTemplate.opsForValue().getOperations().getExpire(redisCodeKey, TimeUnit.MINUTES);
+            if (expireTime >= 4) {
+                throw new RuntimeException("请不要频繁发送验证码");
+            } else {
+                //过了重发时间，将验证码重新设置过期时间放入redis
+                redisCodeValue = valueResult.toString();
+            }
+        } else {
+            //验证码不存在
+            //随机生成一个六位数的验证码
+            redisCodeValue = VerifyCodeUtils.generateVerifyMessageCode(6);
+        }
+
         redisTemplate.opsForValue().set(redisCodeKey, redisCodeValue, this.messageCodeTimeout, TimeUnit.MINUTES);
 
         //将短信验证码发送给用户

@@ -60,6 +60,16 @@
         limit #{start},#{pageSize}
     </select>
 
+    <select id="loadByOpenid" resultMap="BaseResultMap">
+        select * from t_user_wechatuser
+        where openid = #{openid}
+    </select>
+
+    <select id="loadByUserId" resultMap="BaseResultMap">
+        select * from t_user_wechatuser
+        where user_id = #{userId}
+    </select>
+
 
     <sql id="whereSql">
         <where>

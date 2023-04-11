@@ -16,4 +16,6 @@ public interface LogininfoMapper extends BaseMapper<Logininfo> {
 
     Logininfo loadByUsernameAndType(@Param("username") String username, @Param("type") Integer type);
 
+    Logininfo loadByUserId(@Param("userId") Long userId);
+
 }

@@ -2,6 +2,7 @@ package com.heng.user.mapper;
 
 import com.heng.user.domain.Wechatuser;
 import com.heng.base.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -12,5 +13,9 @@ import com.heng.base.mapper.BaseMapper;
  * @since 2023-04-08
  */
 public interface WechatuserMapper extends BaseMapper<Wechatuser> {
+
+    Wechatuser loadByOpenid(@Param("openid") String openid);
+
+    Wechatuser loadByUserId(Long userId);
 
 }

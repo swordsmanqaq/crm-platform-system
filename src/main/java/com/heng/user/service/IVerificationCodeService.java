@@ -1,5 +1,6 @@
 package com.heng.user.service;
 
+import com.heng.user.dto.BindParamDTO;
 import com.heng.user.dto.MessageCodeDTO;
 
 /**
@@ -14,5 +15,7 @@ public interface IVerificationCodeService {
     void sendPhoneMessage(MessageCodeDTO dto);
 
     void sendPhoneMessageChangePassword(MessageCodeDTO dto);
+
+    void sendPhoneMessageToBind(MessageCodeDTO dto);
 
 }

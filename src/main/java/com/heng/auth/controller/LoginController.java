@@ -10,10 +10,7 @@ import com.heng.base.utils.BaseMap;
 import com.heng.user.service.ILogininfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -85,7 +82,11 @@ public class LoginController {
         }
     }
 
-
+    /**
+     * 找回密码
+     * @param dto
+     * @return
+     */
     @PostMapping("/changePassword")
     public AjaxResult changePasswordCommit(@RequestBody LoginDTO dto){
         try {
@@ -94,6 +95,22 @@ public class LoginController {
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.me().setSuccess(false).setMessage(e.getMessage());
+        }
+    }
+
+    /**
+     * 微信登录回调函数接口
+     * @param code
+     * @return
+     */
+    @PostMapping("/wechat/{code}")
+    public AjaxResult callBack(@PathVariable("code") String code){
+        try {
+            Map<String, Object> loginUser = logininfoService.callBack(code);
+            return AjaxResult.me().setResultObj(loginUser);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("微信登录失败" + e.getMessage());
         }
     }
 

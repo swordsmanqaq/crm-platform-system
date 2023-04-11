@@ -25,4 +25,7 @@ public interface ILogininfoService extends IBaseService<Logininfo> {
 
     void changePasswordCommit(LoginDTO dto);
 
+    Map<String, Object> callBack(String code);
+
+    Map<String, Object> loginSuccess(Logininfo logininfo);
 }

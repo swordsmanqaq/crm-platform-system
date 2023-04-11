@@ -60,7 +60,7 @@ public class LogininfoController {
     @PatchMapping
     public AjaxResult patchRemove(@RequestBody List<Long> ids) {
         try {
-                logininfoService.patchRemove(ids);
+            logininfoService.patchRemove(ids);
             return AjaxResult.me();
         } catch (Exception e) {
             e.printStackTrace();

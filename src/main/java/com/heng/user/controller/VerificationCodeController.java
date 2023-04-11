@@ -4,6 +4,7 @@ package com.heng.user.controller;/**
  */
 
 import com.heng.base.utils.AjaxResult;
+import com.heng.user.dto.BindParamDTO;
 import com.heng.user.dto.MessageCodeDTO;
 import com.heng.user.service.IVerificationCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +78,23 @@ public class VerificationCodeController {
     public AjaxResult sendPhoneMessageChangePassword(@RequestBody MessageCodeDTO dto){
         try {
             iVerificationCodeService.sendPhoneMessageChangePassword(dto);
+            return AjaxResult.me();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("发送手机验证码失败!"+e.getMessage());
+        }
+    }
+
+
+    /**
+     * 绑定微信发送手机验证码接口
+     * @param dto
+     * @return
+     */
+    @PostMapping("/sms/bind")
+    public AjaxResult sendPhoneMessageToBind(@RequestBody MessageCodeDTO dto){
+        try {
+            iVerificationCodeService.sendPhoneMessageToBind(dto);
             return AjaxResult.me();
         } catch (Exception e) {
             e.printStackTrace();

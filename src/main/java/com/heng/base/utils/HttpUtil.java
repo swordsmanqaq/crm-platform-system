@@ -89,8 +89,8 @@ public class HttpUtil {
             HttpClient client = new HttpClient();
             // 2 创建要发起请求-tet
             GetMethod getMethod = new GetMethod(url);
-//            getMethod.addRequestHeader("Content-Type",
-//                    "application/x-www-form-urlencoded;charset=UTF-8");
+            getMethod.addRequestHeader("Content-Type",
+                   "application/x-www-form-urlencoded;charset=UTF-8");
             getMethod.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET,"utf8");
             // 3 通过客户端传入请求就可以发起请求,获取响应对象
             client.executeMethod(getMethod);

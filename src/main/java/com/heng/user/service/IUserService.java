@@ -2,7 +2,10 @@ package com.heng.user.service;
 
 import com.heng.user.domain.User;
 import com.heng.base.service.IBaseService;
+import com.heng.user.dto.BindParamDTO;
 import com.heng.user.dto.RegisterDTO;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -15,5 +18,7 @@ import com.heng.user.dto.RegisterDTO;
 public interface IUserService extends IBaseService<User> {
 
     void registerSave(RegisterDTO dto);
+
+    Map<String, Object> bind(BindParamDTO dto);
 
 }

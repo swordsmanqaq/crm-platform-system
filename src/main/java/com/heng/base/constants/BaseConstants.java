@@ -78,6 +78,8 @@ public class BaseConstants {
         public static final String LOGIN_SMS_CODE = "login";
         //修改密码
         public static final String CHANGEPASSWORD_SMS_CODE = "changepassword";
+        //绑定微信
+        public static final String BINDWECHAT_SMS_CODE = "bindwechat";
     }
 
     //logininfo表的状态

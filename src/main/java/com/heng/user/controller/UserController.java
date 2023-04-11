@@ -1,5 +1,6 @@
 package com.heng.user.controller;
 
+import com.heng.user.dto.BindParamDTO;
 import com.heng.user.dto.RegisterDTO;
 import com.heng.user.service.IUserService;
 import com.heng.user.domain.User;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -132,7 +134,26 @@ public class UserController {
             return AjaxResult.me();
         } catch (Exception e) {
             e.printStackTrace();
-            return AjaxResult.me().setSuccess(false).setMessage("注册失败" + e.getMessage());
+            return AjaxResult.me().setSuccess(false).setMessage("用户注册失败" + e.getMessage());
         }
     }
+
+
+    /**
+     * 绑定微信接口
+     * @param dto
+     * @return
+     */
+    @PostMapping("/bind/wechat")
+    public AjaxResult bind(@RequestBody BindParamDTO dto){
+        try {
+            Map<String, Object> loginUser = userService.bind(dto);
+            return AjaxResult.me().setResultObj(loginUser);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("用户绑定失败" + e.getMessage());
+        }
+    }
+
+
 }

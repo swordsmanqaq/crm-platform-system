@@ -65,6 +65,13 @@
         and (username = #{username} or phone = #{username} or email = #{username})
     </select>
 
+    <select id="loadByUserId" resultMap="BaseResultMap">
+        select l.*
+        from t_user_logininfo l left join t_user_user u
+        on l.id = u.logininfo_id
+        where u.id = #{userId};
+    </select>
+
 
     <sql id="whereSql">
         <where>
