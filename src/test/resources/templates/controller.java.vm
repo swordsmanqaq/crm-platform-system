@@ -44,7 +44,7 @@ public class ${entity}Controller {
     @DeleteMapping(value = "/{id}" )
     public AjaxResult remove(@PathVariable("id" ) Long id) {
         try {
-                ${table.entityPath}Service.remove(id);
+            ${table.entityPath}Service.remove(id);
             return AjaxResult.me();
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,7 +60,7 @@ public class ${entity}Controller {
     @PatchMapping
     public AjaxResult patchRemove(@RequestBody List<Long> ids) {
         try {
-                ${table.entityPath}Service.patchRemove(ids);
+            ${table.entityPath}Service.patchRemove(ids);
             return AjaxResult.me();
         } catch (Exception e) {
             e.printStackTrace();

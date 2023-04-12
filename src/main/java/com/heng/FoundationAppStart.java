@@ -25,11 +25,11 @@ public class FoundationAppStart implements WebMvcConfigurer {
     }
 
 //    重写添加拦截器方法
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loginInterceptor)
-                .addPathPatterns("/**")   //拦截所有
-                .excludePathPatterns("/login/**","/verification/**","/user/phone/register","/user/bind/wechat");  //放行资源
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(loginInterceptor)
+//                .addPathPatterns("/**")   //拦截所有
+//                .excludePathPatterns("/login/**","/verification/**","/user/phone/register","/user/bind/wechat");  //放行资源
+//    }
 
 }

@@ -48,6 +48,7 @@ mybatis:
                         com.heng.sys.domain,com.heng.sys.query,
                         com.heng.car.domain,com.heng.car.query,
                         com.heng.user.domain,com.heng.user.query,
+                        com.heng.shop.domain,com.heng.shop.query,
 
   #别名包的配置
   #扫描mapper.xml文件,当mapper.xml和Mapper.java接口在同一个包下时，可以不配置

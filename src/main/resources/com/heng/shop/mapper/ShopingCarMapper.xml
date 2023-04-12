@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heng.shop.mapper.ShopingCarMapper">
+    <!--保存对象-->
+    <insert id="insert" parameterType="ShopingCar" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into t_shop_shoping_car(user_id,
+                                       car_id,
+                                       `number`,
+                                       price,
+                                       subtotal,
+                                       create_time,
+                                       shop_id,
+                                       `state`)
+        values (#{userId},
+                #{carId},
+                #{number},
+                #{price},
+                #{subtotal},
+                #{createTime},
+                #{shopId},
+                #{state})
+    </insert>
+    <!--删除对象-->
+    <delete id="remove" parameterType="long">
+        delete
+        from t_shop_shoping_car
+        where id = #{id}
+    </delete>
+
+    <!--更新对象-->
+    <update id="update" parameterType="ShopingCar">
+        update t_shop_shoping_car
+        set
+            user_id     = #{userId},
+            car_id      = #{carId},
+            `number`    = #{number},
+            price       = #{price},
+            subtotal    = #{subtotal},
+            create_time = #{createTime},
+            shop_id     = #{shopId},
+            `state`     = #{state}
+        where id = #{id}
+    </update>
+    <!--加载对象-->
+    <select id="loadById" resultMap="BaseResultMap" parameterType="long">
+        select *
+        from t_shop_shoping_car
+        where id = #{id}
+    </select>
+    <!--加载所有对象-->
+    <select id="loadAll" resultMap="BaseResultMap">
+        select *
+        from t_shop_shoping_car
+    </select>
+    <!--//查询总数=参数（查询对象），返回值：long-->
+    <select id="loadTotal" parameterType="ShopingCarQuery" resultType="Long">
+        select count(*) from t_shop_shoping_car
+        <include refid="whereSql"/>
+    </select>
+    <!--//查询当前页数据=参数（查询对象），返回值:List-->
+    <select id="pageList" parameterType="ShopingCarQuery" resultMap="BaseResultMap">
+        select * from t_shop_shoping_car
+        <include refid="whereSql"/>
+        limit #{start},#{pageSize}
+    </select>
+
+    <select id="loadShopingCarsTotalByUserId" resultType="Long">
+        SELECT COUNT(*)
+        FROM t_shop_shoping_car
+        WHERE user_id = #{loginId}
+    </select>
+
+    <select id="loadShopingCarsByUserId" resultMap="BaseResultMap">
+        SELECT sc.*, cc.id as 'ccid', cc.title as 'cctitle', cc.cover as 'cccover', os.id as 'osid' ,os.`name` AS 'osname'
+        FROM t_shop_shoping_car sc
+        LEFT JOIN t_car_car cc ON sc.car_id = cc.id
+        LEFT JOIN t_org_shop os ON sc.shop_id = os.id
+        WHERE sc.user_id = #{loginId}
+    </select>
+
+    <select id="loadAllIdsByUserId" resultType="java.lang.Long">
+        select id
+        from t_shop_shoping_car
+        where user_id = #{loginId}
+    </select>
+
+    <select id="loadByCarId" resultMap="BaseResultMap">
+        SELECT *
+        FROM t_shop_shoping_car
+        WHERE car_id = #{carId}
+    </select>
+
+
+    <sql id="whereSql">
+        <where>
+            <if test="keyword!=null and keyword!=''">
+                and (name like concat('%',#{keyword},'%'))
+            </if>
+        </where>
+    </sql>
+
+    <!--//批量删除-->
+    <delete id="patchRemove" parameterType="arraylist">
+        delete from t_shop_shoping_car where id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.heng.shop.domain.ShopingCar">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="car_id" property="carId"/>
+        <result column="number" property="number"/>
+        <result column="price" property="price"/>
+        <result column="subtotal" property="subtotal"/>
+        <result column="create_time" property="createTime"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="state" property="state"/>
+        <association property="car" javaType="Car">
+            <id column="ccid" property="id"></id>
+            <result column="cctitle" property="title"></result>
+            <result column="cccover" property="cover"></result>
+        </association>
+        <association property="shop" javaType="shop">
+            <id column="osid" property="id"></id>
+            <result column="osname" property="name"></result>
+        </association>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        , user_id AS userId, car_id AS carId, number, price, subtotal, create_time AS createTime
+    </sql>
+
+</mapper>
