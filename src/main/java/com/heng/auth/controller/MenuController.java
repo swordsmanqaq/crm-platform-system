@@ -9,7 +9,6 @@ import com.heng.auth.query.MenuQuery;
 import com.heng.auth.service.IMenuService;
 import com.heng.base.utils.AjaxResult;
 import com.heng.base.utils.PageList;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -73,7 +72,6 @@ public class MenuController {
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "根据id查询方法")
     public AjaxResult getById(@PathVariable("id") Long id) {
         try {
             Menu menu = iMenuService.loadById(id);
@@ -84,7 +82,10 @@ public class MenuController {
         }
     }
 
-
+    /**
+     * 获取所有
+     * @return
+     */
     @GetMapping
     public AjaxResult getAll() {
         try {

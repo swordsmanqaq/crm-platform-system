@@ -8,13 +8,15 @@
                             password,
                             age,
                             check_time,
-                            leave_time
+                            leave_time,
+                            build,
         ) values(
                                    #{username},
                                    #{password},
                                    #{age},
                                    #{checkTime},
-                                   #{leaveTime}
+                                   #{leaveTime},
+                                   #{build}
         )
     </insert>
     <!--删除对象-->
@@ -31,7 +33,8 @@
                             password = #{password},
                             age = #{age},
                             check_time = #{checkTime},
-                            leave_time = #{leaveTime}
+                            leave_time = #{leaveTime},
+                            build = #{build}
         where id = #{id}
     </update>
     <!--加载对象-->
@@ -52,6 +55,12 @@
         select * from t_org_household
         <include refid="whereSql"/>
         limit #{start},#{pageSize}
+    </select>
+
+    <select id="loadByUsername" resultType="com.heng.org.domain.Household">
+        select *
+        from t_org_household
+        where username = #{username};
     </select>
 
 

@@ -24,6 +24,7 @@ import java.util.Objects;
  */
 @RestController
 @RequestMapping("/role")
+@MyPermission(name = "角色管理", desc = "角色管理层")
 public class RoleController {
 
     @Autowired
@@ -35,6 +36,7 @@ public class RoleController {
      * @return
      */
     @PostMapping("/save")
+    @MyPermission(name = "角色新增/修改管理", desc = "角色新增/修改")
     public AjaxResult addOrUpdate(@RequestBody Role role) {
         try {
             //先判断是否有id
@@ -57,6 +59,7 @@ public class RoleController {
      * @return
      */
     @DeleteMapping("/{id}")
+    @MyPermission(name = "角色删除管理", desc = "角色删除")
     public AjaxResult deleteById(@PathVariable("id") Long id) {
         try {
             roleService.remove(id);
@@ -122,6 +125,7 @@ public class RoleController {
      * @return
      */
     @PatchMapping
+    @MyPermission(name = "角色批量删除管理", desc = "角色批量删除")
     public AjaxResult patchRemove(@RequestBody List<Long> ids) {
         try {
             roleService.patchRemove(ids);

@@ -27,4 +27,5 @@ public class Household extends BaseDomain{
     private Date checkTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date leaveTime;
+    private String build;
 }
