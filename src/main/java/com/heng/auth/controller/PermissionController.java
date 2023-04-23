@@ -22,6 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/permission")
+@MyPermission(name = "权限管理", desc = "权限管理层")
 public class PermissionController {
 
     @Autowired
@@ -58,6 +59,10 @@ public class PermissionController {
         }
     }
 
+    /**
+     * 获取唯一标识
+     * @return
+     */
     @GetMapping("/sns")
     public AjaxResult getSns(){
         try {

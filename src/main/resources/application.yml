@@ -1,3 +1,4 @@
+
 #数据库的链接配置
 spring:
   mvc:
@@ -22,5 +23,4 @@ mybatis:
 
 permission:
   scan-base-package: com.heng.org.controller,com.heng.auth.controller
-
 

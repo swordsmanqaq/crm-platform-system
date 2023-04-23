@@ -19,6 +19,15 @@
                                    #{build}
         )
     </insert>
+
+    <insert id="saveRole">
+        insert into t_auth_household_role(employee_id,role_id)
+        values
+        <foreach collection="roleId" item="roleId" separator=",">
+            (#{householdId},#{roleId})
+        </foreach>
+    </insert>
+
     <!--删除对象-->
     <delete id="remove" parameterType="long">
         delete from t_org_household where id = #{id}
@@ -63,6 +72,10 @@
         where username = #{username};
     </select>
 
+    <select id="getRoleByHouseholdId" resultType="java.lang.Long">
+        select role_id from t_auth_household_role where employee_id = #{householdId}
+    </select>
+
 
     <sql id="whereSql">
         <where>
@@ -79,6 +92,11 @@
             #{id}
         </foreach>
     </delete>
+
+    <delete id="removeRole">
+        delete from t_auth_household_role where employee_id = #{householdId}
+    </delete>
+
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.heng.org.domain.Household">
         <id column="id" property="id" />

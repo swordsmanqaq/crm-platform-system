@@ -1,5 +1,6 @@
 package com.heng.org.controller;
 
+import com.heng.auth.annotation.MyPermission;
 import com.heng.org.service.IPersonEntryAndExitRecordsService;
 import com.heng.org.domain.PersonEntryAndExitRecords;
 import com.heng.org.query.PersonEntryAndExitRecordsQuery;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/personEntryAndExitRecords")
+@MyPermission(name = "外来人员记录管理", desc = "外来人员记录管理层")
 public class PersonEntryAndExitRecordsController {
     @Autowired
     public IPersonEntryAndExitRecordsService personEntryAndExitRecordsService;
@@ -23,6 +25,7 @@ public class PersonEntryAndExitRecordsController {
      * @return Ajaxresult转换结果
      */
     @PostMapping("/save")
+    @MyPermission(name = "外来人员新增/修改管理", desc = "外来人员新增/修改")
     public AjaxResult addOrUpdate(@RequestBody PersonEntryAndExitRecords personEntryAndExitRecords){
         try {
             if( personEntryAndExitRecords.getId()!=null)
@@ -41,6 +44,7 @@ public class PersonEntryAndExitRecordsController {
     * @return
     */
     @DeleteMapping(value="/{id}")
+    @MyPermission(name = "外来人员删除管理", desc = "外来人员删除")
     public AjaxResult remove(@PathVariable("id") Long id){
         try {
             personEntryAndExitRecordsService.remove(id);
@@ -57,6 +61,7 @@ public class PersonEntryAndExitRecordsController {
      * @return
     */
     @PatchMapping
+    @MyPermission(name = "外来人员批量删除管理", desc = "外来人员批量删除")
     public AjaxResult patchRemove(@RequestBody List<Long> ids)
     {
         try {

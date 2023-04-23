@@ -71,6 +71,11 @@ public class MenuController {
 
     }
 
+    /**
+     * 根据id获取
+     * @param id
+     * @return
+     */
     @GetMapping("/{id}")
     public AjaxResult getById(@PathVariable("id") Long id) {
         try {
