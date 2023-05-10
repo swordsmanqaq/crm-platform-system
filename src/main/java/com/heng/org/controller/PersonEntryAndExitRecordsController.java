@@ -20,7 +20,7 @@ public class PersonEntryAndExitRecordsController {
 
 
     /**
-     * 保存和修改公用的
+     * 保存和修改
      * @param personEntryAndExitRecords  传递的实体
      * @return Ajaxresult转换结果
      */

@@ -15,4 +15,6 @@ public interface IIccardService extends IBaseService<Iccard> {
 
     void saveICLoss(Long userId);
 
+    void allocationIC(Iccard iccard);
+
 }

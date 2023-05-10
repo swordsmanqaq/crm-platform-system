@@ -64,7 +64,7 @@
 
     <select id="getAllPermissionByEmployeeId" resultType="java.lang.String">
         SELECT rp.permission_sn
-        FROM t_auth_employee_role er
+        FROM t_auth_household_role er
         LEFT JOIN t_auth_role_permission rp
         on er.role_id = rp.role_id
         WHERE er.employee_id = #{employeeId}

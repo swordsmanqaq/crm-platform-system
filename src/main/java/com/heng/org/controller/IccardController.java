@@ -1,5 +1,6 @@
 package com.heng.org.controller;
 
+import com.heng.auth.annotation.MyPermission;
 import com.heng.org.service.IIccardService;
 import com.heng.org.domain.Iccard;
 import com.heng.org.query.IccardQuery;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/iccard")
+@MyPermission(name = "IC卡管理", desc = "IC卡管理层")
 public class IccardController {
     @Autowired
     public IIccardService iccardService;
@@ -24,6 +26,7 @@ public class IccardController {
      * @return Ajaxresult转换结果
      */
     @PutMapping
+    @MyPermission(name = "IC卡新增/修改管理", desc = "IC卡新增/修改")
     public AjaxResult addOrUpdate(@RequestBody Iccard iccard) {
         try {
             if (iccard.getId() != null)
@@ -61,6 +64,7 @@ public class IccardController {
      * @return
      */
     @PatchMapping
+    @MyPermission(name = "IC卡删除管理", desc = "IC卡删除")
     public AjaxResult patchRemove(@RequestBody List<Long> ids) {
         try {
             iccardService.patchRemove(ids);
@@ -130,6 +134,7 @@ public class IccardController {
      * @return
      */
     @PostMapping("/loss/{userId}")
+    @MyPermission(name = "IC卡挂失管理", desc = "IC卡挂失")
     public AjaxResult saveICLoss(@PathVariable("userId") Long userId) {
         try {
             iccardService.saveICLoss(userId);
@@ -137,6 +142,23 @@ public class IccardController {
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.me().setSuccess(false).setMessage("卡片挂失提交失败！" + e.getMessage());
+        }
+    }
+
+    /**
+     * 卡片分配提交
+     * @param iccard
+     * @return
+     */
+    @PostMapping("/allocation")
+    @MyPermission(name = "IC卡分配管理", desc = "IC卡分配")
+    public AjaxResult allocationIC(@RequestBody Iccard iccard) {
+        try {
+            iccardService.allocationIC(iccard);
+            return AjaxResult.me();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setMessage("分配失败！" + e.getMessage());
         }
     }
 

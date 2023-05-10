@@ -30,4 +30,14 @@ public class IccardServiceImpl extends BaseServiceImpl<Iccard> implements IIccar
         iccard.setState(-1L);
         iccardMapper.update(iccard);
     }
+
+    //分配IC卡
+    @Override
+    @Transactional
+    public void allocationIC(Iccard iccard) {
+        Iccard IC = iccardMapper.loadById(iccard.getId());
+        IC.setUserId(iccard.getHousehold().getId());
+        IC.setState(1L);
+        iccardMapper.update(IC);
+    }
 }
